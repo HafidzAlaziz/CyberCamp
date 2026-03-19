@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, ChevronUp, CheckCircle2, Terminal, ArrowLeft, Lock, AlertCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const roadmapData = [
@@ -8,10 +8,10 @@ const roadmapData = [
     id: "fundamental-it", 
     title: "Fundamental IT Skills", 
     topics: [
-      { name: "Computer Hardware Components", available: false },
-      { name: "Basics of Computer Networking", available: false },
-      { name: "OS-Independent Troubleshooting", available: false },
-      { name: "MS Office & Google Suite Basics", available: false }
+      { name: "Computer Hardware Components", available: true, path: "/academy/stage-1/modul-1/intro" },
+      { name: "Basics of Computer Networking", available: true, path: "/academy/stage-1/modul-2/intro" },
+      { name: "OS-Independent Troubleshooting", available: true, path: "/academy/stage-1/modul-3/intro" },
+      { name: "MS Office & Google Suite Basics", available: true, path: "/academy/stage-1/modul-4/intro" },
     ] 
   },
   { 
@@ -69,8 +69,17 @@ const roadmapData = [
 ];
 
 const LearningDashboard = ({ onBack }) => {
-  const [expandedId, setExpandedId] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [expandedId, setExpandedId] = useState(location.state?.expandedId || null);
   const [toast, setToast] = useState(null);
+
+  // Sync state if it changes or handles initial mount
+  useEffect(() => {
+    if (location.state?.expandedId) {
+      setExpandedId(location.state.expandedId);
+    }
+  }, [location.state]);
 
   const toggleModule = (id) => {
     setExpandedId(expandedId === id ? null : id);
@@ -81,9 +90,8 @@ const LearningDashboard = ({ onBack }) => {
       setToast(`COMING SOON: Materi "${topic.name}" belum ditambahkan.`);
       // Clear toast after 3 seconds
       setTimeout(() => setToast(null), 3000);
-    } else {
-      // Logic for available topic could go here
-      console.log(`Accessing: ${topic.name}`);
+    } else if (topic.path) {
+      navigate(topic.path);
     }
   };
 

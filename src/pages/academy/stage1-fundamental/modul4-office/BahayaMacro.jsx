@@ -22,20 +22,20 @@ const BahayaMacro = () => {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
+        {/* Standardized Header Section */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between mb-12 border-b border-gray-800 pb-6"
+          className="flex items-center gap-4 mb-12 border-b border-orange-900/30 pb-6 pl-0 md:pl-32"
         >
-          <div className="flex items-center gap-4">
-             <div className="p-3 bg-orange-500/10 rounded border border-orange-500/50">
-                <FileSearch className="w-8 h-8 text-orange-500" />
-             </div>
-             <div>
-                <h1 className="text-sm text-orange-500 tracking-[0.4em] uppercase font-black">Office Security Phase_02</h1>
-                <h2 className="text-3xl font-black text-white italic tracking-tighter">BAHAYA MACRO & EKSTENSI</h2>
-             </div>
+          <div className="p-3 bg-orange-500/10 rounded-lg border border-orange-500/50">
+            <FileSearch className="w-8 h-8 text-orange-500" />
+          </div>
+          <div>
+            <h1 className="text-sm text-orange-500 tracking-[0.3em] uppercase font-black">Stage 1: Fundamentals</h1>
+            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+              MODUL 4: OFFICE SECURITY
+            </h2>
           </div>
         </motion.div>
 

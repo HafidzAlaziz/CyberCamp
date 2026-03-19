@@ -29,23 +29,20 @@ const IsolasiMasalah = () => {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
+        {/* Standardized Header Section */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between mb-12 border-b border-gray-800 pb-6"
+          className="flex items-center gap-4 mb-12 border-b border-yellow-900/30 pb-6 pl-0 md:pl-32"
         >
-          <div className="flex items-center gap-4">
-             <div className="p-3 bg-yellow-500/10 rounded border border-yellow-500/50">
-                <Search className="w-8 h-8 text-yellow-500" />
-             </div>
-             <div>
-                <h1 className="text-sm text-yellow-500 tracking-[0.4em] uppercase font-black">Troubleshoot Phase_02</h1>
-                <h2 className="text-3xl font-black text-white italic tracking-tighter">ISOLASI MASALAH</h2>
-             </div>
+          <div className="p-3 bg-yellow-500/10 rounded-lg border border-yellow-500/50">
+            <Search className="w-8 h-8 text-yellow-500" />
           </div>
-          <div className="hidden md:block text-[10px] text-gray-600 font-bold uppercase tracking-[0.2em]">
-             Metodologi: Divide & Conquer
+          <div>
+            <h1 className="text-sm text-yellow-500 tracking-[0.3em] uppercase font-black">Stage 1: Fundamentals</h1>
+            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+              MODUL 3: TROUBLESHOOTING
+            </h2>
           </div>
         </motion.div>
 

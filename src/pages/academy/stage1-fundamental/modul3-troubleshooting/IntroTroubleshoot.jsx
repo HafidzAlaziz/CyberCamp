@@ -21,18 +21,20 @@ const IntroTroubleshoot = () => {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12">
       <div className="max-w-4xl mx-auto">
-        {/* Header Section */}
+        {/* Standardized Header Section */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-4 mb-10 border-b border-red-900/30 pb-6"
+          className="flex items-center gap-4 mb-10 border-b border-red-900/30 pb-6 pl-0 md:pl-32"
         >
           <div className="p-3 bg-red-500/10 rounded-lg border border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
             <ShieldAlert className="w-8 h-8 text-red-500" />
           </div>
           <div>
-            <h1 className="text-sm text-red-500 tracking-[0.3em] uppercase underline decoration-red-500/30 underline-offset-4 font-black">Metodologi Hacker</h1>
-            <h2 className="text-3xl font-bold text-white tracking-tighter italic">MODUL 3: TROUBLESHOOTING</h2>
+            <h1 className="text-sm text-red-500 tracking-[0.3em] uppercase font-black">Stage 1: Fundamentals</h1>
+            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+              MODUL 3: TROUBLESHOOTING
+            </h2>
           </div>
         </motion.div>
 

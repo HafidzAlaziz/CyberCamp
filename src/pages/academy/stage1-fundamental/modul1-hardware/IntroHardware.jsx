@@ -11,14 +11,16 @@ const IntroHardware = () => {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-4 mb-8 border-b border-cyan-950 pb-6"
+          className="flex items-center gap-4 mb-8 border-b border-cyan-900/30 pb-6 pl-0 md:pl-32"
         >
           <div className="p-3 bg-cyan-500/10 rounded-lg border border-cyan-500/50">
             <Shield className="w-8 h-8 text-cyan-400" />
           </div>
           <div>
-            <h1 className="text-sm text-cyan-500 tracking-[0.3em] uppercase">Stage 1: Fundamentals</h1>
-            <h2 className="text-3xl font-bold text-white tracking-tighter">MODUL 1: COMPUTER HARDWARE</h2>
+            <h1 className="text-sm text-cyan-400 tracking-[0.3em] uppercase font-black">Stage 1: Fundamentals</h1>
+            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+              MODUL 1: COMPUTER HARDWARE
+            </h2>
           </div>
         </motion.div>
 

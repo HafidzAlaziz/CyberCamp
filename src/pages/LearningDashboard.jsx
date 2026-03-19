@@ -4,67 +4,67 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const roadmapData = [
-  { 
-    id: "fundamental-it", 
-    title: "Fundamental IT Skills", 
+  {
+    id: "fundamental-it",
+    title: "Fundamental IT Skills",
     topics: [
       { name: "Computer Hardware Components", available: true, path: "/academy/stage-1/modul-1/intro" },
       { name: "Basics of Computer Networking", available: true, path: "/academy/stage-1/modul-2/intro" },
       { name: "OS-Independent Troubleshooting", available: true, path: "/academy/stage-1/modul-3/intro" },
       { name: "MS Office & Google Suite Basics", available: true, path: "/academy/stage-1/modul-4/intro" },
-    ] 
+    ]
   },
-  { 
-    id: "operating-systems", 
-    title: "Operating Systems", 
+  {
+    id: "operating-systems",
+    title: "Operating Systems",
     topics: [
-      { name: "Windows & Linux Basics", available: false },
-      { name: "Installation & Troubleshooting", available: false },
-      { name: "GUI vs CLI (ping, ipconfig)", available: false },
-      { name: "Virtualization (VMWare, VirtualBox)", available: false }
-    ] 
+      { name: "Windows & Linux Basics", available: true, path: "/academy/stage-2/modul-1/intro" },
+      { name: "Installation & Troubleshooting", available: true, path: "/academy/stage-2/modul-2/intro" },
+      { name: "GUI vs CLI (ping, ipconfig)", available: true, path: "/academy/stage-2/modul-3/intro" },
+      { name: "Virtualization (VMWare, VirtualBox)", available: true, path: "/academy/stage-2/modul-4/intro" }
+    ]
   },
   // ... other modules already false
-  { 
-    id: "networking", 
-    title: "Networking Knowledge", 
+  {
+    id: "networking",
+    title: "Networking Knowledge",
     topics: [
-      { name: "OSI Model", available: false },
-      { name: "Common Ports & Protocols (SSH, HTTP)", available: false },
-      { name: "Network Topologies", available: false },
-      { name: "IP, DHCP, DNS, Subnetting", available: false },
-      { name: "NAS & SAN Basics", available: false }
-    ] 
+      { name: "OSI Model", available: true, path: "/academy/stage-3/modul-1" },
+      { name: "Common Ports & Protocols (SSH, HTTP)", available: true, path: "/academy/stage-3/modul-2" },
+      { name: "Network Topologies", available: true, path: "/academy/stage-3/modul-3/intro" },
+      { name: "IP, DHCP, DNS, Subnetting", available: true, path: "/academy/stage-3/modul-4/intro" },
+      { name: "NAS & SAN Basics", available: true, path: "/academy/stage-3/modul-5/intro-storage" }
+    ]
   },
-  { 
-    id: "security-skills", 
-    title: "Security Skills & Knowledge", 
+  {
+    id: "security-skills",
+    title: "Security Skills & Knowledge",
     topics: [
-      { name: "Authentication (MFA, SSO)", available: false },
-      { name: "Cryptography & Hashing", available: false },
-      { name: "Common Attacks (SQLi, XSS, Phishing)", available: false },
-      { name: "Incident Response Tools (Wireshark, Nmap)", available: false },
-      { name: "Security Frameworks (MITRE, NIST)", available: false }
-    ] 
+      { name: "Authentication (MFA, SSO)", available: true, path: "/academy/stage-4/modul-1/intro" },
+      { name: "Cryptography & Hashing", available: true, path: "/academy/stage-4/modul-2/intro" },
+      { name: "Common Attacks (SQLi, XSS, Phishing)", available: true, path: "/academy/stage-4/modul-3/intro-phishing" },
+      { name: "Incident Response Tools (Wireshark, Nmap)", available: true, path: "/academy/stage-4/modul-4/intro" },
+      { name: "Security Frameworks (MITRE, NIST)", available: true, path: "/academy/stage-4/modul-5/intro" }
+    ]
   },
-  { 
-    id: "cloud-skills", 
-    title: "Cloud Skills & Knowledge", 
+  {
+    id: "cloud-skills",
+    title: "Cloud Skills & Knowledge",
     topics: [
       { name: "Cloud vs On-Premises Security", available: false },
       { name: "Public, Private, Hybrid Cloud", available: false },
       { name: "SaaS, PaaS, IaaS", available: false },
       { name: "AWS, GCP, Azure Basics", available: false }
-    ] 
+    ]
   },
-  { 
-    id: "programming-skills", 
-    title: "Programming Skills", 
+  {
+    id: "programming-skills",
+    title: "Programming Skills",
     topics: [
       { name: "Python & Go", available: false },
       { name: "JavaScript & C++", available: false },
       { name: "Bash & PowerShell Scripting", available: false }
-    ] 
+    ]
   }
 ];
 
@@ -96,7 +96,7 @@ const LearningDashboard = ({ onBack }) => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
@@ -106,7 +106,7 @@ const LearningDashboard = ({ onBack }) => {
       {/* Toast Notification */}
       <AnimatePresence>
         {toast && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -20, x: "-50%" }}
             animate={{ opacity: 1, y: 0, x: "-50%" }}
             exit={{ opacity: 0, y: -20, x: "-50%" }}
@@ -121,13 +121,13 @@ const LearningDashboard = ({ onBack }) => {
       {/* Header */}
       <div className="max-w-4xl mx-auto w-full mb-12 border-b border-cyan-500/20 pb-8">
         <div className="flex flex-wrap justify-between items-center gap-4 mb-8">
-           <Link 
-             to="/" 
-             className="flex items-center gap-2 text-cyan-400 hover:text-white transition-colors group text-sm font-bold tracking-widest"
-           >
-             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-             <span>BACK_TO_TERMINAL</span>
-           </Link>
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-cyan-400 hover:text-white transition-colors group text-sm font-bold tracking-widest"
+          >
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <span>BACK_TO_TERMINAL</span>
+          </Link>
           <div className="text-[10px] text-gray-600 uppercase tracking-[0.2em] font-bold">
             CURRICULUM: v1.02_ALPHA
           </div>
@@ -149,16 +149,15 @@ const LearningDashboard = ({ onBack }) => {
       {/* Accordion List */}
       <div className="max-w-4xl mx-auto w-full space-y-4 mb-16">
         {roadmapData.map((module) => (
-          <div 
-            key={module.id} 
-            className={`border transition-all duration-300 rounded ${
-              expandedId === module.id 
-                ? 'border-cyan-500 bg-[#161b22]' 
+          <div
+            key={module.id}
+            className={`border transition-all duration-300 rounded ${expandedId === module.id
+                ? 'border-cyan-500 bg-[#161b22]'
                 : 'border-[#30363d] bg-[#0d1117] hover:border-cyan-500/30'
-            }`}
+              }`}
           >
             {/* Module Header */}
-            <button 
+            <button
               onClick={() => toggleModule(module.id)}
               className="w-full flex justify-between items-center p-5 md:p-6 text-left focus:outline-none group"
             >
@@ -177,30 +176,28 @@ const LearningDashboard = ({ onBack }) => {
 
             {/* Module Topics (Expanded Content) */}
             {expandedId === module.id && (
-              <motion.div 
+              <motion.div
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
                 className="px-5 md:px-6 pb-6 pt-2 border-t border-cyan-500/10 overflow-hidden"
               >
                 <div className="grid gap-2">
                   {module.topics.map((topic, index) => (
-                    <div 
+                    <div
                       key={index}
                       onClick={() => handleTopicClick(topic)}
-                      className={`flex items-center justify-between p-3 rounded border transition-all cursor-pointer group ${
-                        topic.available 
-                          ? 'bg-black/40 border-[#30363d] hover:border-cyan-500/30 hover:bg-black/60' 
+                      className={`flex items-center justify-between p-3 rounded border transition-all cursor-pointer group ${topic.available
+                          ? 'bg-black/40 border-[#30363d] hover:border-cyan-500/30 hover:bg-black/60'
                           : 'bg-black/20 border-gray-800/50 opacity-60 grayscale hover:opacity-100'
-                      }`}
+                        }`}
                     >
                       <span className={`text-xs md:text-sm tracking-wide ${topic.available ? 'text-gray-300 group-hover:text-white' : 'text-gray-500'}`}>
                         {topic.name}
                       </span>
-                      <div className={`w-6 h-6 rounded flex items-center justify-center transition-colors ${
-                        topic.available 
-                          ? 'border border-gray-700 group-hover:border-cyan-500/50' 
+                      <div className={`w-6 h-6 rounded flex items-center justify-center transition-colors ${topic.available
+                          ? 'border border-gray-700 group-hover:border-cyan-500/50'
                           : 'text-gray-600'
-                      }`}>
+                        }`}>
                         {topic.available ? (
                           <CheckCircle2 className="w-3.5 h-3.5 text-transparent group-hover:text-cyan-400/30" />
                         ) : (
@@ -217,7 +214,7 @@ const LearningDashboard = ({ onBack }) => {
       </div>
 
       <footer className="max-w-4xl mx-auto w-full mt-auto pt-8 border-t border-[#30363d] text-[9px] text-gray-600 text-center uppercase tracking-[0.3em] font-bold">
-        Progress: 0.00% COMPLETE | Access_Level: Student
+        FREE ACCESS | Access_Level: Student
       </footer>
     </motion.div>
   );

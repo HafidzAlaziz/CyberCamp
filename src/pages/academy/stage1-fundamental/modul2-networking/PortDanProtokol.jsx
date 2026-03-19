@@ -42,14 +42,22 @@ const PortDanProtokol = () => {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12">
       <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-12 border-b border-gray-800 pb-6 uppercase italic tracking-[0.2em] text-[10px]">
-           <button className="flex items-center gap-2 text-emerald-500 hover:text-white transition-colors">
-              <TerminalIcon className="w-4 h-4" /> 
-              <span>Console_Nmap_v7.92</span>
-           </button>
-           <div className="text-gray-600">Module_02 // Sector_Ports</div>
-        </div>
+        {/* Standardized Header Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-4 mb-12 border-b border-emerald-900/30 pb-6 pl-0 md:pl-32"
+        >
+          <div className="p-3 bg-emerald-500/10 rounded-lg border border-emerald-500/50">
+            <DoorOpen className="w-8 h-8 text-emerald-400" />
+          </div>
+          <div>
+            <h1 className="text-sm text-emerald-400 tracking-[0.3em] uppercase font-black">Stage 1: Fundamentals</h1>
+            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+              MODUL 2: BASICS OF NETWORKING
+            </h2>
+          </div>
+        </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 mb-12 items-start">
           {/* Explanation Section */}

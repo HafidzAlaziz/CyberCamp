@@ -5,8 +5,26 @@ import { ShieldCheck, ChevronLeft, Home, Globe, Terminal, Activity } from 'lucid
 
 const KesimpulanNetworking = () => {
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12 flex items-center justify-center">
-      <div className="max-w-3xl w-full text-center">
+    <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12">
+      <div className="max-w-4xl mx-auto">
+        {/* Standardized Header Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-4 mb-12 border-b border-emerald-900/30 pb-6 pl-0 md:pl-32"
+        >
+          <div className="p-3 bg-emerald-500/10 rounded-lg border border-emerald-500/50">
+            <ShieldCheck className="w-8 h-8 text-emerald-400" />
+          </div>
+          <div>
+            <h1 className="text-sm text-emerald-400 tracking-[0.3em] uppercase font-black">Stage 1: Fundamentals</h1>
+            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+              MODUL 2: BASICS OF NETWORKING
+            </h2>
+          </div>
+        </motion.div>
+
+        <div className="text-center">
         {/* Animated Badge */}
         <motion.div 
           initial={{ scale: 0, rotate: 180 }}
@@ -80,11 +98,11 @@ const KesimpulanNetworking = () => {
             <Link 
               to="/academy"
               state={{ expandedId: 'fundamental-it' }}
-              className="w-full md:w-auto bg-emerald-500 hover:bg-white text-black px-12 py-5 text-sm font-black transition-all group rounded-sm shadow-[0_0_30px_rgba(16,185,129,0.2)] flex items-center gap-3 overflow-hidden relative skew-x-[-12deg]"
+              className="w-full md:w-auto bg-cyan-500 hover:bg-white text-black px-12 py-5 text-sm font-black transition-all group rounded-sm shadow-[0_0_40px_rgba(34,211,238,0.3)] flex items-center justify-center gap-3 overflow-hidden relative skew-x-[-12deg]"
             >
               <div className="absolute inset-0 bg-white translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300"></div>
-              <span className="relative z-10 flex items-center gap-2 uppercase tracking-tighter skew-x-[12deg]">
-                FINISH MODULE & RETURN TO HQ <Home className="w-5 h-5 ml-2" />
+              <span className="relative z-10 skew-x-[12deg] flex items-center gap-2 uppercase tracking-tighter">
+                FINISH MODULE & RETURN TO HQ <Home className="w-6 h-6" />
               </span>
             </Link>
           </div>
@@ -96,6 +114,7 @@ const KesimpulanNetworking = () => {
            <span>Packet_Delivery_Complete // Level_Upgrade_Pending</span>
         </div>
       </div>
+    </div>
       
       <style jsx>{`
         .text-glow-emerald {

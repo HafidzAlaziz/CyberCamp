@@ -19,16 +19,22 @@ const CpuDanRam = () => {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12">
       <div className="max-w-5xl mx-auto">
-        {/* Header Section */}
-        <div className="flex justify-between items-center mb-12 border-b border-gray-800 pb-6">
-          <div className="flex items-center gap-4">
+        {/* Standardized Header Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-4 mb-12 border-b border-cyan-900/30 pb-6 pl-0 md:pl-32"
+        >
+          <div className="p-3 bg-cyan-500/10 rounded-lg border border-cyan-500/50">
             <Cpu className="w-8 h-8 text-cyan-400" />
-            <h1 className="text-xl font-bold text-white tracking-widest uppercase italic">The Brain & The Memory</h1>
           </div>
-          <div className="text-[10px] text-gray-500 bg-gray-900 px-3 py-1 rounded-full border border-gray-800">
-             PAGE_02_OF_04
+          <div>
+            <h1 className="text-sm text-cyan-400 tracking-[0.3em] uppercase font-black">Stage 1: Fundamentals</h1>
+            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+              MODUL 1: COMPUTER HARDWARE
+            </h2>
           </div>
-        </div>
+        </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12">
           {/* CPU Section */}
@@ -67,11 +73,9 @@ const CpuDanRam = () => {
                     {/* CPU Pins Visual */}
                     {[...Array(20)].map((_, i) => (
                       <div key={i} className="absolute w-2 h-0.5 bg-cyan-500/50" style={{
-                        top: i < 5 ? -2 : i < 10 ? 190 : 'auto',
-                        bottom: i >= 10 && i < 15 ? -2 : 'auto',
+                        top: i < 5 ? -2 : i < 10 ? 118 : i >= 15 ? 20 + (i-15) * 35 : 'auto',
                         left: i < 5 ? 20 + i * 30 : i < 10 ? 20 + (i-5) * 30 : i < 15 ? 20 + (i-10) * 30 : -2,
                         right: i >= 15 ? -2 : 'auto',
-                        top: i >= 15 ? 20 + (i-15) * 35 : 'auto',
                         width: i >= 15 ? 10 : 2,
                         height: i >= 15 ? 2 : 10
                       }}></div>

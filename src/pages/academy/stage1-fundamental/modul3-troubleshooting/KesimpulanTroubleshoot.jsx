@@ -5,8 +5,26 @@ import { CheckCircle, Home, ChevronLeft, Terminal, ShieldCheck, Zap } from 'luci
 
 const KesimpulanTroubleshoot = () => {
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12 flex items-center justify-center overflow-hidden">
-      <div className="max-w-3xl w-full text-center relative">
+    <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12">
+      <div className="max-w-4xl mx-auto relative">
+        {/* Standardized Header Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-4 mb-12 border-b border-red-900/30 pb-6 pl-0 md:pl-32"
+        >
+          <div className="p-3 bg-red-500/10 rounded-lg border border-red-500/50">
+            <CheckCircle className="w-8 h-8 text-red-500" />
+          </div>
+          <div>
+            <h1 className="text-sm text-red-500 tracking-[0.3em] uppercase font-black">Stage 1: Fundamentals</h1>
+            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
+              MODUL 3: TROUBLESHOOTING
+            </h2>
+          </div>
+        </motion.div>
+
+        <div className="text-center relative">
         {/* Decorative Background Glows */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-500/5 blur-[120px] pointer-events-none"></div>
 
@@ -72,11 +90,11 @@ const KesimpulanTroubleshoot = () => {
             <Link 
               to="/academy"
               state={{ expandedId: 'fundamental-it' }}
-              className="w-full md:w-auto bg-red-500 hover:bg-white text-black px-12 py-5 text-sm font-black transition-all group rounded-sm shadow-[0_0_40px_rgba(239,68,68,0.3)] flex items-center justify-center gap-3 overflow-hidden relative skew-x-[-12deg]"
+              className="w-full md:w-auto bg-cyan-500 hover:bg-white text-black px-12 py-5 text-sm font-black transition-all group rounded-sm shadow-[0_0_40px_rgba(34,211,238,0.3)] flex items-center justify-center gap-3 overflow-hidden relative skew-x-[-12deg]"
             >
               <div className="absolute inset-0 bg-white translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300"></div>
               <span className="relative z-10 skew-x-[12deg] flex items-center gap-2 uppercase tracking-tighter">
-                SELESAIKAN MODUL & KEMBALI KE HQ <Home className="w-6 h-6" />
+                FINISH MODULE & RETURN TO HQ <Home className="w-6 h-6" />
               </span>
             </Link>
           </div>
@@ -88,6 +106,7 @@ const KesimpulanTroubleshoot = () => {
            <span>Certification_Status: Pending // Practical_Score: 100%</span>
         </div>
       </div>
+    </div>
 
       <style jsx>{`
         .text-glow-red {

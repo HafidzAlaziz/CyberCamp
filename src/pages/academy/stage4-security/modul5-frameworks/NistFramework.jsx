@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Shield, ShieldAlert, ShieldCheck, ChevronRight, ChevronLeft, Zap, Info, Search, List, Lock, Activity, RefreshCw, Trash2, Cloud, Server, Database, CloudDownload, Globe } from 'lucide-react';
+import { Shield, ShieldAlert, ShieldCheck, ChevronRight, ChevronLeft, Zap, Info, Search, List, Lock, Activity, RefreshCw, Trash2, Cloud, Server, Database, CloudDownload, Globe, Key, Users, Eye, AlertTriangle, Ban, CheckCircle2 } from 'lucide-react';
 
 const NistFramework = () => {
   const [activeTab, setActiveTab] = useState('Identify');
@@ -120,7 +120,7 @@ const NistFramework = () => {
                        {/* Contextual Visuals */}
                        <div className="py-8">
                           {activeTab === 'Identify' && (
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-8 place-items-center">
                                <Server className="w-12 h-12 text-blue-500" />
                                <Database className="w-12 h-12 text-blue-400" />
                                <Globe className="w-12 h-12 text-cyan-400 opacity-50" />
@@ -128,35 +128,35 @@ const NistFramework = () => {
                             </div>
                           )}
                           {activeTab === 'Protect' && (
-                            <div className="relative">
-                               <Server className="w-16 h-16 text-purple-500" />
-                               <motion.div 
-                                 animate={{ scale: [1, 1.2, 1] }} 
-                                 transition={{ duration: 2, repeat: Infinity }}
-                                 className="absolute -top-4 -right-4"
-                               >
-                                  <Lock className="w-10 h-10 text-emerald-400" />
-                               </motion.div>
+                            <div className="grid grid-cols-2 gap-8 place-items-center">
+                               <Lock className="w-12 h-12 text-purple-500" />
+                               <Key className="w-12 h-12 text-purple-400" />
+                               <Users className="w-12 h-12 text-fuchsia-400 opacity-50" />
+                               <ShieldCheck className="w-12 h-12 text-white/20" />
                             </div>
                           )}
                           {activeTab === 'Detect' && (
-                            <div className="relative">
-                               <div className="absolute inset-x-0 h-1 bg-amber-500/20 animate-pulse" />
-                               <Activity className="w-16 h-16 text-amber-500 animate-pulse" />
+                            <div className="grid grid-cols-2 gap-8 place-items-center">
+                               <Activity className="w-12 h-12 text-amber-500 animate-pulse" />
+                               <Eye className="w-12 h-12 text-amber-400" />
+                               <Search className="w-12 h-12 text-yellow-400 opacity-50" />
+                               <AlertTriangle className="w-12 h-12 text-white/20" />
                             </div>
                           )}
                           {activeTab === 'Respond' && (
-                            <motion.div 
-                              animate={{ x: [0, 10, -10, 0] }}
-                              className="text-red-500"
-                            >
-                               <Trash2 className="w-16 h-16" />
-                            </motion.div>
+                            <div className="grid grid-cols-2 gap-8 place-items-center">
+                               <ShieldAlert className="w-12 h-12 text-red-500" />
+                               <Trash2 className="w-12 h-12 text-red-400" />
+                               <Zap className="w-12 h-12 text-orange-400 opacity-50" />
+                               <Ban className="w-12 h-12 text-white/20" />
+                            </div>
                           )}
                           {activeTab === 'Recover' && (
-                            <div className="space-y-4">
-                               <CloudDownload className="w-16 h-16 text-emerald-500 animate-bounce" />
-                               <p className="text-[10px] text-emerald-500 font-bold tracking-[0.3em]">RESTORING...</p>
+                            <div className="grid grid-cols-2 gap-8 place-items-center">
+                               <CloudDownload className="w-12 h-12 text-emerald-500" />
+                               <RefreshCw className="w-12 h-12 text-emerald-400 animate-spin" />
+                               <Database className="w-12 h-12 text-teal-400 opacity-50" />
+                               <CheckCircle2 className="w-12 h-12 text-white/20" />
                             </div>
                           )}
                        </div>

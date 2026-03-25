@@ -1,155 +1,82 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Trophy, ChevronLeft, Home, Server, Database, ShieldCheck, Terminal, GraduationCap, LayoutGrid } from 'lucide-react';
+import { ChevronRight, ChevronLeft, HardDrive, Server, Database, Archive } from 'lucide-react';
 
 const KesimpulanNasSan = () => {
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12 overflow-hidden relative">
-      {/* Decorative BG */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-500/5 blur-[150px] pointer-events-none"></div>
+    <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none flex space-x-4 text-[10px] text-orange-500 font-black tracking-widest px-4">
+        {[...Array(20)].map((_, i) => (
+          <motion.div key={i} initial={{ y: -100 }} animate={{ y: '100vh' }} transition={{ duration: 5 + i * 0.4, repeat: Infinity, ease: 'linear', delay: i * 0.3 }} className="w-12 break-all opacity-10">
+            NAS<br/>SAN FC<br/>RAID 5<br/>iSCSI
+          </motion.div>
+        ))}
+      </div>
 
       <div className="max-w-6xl mx-auto relative z-10">
-        
-        {/* Standardized Header Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-4 mb-12 border-b border-cyan-900/30 pb-6 pl-0 md:pl-32"
-        >
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-cyan-500/10 rounded-lg border border-cyan-500/50">
-              <Trophy className="w-8 h-8 text-cyan-400" />
-            </div>
-            <div>
-              <h1 className="text-sm text-cyan-400 tracking-[0.3em] uppercase font-black">Stage 3: Networking</h1>
-              <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
-                MODUL 5: NAS & SAN Basics
-              </h2>
-            </div>
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-4 mb-12 border-b border-orange-900/30 pb-6 pl-0 md:pl-32">
+          <div className="p-3 bg-orange-500/10 rounded-lg border border-orange-500/50">
+            <Server className="w-8 h-8 text-orange-500" />
+          </div>
+          <div>
+            <h1 className="text-sm text-orange-500 tracking-[0.3em] uppercase font-black">Stage 3 · Networking Knowledge</h1>
+            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">KESIMPULAN: NAS & SAN</h2>
           </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center min-h-[60vh]">
-          
-          {/* Kolom Kiri: Rekap */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="space-y-10 relative z-10"
-          >
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 text-cyan-500 font-black italic uppercase tracking-[0.3em] text-sm">
-                <GraduationCap className="w-5 h-5" /> REKAP_MODUL_STORAGE
-              </div>
-              <h1 className="text-6xl font-black text-white italic tracking-tighter uppercase leading-none">
-                MODUL_5 <span className="text-cyan-500 text-glow-cyan text-7xl block transition-all hover:scale-105 cursor-default mt-2">TAMAT!</span>
-              </h1>
-            </div>
-
-            <div className="space-y-8 text-xl text-gray-400">
-              <div className="p-6 bg-gray-900/50 border border-gray-800 rounded-2xl relative group overflow-hidden">
-                 <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500"></div>
-                 <p className="italic leading-relaxed text-base">
-                   "Goks! Lo baru aja ngelewatin materi yang sering banget disepelein tapi krusial: <span className="text-white font-bold">Data Storage Jaringan</span>. Sekarang lo udah tau bedanya NAS yang merakyat tapi rentan, sama SAN yang elit dan aman."
-                 </p>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 text-[10px] font-bold uppercase tracking-widest italic">
-                 <div className="flex items-center gap-3 bg-cyan-500/10 p-4 border border-cyan-500/30 rounded-lg">
-                    <ShieldCheck className="w-5 h-5 text-cyan-400 font-bold" /> NAS = File-Level, LAN-Based, Easy Setup.
-                 </div>
-                 <div className="flex items-center gap-3 bg-purple-500/10 p-4 border border-purple-500/30 rounded-lg">
-                    <ShieldCheck className="w-5 h-5 text-purple-400 font-bold" /> SAN = Block-Level, Fibre-Channel, Air-Gapped.
-                 </div>
-              </div>
-
-              <p className="text-sm text-gray-500 italic border-l-2 border-gray-800 pl-4 py-2">
-                "Sebagai calon ahli Cybersecurity, tugas pertama lo: pastikan admin kantor lo nggak asal taruh NAS di internet publik!"
-              </p>
-            </div>
-
-            {/* Footer Navigation */}
-            <div className="flex justify-between items-center mt-12 bg-gray-900 px-8 py-6 rounded-sm border-l-8 border-cyan-500 shadow-2xl text-left">
-              <Link 
-                to="/academy/stage-3/modul-5/san-deep-dive"
-                className="flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-white transition-all group"
-              >
-                <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1" />
-                « KEMBALI KE DEEP DIVE SAN
-              </Link>
-              
-              <Link 
-                to="/academy"
-                state={{ expandedId: 'networking' }}
-                className="flex items-center gap-3 bg-cyan-600 hover:bg-white text-white hover:text-black px-8 py-4 text-xs font-black transition-all group rounded-sm skew-x-[-12deg]"
-              >
-                <span className="skew-x-[12deg] flex items-center gap-2 tracking-widest leading-none uppercase">
-                  FINISH & RETURN TO ROADMAP » <Home className="w-4 h-4" />
-                </span>
-              </Link>
-            </div>
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
+            <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase leading-tight">
+              Rekap Super <br/>
+              <span className="text-orange-500" style={{ textShadow: '0 0 10px rgba(249,115,22,0.5)' }}>NAS & SAN!</span>
+            </h1>
+            <p className="text-gray-400 text-sm leading-relaxed">Lo udah tau cara perusahaan nyimpen data dalam skala besar! Gedung server dengan storage petabyte adalah target empuk hacker karena sekali kena, semua data perusahaan bisa dienkripsi (Ransomware).</p>
+            <ul className="space-y-4">
+              {[
+                { icon: <Database className="w-4 h-4"/>, label: 'NAS Mapped', desc: 'Paham cara kerja Network Attached Storage yang diakses via jaringan (SMB/NFS).' },
+                { icon: <Server className="w-4 h-4"/>, label: 'SAN Explored', desc: 'Ngerti Storage Area Network yang butuh jaringan khusus (Fibre Channel/iSCSI).' },
+                { icon: <Archive className="w-4 h-4"/>, label: 'RAID Understood', desc: 'Tau perbedaan level RAID dan implication-nya terhadap redundansi data.' },
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-4 p-4 bg-gray-900 border border-gray-800 rounded-xl">
+                  <div className="p-2 bg-orange-950/30 rounded border border-orange-500/30 text-orange-400">{item.icon}</div>
+                  <div className="text-xs"><span className="text-orange-400 font-bold uppercase tracking-widest block mb-1">{item.label}</span>{item.desc}</div>
+                </li>
+              ))}
+            </ul>
           </motion.div>
 
-          {/* Kolom Kanan: Badge Achievement */}
-          <div className="flex justify-center items-center relative h-[600px]">
-            <motion.div 
-              initial={{ scale: 0, rotate: -20 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-              className="relative"
-            >
-              {/* Spinning Rings */}
-              <motion.div 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 border-2 border-dashed border-cyan-500/30 rounded-full scale-125"
-              />
-              <motion.div 
-                animate={{ rotate: -360 }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 border border-purple-500/20 rounded-full scale-150"
-              />
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex justify-center p-8">
+            <div className="relative group w-full max-w-sm aspect-square flex flex-col items-center justify-center border-4 border-orange-500/50 rounded-[3rem] bg-gray-950 shadow-[0_0_50px_rgba(249,115,22,0.15)] hover:shadow-[0_0_80px_rgba(249,115,22,0.5)] hover:border-orange-400 hover:rounded-full transition-all duration-700 overflow-hidden cursor-crosshair">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-orange-900/40 via-transparent to-transparent pointer-events-none" />
+              <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="relative z-10 flex flex-col items-center gap-4 w-full">
+                <div className="relative flex justify-center w-full">
+                  <div className="p-6 bg-black border-2 border-orange-500/50 rounded-2xl shadow-[0_0_30px_rgba(249,115,22,0.4)] group-hover:rotate-12 transition-transform duration-500 group-hover:scale-110">
+                    <Server className="w-16 h-16 text-orange-400 group-hover:animate-pulse" />
+                  </div>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-dashed border-orange-500/30 rounded-full animate-[spin_10s_linear_infinite]" />
+                </div>
+                <div className="text-center mt-8 space-y-2 px-2 z-20">
+                  <p className="text-orange-400 font-bold text-[10px] tracking-[0.4em] uppercase">Stage 3 · Modul 5 Selesai</p>
+                  <p className="text-white font-black text-2xl italic tracking-tighter uppercase leading-none">STORAGE ARCHITECT</p>
+                  <div className="inline-block mt-3 px-6 py-2 bg-orange-900/80 text-orange-300 text-xs font-black tracking-widest border border-orange-500 rounded group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                    TIER 3 CLEARED ✓
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
 
-              {/* Main Badge */}
-              <div className="relative z-10 p-16 rounded-[4rem] border-4 border-cyan-500 bg-gray-900 shadow-[0_0_80px_rgba(6,182,212,0.4)] flex flex-col items-center group">
-                 <Trophy className="w-32 h-32 text-cyan-500 drop-shadow-[0_0_20px_rgba(6,182,212,0.8)] mb-6 group-hover:scale-110 transition-transform duration-500" />
-                 <div className="text-center">
-                    <p className="text-[10px] font-black uppercase tracking-[0.8em] text-gray-500 mb-2">Achievement_Unlocked</p>
-                    <h2 className="text-4xl font-black text-white italic tracking-tighter leading-none mb-1">
-                      DATA ARCHITECT
-                    </h2>
-                    <div className="h-1 w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
-                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-cyan-500 mt-2">CLEARED // LEVEL UP</p>
-                 </div>
-                 
-                 {/* Decorative Terminal icons */}
-                 <div className="absolute bottom-6 left-6 opacity-20"><Server className="w-10 h-10" /></div>
-                 <div className="absolute top-6 right-6 opacity-20"><Database className="w-10 h-10" /></div>
-              </div>
-
-              {/* Floating Particles */}
-              {[...Array(6)].map((_, i) => (
-                <motion.div 
-                  key={i}
-                  animate={{ 
-                    y: [0, -40, 0],
-                    opacity: [0.1, 0.4, 0.1],
-                    scale: [1, 1.2, 1]
-                  }}
-                  transition={{ duration: 2 + i, repeat: Infinity }}
-                  className="absolute w-2 h-2 bg-cyan-500 rounded-full blur-[2px]"
-                  style={{
-                    top: `${Math.random() * 100}%`,
-                    left: `${Math.random() * 100}%`,
-                  }}
-                />
-              ))}
-            </motion.div>
-          </div>
+        <div className="flex justify-between items-center mt-12 bg-gray-900 px-8 py-6 rounded-sm border-l-8 border-orange-500 shadow-2xl">
+          <Link to="/academy/stage-3/modul-5/san-storage" className="flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-white transition-all group">
+            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1" /> « SEBELUMNYA
+          </Link>
+          <Link to="/academy" state={{ expandedId: 'networking' }} className="flex items-center gap-3 bg-orange-600 hover:bg-orange-500 text-white px-8 py-4 text-xs font-black transition-all rounded-sm skew-x-[-12deg]">
+            <span className="skew-x-[12deg] flex items-center gap-2 tracking-widest uppercase">KEMBALI KE HQ » <ChevronRight className="w-4 h-4" /></span>
+          </Link>
         </div>
       </div>
-
     </div>
   );
 };

@@ -4,6 +4,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import LandingPage from './pages/LandingPage';
 import LearningDashboard from './pages/LearningDashboard';
 import CtfArenaHome from './pages/CtfArenaHome';
+import IndexModeAcak from './pages/arena/mode-acak/IndexModeAcak';
+import IndexModePilihan from './pages/arena/mode-pilihan/IndexModePilihan';
+import Level1 from './pages/arena/mode-acak/levels/Level1';
 
 // Academy Modul 1 Hardware Imports
 import IntroHardware from './pages/academy/stage1-fundamental/modul1-hardware/IntroHardware';
@@ -113,6 +116,51 @@ import NistFramework from './pages/academy/stage4-security/modul5-frameworks/Nis
 import MitreAttack from './pages/academy/stage4-security/modul5-frameworks/MitreAttack';
 import KesimpulanTahap4 from './pages/academy/stage4-security/modul5-frameworks/KesimpulanTahap4';
 
+// Academy Stage 5 - Modul 1: Cloud vs On-Premises
+import IntroCloudOnPrem from './pages/academy/stage5-cloud/modul1-cloudvsonprem/IntroCloudOnPrem';
+import SecurityDilemma from './pages/academy/stage5-cloud/modul1-cloudvsonprem/SecurityDilemma';
+import SharedResponsibility from './pages/academy/stage5-cloud/modul1-cloudvsonprem/SharedResponsibility';
+import KesimpulanCloud from './pages/academy/stage5-cloud/modul1-cloudvsonprem/KesimpulanCloud';
+
+// Academy Stage 5 - Modul 2: Cloud Types
+import PublicCloud from './pages/academy/stage5-cloud/modul2-types/PublicCloud';
+import PrivateCloud from './pages/academy/stage5-cloud/modul2-types/PrivateCloud';
+import HybridCloud from './pages/academy/stage5-cloud/modul2-types/HybridCloud';
+import KesimpulanTypes from './pages/academy/stage5-cloud/modul2-types/KesimpulanTypes';
+
+// Academy Stage 5 - Modul 3: Service Models
+import IaaSInfrastructure from './pages/academy/stage5-cloud/modul3-service-models/IaaSInfrastructure';
+import PaaSPlatform from './pages/academy/stage5-cloud/modul3-service-models/PaaSPlatform';
+import SaaSSoftware from './pages/academy/stage5-cloud/modul3-service-models/SaaSSoftware';
+import KesimpulanTrinitas from './pages/academy/stage5-cloud/modul3-service-models/KesimpulanTrinitas';
+
+// Academy Stage 5 - Modul 4: Big Three
+import IntroBigThree from './pages/academy/stage5-cloud/modul4-bigthree/IntroBigThree';
+import AwsAndS3 from './pages/academy/stage5-cloud/modul4-bigthree/AwsAndS3';
+import AzureGcpBasics from './pages/academy/stage5-cloud/modul4-bigthree/AzureGcpBasics';
+import KesimpulanTahap5 from './pages/academy/stage5-cloud/modul4-bigthree/KesimpulanTahap5';
+
+// Academy Stage 6 - Modul 1: Python & Go
+import IntroPythonGo from './pages/academy/stage6-programming/modul1-pythongo/IntroPythonGo';
+import PythonSwissArmy from './pages/academy/stage6-programming/modul1-pythongo/PythonSwissArmy';
+import GoSpeedDemon from './pages/academy/stage6-programming/modul1-pythongo/GoSpeedDemon';
+import KesimpulanPythonGo from './pages/academy/stage6-programming/modul1-pythongo/KesimpulanPythonGo';
+
+// Academy Stage 6 - Modul 2: JavaScript & C++
+import IntroJsCpp from './pages/academy/stage6-programming/modul2-jscpp/IntroJsCpp';
+import JavaScriptNinja from './pages/academy/stage6-programming/modul2-jscpp/JavaScriptNinja';
+import CppMemory from './pages/academy/stage6-programming/modul2-jscpp/CppMemory';
+import KesimpulanJsCpp from './pages/academy/stage6-programming/modul2-jscpp/KesimpulanJsCpp';
+
+// Academy Stage 6 - Modul 3: Bash & PowerShell
+import IntroScripting from './pages/academy/stage6-programming/modul3-scripting/IntroScripting';
+import BashLinux from './pages/academy/stage6-programming/modul3-scripting/BashLinux';
+import PowerShellWindows from './pages/academy/stage6-programming/modul3-scripting/PowerShellWindows';
+import KesimpulanProgramming from './pages/academy/stage6-programming/modul3-scripting/KesimpulanProgramming';
+
+// Roadmap Eksplorasi Lanjutan
+import RoadmapEksplorasi from './pages/academy/roadmap/RoadmapEksplorasi';
+
 import { Terminal, ShieldAlert } from 'lucide-react';
 
 import MainLayout from './components/MainLayout';
@@ -125,6 +173,9 @@ function AnimatedRoutes() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/academy" element={<LearningDashboard />} />
         <Route path="/ctf-arena" element={<CtfArenaHome />} />
+        <Route path="/ctf-arena/mode-acak" element={<IndexModeAcak />} />
+        <Route path="/ctf-arena/mode-pilihan" element={<IndexModePilihan />} />
+        <Route path="/ctf-arena/mode-acak/level/1" element={<Level1 />} />
         
         {/* Academy Modul 1 Hardware Routes */}
         <Route path="/academy/stage-1/modul-1/intro" element={<IntroHardware />} />
@@ -233,6 +284,51 @@ function AnimatedRoutes() {
         <Route path="/academy/stage-4/modul-5/nist-framework" element={<NistFramework />} />
         <Route path="/academy/stage-4/modul-5/mitre-attack" element={<MitreAttack />} />
         <Route path="/academy/stage-4/modul-5/kesimpulan" element={<KesimpulanTahap4 />} />
+
+        {/* Stage 5 - Modul 1: Cloud vs On-Premises Routes */}
+        <Route path="/academy/stage-5/modul-1/intro" element={<IntroCloudOnPrem />} />
+        <Route path="/academy/stage-5/modul-1/security-dilemma" element={<SecurityDilemma />} />
+        <Route path="/academy/stage-5/modul-1/shared-responsibility" element={<SharedResponsibility />} />
+        <Route path="/academy/stage-5/modul-1/kesimpulan" element={<KesimpulanCloud />} />
+
+        {/* Stage 5 - Modul 2: Cloud Types Routes */}
+        <Route path="/academy/stage-5/modul-2/public-cloud" element={<PublicCloud />} />
+        <Route path="/academy/stage-5/modul-2/private-cloud" element={<PrivateCloud />} />
+        <Route path="/academy/stage-5/modul-2/hybrid-cloud" element={<HybridCloud />} />
+        <Route path="/academy/stage-5/modul-2/kesimpulan" element={<KesimpulanTypes />} />
+
+        {/* Stage 5 - Modul 3: Service Models Routes */}
+        <Route path="/academy/stage-5/modul-3/iaas" element={<IaaSInfrastructure />} />
+        <Route path="/academy/stage-5/modul-3/paas" element={<PaaSPlatform />} />
+        <Route path="/academy/stage-5/modul-3/saas" element={<SaaSSoftware />} />
+        <Route path="/academy/stage-5/modul-3/kesimpulan" element={<KesimpulanTrinitas />} />
+
+        {/* Stage 5 - Modul 4: Big Three Routes */}
+        <Route path="/academy/stage-5/modul-4/intro" element={<IntroBigThree />} />
+        <Route path="/academy/stage-5/modul-4/aws-s3" element={<AwsAndS3 />} />
+        <Route path="/academy/stage-5/modul-4/azure-gcp" element={<AzureGcpBasics />} />
+        <Route path="/academy/stage-5/modul-4/kesimpulan" element={<KesimpulanTahap5 />} />
+
+        {/* Stage 6 - Modul 1: Python & Go Routes */}
+        <Route path="/academy/stage-6/modul-1/intro" element={<IntroPythonGo />} />
+        <Route path="/academy/stage-6/modul-1/python-swiss" element={<PythonSwissArmy />} />
+        <Route path="/academy/stage-6/modul-1/go-speed" element={<GoSpeedDemon />} />
+        <Route path="/academy/stage-6/modul-1/kesimpulan" element={<KesimpulanPythonGo />} />
+
+        {/* Stage 6 - Modul 2: JavaScript & C++ Routes */}
+        <Route path="/academy/stage-6/modul-2/intro" element={<IntroJsCpp />} />
+        <Route path="/academy/stage-6/modul-2/js-ninja" element={<JavaScriptNinja />} />
+        <Route path="/academy/stage-6/modul-2/cpp-memory" element={<CppMemory />} />
+        <Route path="/academy/stage-6/modul-2/kesimpulan" element={<KesimpulanJsCpp />} />
+
+        {/* Stage 6 - Modul 3: Bash & PowerShell Routes */}
+        <Route path="/academy/stage-6/modul-3/intro" element={<IntroScripting />} />
+        <Route path="/academy/stage-6/modul-3/bash-linux" element={<BashLinux />} />
+        <Route path="/academy/stage-6/modul-3/powershell-windows" element={<PowerShellWindows />} />
+        <Route path="/academy/stage-6/modul-3/kesimpulan" element={<KesimpulanProgramming />} />
+
+        {/* Roadmap Eksplorasi */}
+        <Route path="/academy/roadmap" element={<RoadmapEksplorasi />} />
         </Routes>
     </AnimatePresence>
   );
@@ -253,3 +349,4 @@ function App() {
 }
 
 export default App;
+// Trigger Vite Rebuild

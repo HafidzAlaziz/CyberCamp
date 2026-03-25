@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, CheckCircle2, Terminal, ArrowLeft, Lock, AlertCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, CheckCircle2, Terminal, ArrowLeft, Lock, AlertCircle, Map } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -51,19 +51,19 @@ const roadmapData = [
     id: "cloud-skills",
     title: "Cloud Skills & Knowledge",
     topics: [
-      { name: "Cloud vs On-Premises Security", available: false },
-      { name: "Public, Private, Hybrid Cloud", available: false },
-      { name: "SaaS, PaaS, IaaS", available: false },
-      { name: "AWS, GCP, Azure Basics", available: false }
+      { name: "Cloud vs On-Premises Security", available: true, path: "/academy/stage-5/modul-1/intro" },
+      { name: "Public, Private, Hybrid Cloud", available: true, path: "/academy/stage-5/modul-2/public-cloud" },
+      { name: "SaaS, PaaS, IaaS", available: true, path: "/academy/stage-5/modul-3/iaas" },
+      { name: "AWS, GCP, Azure Basics", available: true, path: "/academy/stage-5/modul-4/intro" }
     ]
   },
   {
     id: "programming-skills",
     title: "Programming Skills",
     topics: [
-      { name: "Python & Go", available: false },
-      { name: "JavaScript & C++", available: false },
-      { name: "Bash & PowerShell Scripting", available: false }
+      { name: "Python & Go", available: true, path: "/academy/stage-6/modul-1/intro" },
+      { name: "JavaScript & C++", available: true, path: "/academy/stage-6/modul-2/intro" },
+      { name: "Bash & PowerShell Scripting", available: true, path: "/academy/stage-6/modul-3/intro" }
     ]
   }
 ];
@@ -211,6 +211,48 @@ const LearningDashboard = ({ onBack }) => {
             )}
           </div>
         ))}
+      </div>
+
+      {/* === ROADMAP EKSPLORASI CTA === */}
+      <div className="max-w-4xl mx-auto w-full mt-8 px-2">
+        <Link to="/academy/roadmap">
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="relative w-full group overflow-hidden rounded-2xl border border-cyan-500/40 bg-black cursor-pointer"
+            style={{ boxShadow: '0 0 30px rgba(6,182,212,0.15), inset 0 0 40px rgba(6,182,212,0.05)' }}
+          >
+            {/* Animated top glow bar */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-60 group-hover:opacity-100 transition-opacity" />
+            {/* Animated corner effects */}
+            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-cyan-500 rounded-tl-2xl" />
+            <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-cyan-500 rounded-tr-2xl" />
+            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-cyan-500 rounded-bl-2xl" />
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-cyan-500 rounded-br-2xl" />
+            {/* Background pulse on hover */}
+            <div className="absolute inset-0 bg-cyan-500/5 group-hover:bg-cyan-500/10 transition-colors duration-500" />
+            {/* Content */}
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-4 py-7 px-6 text-center">
+              <div className="p-3 bg-cyan-950/80 border border-cyan-500/50 rounded-xl group-hover:border-cyan-400 transition-colors">
+                <Map className="w-8 h-8 text-cyan-400 group-hover:animate-pulse" />
+              </div>
+              <div>
+                <p className="text-[9px] text-cyan-600 tracking-[0.5em] uppercase font-black mb-1">Selesaikan Tahap 1–6? Ini Langkah Berikutnya</p>
+                <p
+                  className="text-xl md:text-2xl font-black text-white italic tracking-tighter uppercase leading-none group-hover:text-cyan-300 transition-colors"
+                  style={{ textShadow: '0 0 20px rgba(6,182,212,0.3)' }}
+                >
+                  🗺️ BUKA PETA EKSPLORASI LANJUTAN
+                </p>
+              </div>
+              <div className="md:ml-auto flex-shrink-0 px-4 py-2 border border-cyan-500/50 text-cyan-400 text-[10px] font-black tracking-widest uppercase rounded group-hover:bg-cyan-500/20 transition-colors">
+                LEVEL UP →
+              </div>
+            </div>
+            {/* Animated bottom glow bar */}
+            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 group-hover:opacity-60 transition-opacity" />
+          </motion.div>
+        </Link>
       </div>
 
       <footer className="max-w-4xl mx-auto w-full mt-auto pt-8 border-t border-[#30363d] text-[9px] text-gray-600 text-center uppercase tracking-[0.3em] font-bold">

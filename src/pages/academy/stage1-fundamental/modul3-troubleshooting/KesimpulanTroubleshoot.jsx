@@ -1,118 +1,82 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { CheckCircle, Home, ChevronLeft, Terminal, ShieldCheck, Zap } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Wrench, SearchCode, BookOpen, Cpu } from 'lucide-react';
 
 const KesimpulanTroubleshoot = () => {
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12">
-      <div className="max-w-4xl mx-auto relative">
-        {/* Standardized Header Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-4 mb-12 border-b border-red-900/30 pb-6 pl-0 md:pl-32"
-        >
-          <div className="p-3 bg-red-500/10 rounded-lg border border-red-500/50">
-            <CheckCircle className="w-8 h-8 text-red-500" />
+    <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-6 md:p-12 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none flex space-x-4 text-[10px] text-orange-500 font-black tracking-widest px-4">
+        {[...Array(20)].map((_, i) => (
+          <motion.div key={i} initial={{ y: -100 }} animate={{ y: '100vh' }} transition={{ duration: 5 + i * 0.4, repeat: Infinity, ease: 'linear', delay: i * 0.3 }} className="w-12 break-all opacity-10">
+            ERR_CONN<br/>TIMEOUT<br/>REBOOT<br/>010010
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-4 mb-12 border-b border-orange-900/30 pb-6 pl-0 md:pl-32">
+          <div className="p-3 bg-orange-500/10 rounded-lg border border-orange-500/50">
+            <Wrench className="w-8 h-8 text-orange-500" />
           </div>
           <div>
-            <h1 className="text-sm text-red-500 tracking-[0.3em] uppercase font-black">Stage 1: Fundamentals</h1>
-            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">
-              MODUL 3: TROUBLESHOOTING
-            </h2>
+            <h1 className="text-sm text-orange-500 tracking-[0.3em] uppercase font-black">Stage 1 · Fundamental IT Skills</h1>
+            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">KESIMPULAN: TROUBLESHOOTING</h2>
           </div>
         </motion.div>
 
-        <div className="text-center relative">
-        {/* Decorative Background Glows */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-500/5 blur-[120px] pointer-events-none"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center min-h-[60vh]">
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
+            <h1 className="text-4xl font-black text-white italic tracking-tighter uppercase leading-tight">
+              Rekap Super <br/>
+              <span className="text-orange-500" style={{ textShadow: '0 0 10px rgba(249,115,22,0.5)' }}>TROUBLESHOOTING!</span>
+            </h1>
+            <p className="text-gray-400 text-sm leading-relaxed">Keren! Lo udah jadi dokter komputer. Skill ini juga yang bikin lo bisa bedain antara sistem yang beneran error versus sistem yang sengaja dirusak hacker!</p>
+            <ul className="space-y-4">
+              {[
+                { icon: <SearchCode className="w-4 h-4"/>, label: 'Log Terbaca', desc: 'Bisa baca jejak aktivitas sistem untuk mendeteksi anomali.' },
+                { icon: <Cpu className="w-4 h-4"/>, label: 'Masalah Terisolasi', desc: 'Paham cara mempersempit sumber masalah secara sistematis.' },
+                { icon: <BookOpen className="w-4 h-4"/>, label: 'Metodologi Tepat', desc: 'Ngerti alur troubleshooting yang benar dari akar masalah.' },
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-4 p-4 bg-gray-900 border border-gray-800 rounded-xl">
+                  <div className="p-2 bg-orange-950/30 rounded border border-orange-500/30 text-orange-400">{item.icon}</div>
+                  <div className="text-xs"><span className="text-orange-400 font-bold uppercase tracking-widest block mb-1">{item.label}</span>{item.desc}</div>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
 
-        {/* Animated Badge */}
-        <motion.div 
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-          className="relative inline-block mb-12"
-        >
-           <div className="absolute inset-0 bg-red-500 blur-2xl opacity-20 rounded-full animate-pulse"></div>
-           <div className="relative z-10 p-10 rounded-full border-[6px] border-red-500 bg-gray-900 shadow-[0_0_60px_rgba(239,68,68,0.4)] group">
-              <ShieldCheck className="w-24 h-24 text-red-500 drop-shadow-[0_0_20px_rgba(239,68,68,0.6)] group-hover:scale-110 transition-transform duration-300" />
-           </div>
-           
-           {/* Achievement Particles */}
-           {[...Array(8)].map((_, i) => (
-             <motion.div
-               key={i}
-               initial={{ opacity: 0, y: 0 }}
-               animate={{ opacity: [0, 1, 0], y: -80, x: (i % 2 === 0 ? 30 : -30) }}
-               transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-               className="absolute top-1/2 left-1/2 w-1 h-1 bg-red-400 rounded-full"
-             />
-           ))}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter uppercase italic flex flex-col items-center gap-2">
-            <span className="text-lg tracking-[0.5em] text-gray-600 not-italic">Stage 1: Completed</span>
-            TROUBLESHOOTER: <span className="text-red-500 text-glow-red">CLEARED</span> ⚡
-          </h1>
-          
-          <div className="bg-black/40 border border-gray-800 p-8 rounded-2xl mb-12 max-w-2xl mx-auto backdrop-blur-sm relative">
-             <Zap className="absolute top-0 right-0 w-12 h-12 text-red-500/10 -translate-x-4 translate-y-4" />
-             <p className="text-lg text-gray-400 leading-relaxed italic">
-                "Goks! Lo udah selangkah lebih maju dari Script Kiddie karena sekarang lo tau cara mecahin masalah secara mandiri."
-             </p>
-             <div className="mt-6 grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-3 bg-red-500/5 p-3 rounded border border-red-500/20">
-                   <div className="p-1.5 bg-red-500/20 rounded"><CheckCircle className="w-4 h-4 text-red-500" /></div>
-                   <span className="text-[10px] font-black uppercase tracking-widest text-white">System Detective</span>
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex justify-center p-8">
+            <div className="relative group w-full max-w-sm aspect-square flex flex-col items-center justify-center border-4 border-orange-500/50 rounded-[3rem] bg-gray-950 shadow-[0_0_50px_rgba(249,115,22,0.15)] hover:shadow-[0_0_80px_rgba(249,115,22,0.5)] hover:border-orange-400 hover:rounded-full transition-all duration-700 overflow-hidden cursor-crosshair">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-orange-900/40 via-transparent to-transparent pointer-events-none" />
+              <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="relative z-10 flex flex-col items-center gap-4 w-full">
+                <div className="relative flex justify-center w-full">
+                  <div className="p-6 bg-black border-2 border-orange-500/50 rounded-2xl shadow-[0_0_30px_rgba(249,115,22,0.4)] group-hover:rotate-12 transition-transform duration-500 group-hover:scale-110">
+                    <Wrench className="w-16 h-16 text-orange-400 group-hover:animate-pulse" />
+                  </div>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-dashed border-orange-500/30 rounded-full animate-[spin_10s_linear_infinite]" />
                 </div>
-                <div className="flex items-center gap-3 bg-red-500/5 p-3 rounded border border-red-500/20">
-                   <div className="p-1.5 bg-red-500/20 rounded"><CheckCircle className="w-4 h-4 text-red-500" /></div>
-                   <span className="text-[10px] font-black uppercase tracking-widest text-white">Log Specialist</span>
+                <div className="text-center mt-8 space-y-2 px-2 z-20">
+                  <p className="text-orange-400 font-bold text-[10px] tracking-[0.4em] uppercase">Stage 1 · Modul 3 Selesai</p>
+                  <p className="text-white font-black text-2xl italic tracking-tighter uppercase leading-none">SYSTEM DOCTOR</p>
+                  <div className="inline-block mt-3 px-6 py-2 bg-orange-900/80 text-orange-300 text-xs font-black tracking-widest border border-orange-500 rounded group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                    TIER 1 CLEARED ✓
+                  </div>
                 </div>
-             </div>
-          </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
 
-          <div className="flex flex-col md:flex-row gap-6 items-center justify-center">
-            <Link 
-              to="/academy/stage-1/modul-3/membaca-log"
-              className="flex items-center gap-2 text-[10px] font-black text-gray-600 hover:text-white transition-all uppercase tracking-widest group"
-            >
-              <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1" /> RE-WATCH LOG RECORDS
-            </Link>
-            
-            <Link 
-              to="/academy"
-              state={{ expandedId: 'fundamental-it' }}
-              className="w-full md:w-auto bg-cyan-500 hover:bg-white text-black px-12 py-5 text-sm font-black transition-all group rounded-sm shadow-[0_0_40px_rgba(34,211,238,0.3)] flex items-center justify-center gap-3 overflow-hidden relative skew-x-[-12deg]"
-            >
-              <div className="absolute inset-0 bg-white translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300"></div>
-              <span className="relative z-10 skew-x-[12deg] flex items-center gap-2 uppercase tracking-tighter">
-                FINISH MODULE & RETURN TO HQ <Home className="w-6 h-6" />
-              </span>
-            </Link>
-          </div>
-        </motion.div>
-
-        {/* Footer Status */}
-        <div className="mt-24 flex items-center justify-center gap-4 text-[9px] text-gray-700 uppercase tracking-[0.5em] font-black">
-           <Terminal className="w-4 h-4" />
-           <span>Certification_Status: Pending // Practical_Score: 100%</span>
+        <div className="flex justify-between items-center mt-12 bg-gray-900 px-8 py-6 rounded-sm border-l-8 border-orange-500 shadow-2xl">
+          <Link to="/academy/stage-1/modul-3/membaca-log" className="flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-white transition-all group">
+            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1" /> « SEBELUMNYA
+          </Link>
+          <Link to="/academy" state={{ expandedId: 'fundamental-it' }} className="flex items-center gap-3 bg-orange-600 hover:bg-orange-500 text-white px-8 py-4 text-xs font-black transition-all rounded-sm skew-x-[-12deg]">
+            <span className="skew-x-[12deg] flex items-center gap-2 tracking-widest uppercase">KEMBALI KE HQ » <ChevronRight className="w-4 h-4" /></span>
+          </Link>
         </div>
       </div>
-    </div>
-
-      <style jsx>{`
-        .text-glow-red {
-          text-shadow: 0 0 10px rgba(239, 68, 68, 0.5), 0 0 25px rgba(239, 68, 68, 0.3);
-        }
-      `}</style>
     </div>
   );
 };

@@ -60,7 +60,7 @@ const IntroFrameworks = () => {
                      <p className="text-white font-black italic uppercase tracking-widest text-[10px]">Analogi Satpam:</p>
                   </div>
                   <p className="italic text-gray-400 text-xs leading-relaxed">
-                    Anggap aja Framework itu kayak "Buku Panduan Satpam". Kalau ada maling, satpam nggak asal pukul, tapi ada prosedurnya: Kunci gerbang -> Bunyiin alarm -> Telpon polisi. Rapi kan?
+                    Anggap aja Framework itu kayak "Buku Panduan Satpam". Kalau ada maling, satpam nggak asal pukul, tapi ada prosedurnya: Kunci gerbang -&gt; Bunyiin alarm -&gt; Telpon polisi. Rapi kan?
                   </p>
                </div>
             </div>

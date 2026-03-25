@@ -11,13 +11,17 @@ const FloatingBackButton = () => {
     location.pathname.startsWith('/academy/stage-1/') || 
     location.pathname.startsWith('/academy/stage-2/') ||
     location.pathname.startsWith('/academy/stage-3/') ||
-    location.pathname.startsWith('/academy/stage-4/');
+    location.pathname.startsWith('/academy/stage-4/') ||
+    location.pathname.startsWith('/academy/stage-5/') ||
+    location.pathname.startsWith('/academy/stage-6/');
   
   // Determine which category to expand in the dashboard
   let expandedId = 'fundamental-it';
   if (location.pathname.startsWith('/academy/stage-2/')) expandedId = 'operating-systems';
   if (location.pathname.startsWith('/academy/stage-3/')) expandedId = 'networking';
   if (location.pathname.startsWith('/academy/stage-4/')) expandedId = 'security-skills';
+  if (location.pathname.startsWith('/academy/stage-5/')) expandedId = 'cloud-skills';
+  if (location.pathname.startsWith('/academy/stage-6/')) expandedId = 'programming-skills';
 
   if (!isModulePage) return null;
 

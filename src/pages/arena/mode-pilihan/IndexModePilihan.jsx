@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ChevronLeft, 
-  Globe, 
-  Key, 
-  Search, 
-  Settings, 
+import {
+  ChevronLeft,
+  Globe,
+  Key,
+  Search,
+  Settings,
   Link as LinkIcon,
   Terminal
 } from 'lucide-react';
@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 const categories = [
   {
     id: 'web',
-    title: 'Web Exploitation',
+    title: 'Web Exploit',
     icon: <Globe className="w-8 h-8" />,
     desc: 'Cari celah XSS, SQLi, dan bypass otentikasi pada aplikasi web.',
     color: 'border-cyan-500 shadow-cyan-500/20 text-cyan-400',
@@ -74,8 +74,8 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
-  visible: { 
-    y: 0, 
+  visible: {
+    y: 0,
     opacity: 1,
     transition: { type: 'spring', stiffness: 300, damping: 24 }
   },
@@ -99,12 +99,12 @@ const IndexModePilihan = () => {
           <div className="flex items-center gap-3">
             <div className="w-2 h-8 bg-cyan-500 animate-pulse"></div>
             <div className="text-xs tracking-widest uppercase">
-              <span className="text-gray-500">CTF ARENA //</span> 
+              <span className="text-gray-500">CTF ARENA //</span>
               <span className="text-cyan-400 ml-1">SELECT CATEGORY</span>
             </div>
           </div>
-          
-          <button 
+
+          <button
             onClick={() => navigate('/ctf-arena')}
             className="flex items-center gap-2 text-xs uppercase tracking-tighter hover:text-cyan-400 transition-colors group"
           >
@@ -113,7 +113,7 @@ const IndexModePilihan = () => {
           </button>
         </header>
 
-        <motion.main 
+        <motion.main
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -131,8 +131,8 @@ const IndexModePilihan = () => {
               <motion.div
                 key={cat.id}
                 variants={itemVariants}
-                whileHover={{ 
-                  y: -10, 
+                whileHover={{
+                  y: -10,
                   scale: 1.02,
                   boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)'
                 }}
@@ -141,7 +141,7 @@ const IndexModePilihan = () => {
               >
                 {/* Background Icon Watermark */}
                 <div className="absolute -bottom-4 -right-4 opacity-5 group-hover:opacity-10 transition-opacity transform group-hover:scale-110 duration-500">
-                   {cat.icon}
+                  {cat.icon}
                 </div>
 
                 <div className="flex items-start gap-4 mb-4">

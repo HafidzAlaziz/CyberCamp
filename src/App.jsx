@@ -7,6 +7,15 @@ import CtfArenaHome from './pages/CtfArenaHome';
 import IndexModeAcak from './pages/arena/mode-acak/IndexModeAcak';
 import IndexModePilihan from './pages/arena/mode-pilihan/IndexModePilihan';
 import Level1 from './pages/arena/mode-acak/levels/Level1';
+import Level2 from './pages/arena/mode-acak/levels/Level2';
+import Level3 from './pages/arena/mode-acak/levels/Level3';
+import Level4 from './pages/arena/mode-acak/levels/Level4';
+import Level5 from './pages/arena/mode-acak/levels/Level5';
+import Level6 from './pages/arena/mode-acak/levels/Level6';
+import Level7 from './pages/arena/mode-acak/levels/Level7';
+import Level8 from './pages/arena/mode-acak/levels/Level8';
+import Level9 from './pages/arena/mode-acak/levels/Level9';
+import Level10 from './pages/arena/mode-acak/levels/Level10';
 
 // Academy Modul 1 Hardware Imports
 import IntroHardware from './pages/academy/stage1-fundamental/modul1-hardware/IntroHardware';
@@ -173,9 +182,20 @@ function AnimatedRoutes() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/academy" element={<LearningDashboard />} />
         <Route path="/ctf-arena" element={<CtfArenaHome />} />
+        {/* Mission Level Routes (Higher Specificity First) */}
+        <Route path="/ctf-arena/mode-acak/level/1" element={<Level1 />} />
+        <Route path="/ctf-arena/mode-acak/level/2" element={<Level2 />} />
+        <Route path="/ctf-arena/mode-acak/level/3" element={<Level3 />} />
+        <Route path="/ctf-arena/mode-acak/level/4" element={<Level4 />} />
+        <Route path="/ctf-arena/mode-acak/level/5" element={<Level5 />} />
+        <Route path="/ctf-arena/mode-acak/level/6" element={<Level6 />} />
+        <Route path="/ctf-arena/mode-acak/level/7" element={<Level7 />} />
+        <Route path="/ctf-arena/mode-acak/level/8" element={<Level8 />} />
+        <Route path="/ctf-arena/mode-acak/level/9" element={<Level9 />} />
+        <Route path="/ctf-arena/mode-acak/level/10" element={<Level10 />} />
+        
         <Route path="/ctf-arena/mode-acak" element={<IndexModeAcak />} />
         <Route path="/ctf-arena/mode-pilihan" element={<IndexModePilihan />} />
-        <Route path="/ctf-arena/mode-acak/level/1" element={<Level1 />} />
         
         {/* Academy Modul 1 Hardware Routes */}
         <Route path="/academy/stage-1/modul-1/intro" element={<IntroHardware />} />
@@ -349,4 +369,3 @@ function App() {
 }
 
 export default App;
-// Trigger Vite Rebuild

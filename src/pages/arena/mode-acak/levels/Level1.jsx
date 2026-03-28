@@ -29,14 +29,23 @@ const Level1 = () => {
     return saved ? parseInt(saved) : 600;
   });
 
-  const [stars, setStars] = useState(3);
-  const [hasUsedHint, setHasUsedHint] = useState(false);
-  const [hasOvertimePenalty, setHasOvertimePenalty] = useState(false);
+  const [stars, setStars] = useState(() => {
+    const saved = localStorage.getItem('ctf_level1_stars');
+    return saved ? parseInt(saved) : 3;
+  });
+  const [hasUsedHint, setHasUsedHint] = useState(() => {
+    return localStorage.getItem('ctf_level1_hint_used') === 'true';
+  });
+  const [hasOvertimePenalty, setHasOvertimePenalty] = useState(() => {
+    return localStorage.getItem('ctf_level1_overtime') === 'true';
+  });
+
   const [flag, setFlag] = useState('');
   const [status, setStatus] = useState('active'); // 'active', 'wrong', 'decoy', 'complete'
   const [attempts, setAttempts] = useState([]);
   const [showHint, setShowHint] = useState(false);
   const [completionTime, setCompletionTime] = useState(null);
+  const [showExitModal, setShowExitModal] = useState(false);
 
   // Mini-Browser Challenge States
   const [mockUsername, setMockUsername] = useState('');
@@ -79,7 +88,12 @@ const Level1 = () => {
           localStorage.setItem('ctf_level1_time', nextValue.toString());
           if (nextValue < 0 && !hasOvertimePenalty) {
             setHasOvertimePenalty(true);
-            setStars(s => Math.max(0, s - 1));
+            localStorage.setItem('ctf_level1_overtime', 'true');
+            setStars(s => {
+              const newStars = Math.max(0, s - 1);
+              localStorage.setItem('ctf_level1_stars', newStars.toString());
+              return newStars;
+            });
           }
           return nextValue;
         });
@@ -93,7 +107,12 @@ const Level1 = () => {
       setShowHint(true);
       if (!hasUsedHint) {
         setHasUsedHint(true);
-        setStars(s => Math.max(0, s - 1));
+        localStorage.setItem('ctf_level1_hint_used', 'true');
+        setStars(s => {
+          const newStars = Math.max(0, s - 1);
+          localStorage.setItem('ctf_level1_stars', newStars.toString());
+          return newStars;
+        });
       }
     } else {
       setShowHint(false);
@@ -135,6 +154,9 @@ const Level1 = () => {
          localStorage.setItem('ctf_mode_acak_stats', JSON.stringify(stats));
       }
       localStorage.removeItem('ctf_level1_time');
+      localStorage.removeItem('ctf_level1_stars');
+      localStorage.removeItem('ctf_level1_hint_used');
+      localStorage.removeItem('ctf_level1_overtime');
     } else if (decoys.includes(flag)) {
       setStatus('decoy');
       setAttempts(prev => [...prev, flag]);
@@ -145,6 +167,14 @@ const Level1 = () => {
       setTimeout(() => setStatus('active'), 2000);
     }
     setFlag('');
+  };
+
+  const handleExit = () => {
+    localStorage.removeItem('ctf_level1_time');
+    localStorage.removeItem('ctf_level1_stars');
+    localStorage.removeItem('ctf_level1_hint_used');
+    localStorage.removeItem('ctf_level1_overtime');
+    navigate('/ctf-arena/mode-acak', { state: { returnToLevel: 1 } });
   };
 
   if (status === 'complete') {
@@ -166,7 +196,7 @@ const Level1 = () => {
                ))}
              </div>
           </div>
-          <button onClick={() => navigate('/ctf-arena/mode-acak')} className="w-full bg-cyan-500 text-black font-black py-4 rounded-xl hover:bg-cyan-400 transition-all text-sm tracking-widest uppercase shadow-[0_10px_30px_rgba(6,182,212,0.2)]">KEMBALI KE MAP TAKTIS</button>
+          <button onClick={() => navigate('/ctf-arena/mode-acak', { state: { returnToLevel: 1 } })} className="w-full bg-cyan-500 text-black font-black py-4 rounded-xl hover:bg-cyan-400 transition-all text-sm tracking-widest uppercase shadow-[0_10px_30px_rgba(6,182,212,0.2)]">KEMBALI KE MAP TAKTIS</button>
         </motion.div>
       </div>
     );
@@ -176,17 +206,25 @@ const Level1 = () => {
     <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-4 md:p-8 flex flex-col overflow-hidden relative">
       <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #1e293b 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
       <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col relative z-10">
-        
         {/* HEADER AREA */}
         <div className="flex justify-between items-start mb-8 relative">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse shadow-[0_0_8px_#06b6d4]" />
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400/80">Active_Operation: Sector_Alpha</span>
+          <div className="flex gap-4 items-start z-10">
+            <button 
+              onClick={() => setShowExitModal(true)} 
+              className="mt-1 p-2 bg-gray-900 border border-cyan-500/30 rounded-xl hover:bg-cyan-500/20 text-gray-400 hover:text-cyan-400 transition-all group"
+              title="Abort Mission"
+            >
+              <ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
+            </button>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse shadow-[0_0_8px_#06b6d4]" />
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400/80">TARGET: SECTOR_ALPHA</span>
+              </div>
+              <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase leading-none shadow-cyan-500/20">
+                LEVEL 1: <span className="text-cyan-500 drop-shadow-[0_0_10px_#06b6d4]">WEB EXPLOITATION</span>
+              </h1>
             </div>
-            <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase leading-none shadow-cyan-500/20">
-              LEVEL 1: <span className="text-cyan-500 drop-shadow-[0_0_10px_#06b6d4]">WEB EXPLOITATION</span>
-            </h1>
           </div>
 
           <div className="absolute left-1/2 -translate-x-1/2 top-0 flex flex-col items-center">
@@ -368,6 +406,23 @@ const Level1 = () => {
         </div>
 
       </div>
+      <AnimatePresence>
+         {showExitModal && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex justify-center items-center p-4">
+               <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-gray-900 border border-cyan-500/30 rounded-2xl p-8 max-w-md w-full text-center relative overflow-hidden shadow-[0_0_40px_rgba(6,182,212,0.1)]">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-cyan-500" />
+                  <ShieldAlert className="w-12 h-12 text-cyan-500 mx-auto mb-4" />
+                  <h3 className="text-xl font-black text-white tracking-widest uppercase mb-2">ABORT MISSION?</h3>
+                  <p className="text-sm text-gray-400 mb-8 font-sans">Anda yakin ingin keluar? Waktu akan terus berjalan dan progress misi Anda saat ini akan di-reset.</p>
+                  <div className="flex gap-4">
+                    <button onClick={() => setShowExitModal(false)} className="flex-1 py-3 bg-gray-800 text-white font-bold rounded-xl border border-white/5 hover:bg-gray-700 transition-colors">BATAL</button>
+                    <button onClick={handleExit} className="flex-1 py-3 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl hover:bg-red-400 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)]">KELUAR</button>
+                  </div>
+               </motion.div>
+            </motion.div>
+         )}
+      </AnimatePresence>
+
     </div>
   );
 };

@@ -11,29 +11,24 @@ import {
   Zap,
   Skull,
   Play,
-  Check
+  Check,
+  ShieldAlert
 } from 'lucide-react';
 
 const Level8 = () => {
   const navigate = useNavigate();
 
-  // Timer Persistence Logic
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const saved = localStorage.getItem('ctf_level8_time');
-    return saved ? parseInt(saved) : 900; // 15 minutes
-  });
-
-  const [stars, setStars] = useState(() => {
-    const saved = localStorage.getItem('ctf_level8_stars');
-    return saved ? parseInt(saved) : 3;
-  });
-
+  // Timer: Count-up
+  const [elapsed, setElapsed] = useState(0);
   const [hintStage, setHintStage] = useState(() => {
     return parseInt(localStorage.getItem('ctf_level8_hint_stage') || '0');
   });
 
-  const [hasOvertimePenalty, setHasOvertimePenalty] = useState(() => {
-    return localStorage.getItem('ctf_level8_overtime') === 'true';
+  const [stars, setStars] = useState(() => {
+    const saved = localStorage.getItem('ctf_level8_stars');
+    if (saved) return parseInt(saved);
+    const currentHint = parseInt(localStorage.getItem('ctf_level8_hint_stage') || '0');
+    return Math.max(1, 4 - currentHint);
   });
 
   const [inputText, setInputText] = useState('');
@@ -43,29 +38,16 @@ const Level8 = () => {
   const [completionTime, setCompletionTime] = useState(null);
   const [showExitModal, setShowExitModal] = useState(false);
 
-  const realFlag = "CTF{SHADOW_GHOST_2024}";
+  const realFlag = "CTF{SHADOW_REALM_2023}";
 
   useEffect(() => {
     if (status !== 'complete') {
       const timer = setInterval(() => {
-        setTimeLeft(prev => {
-          const nextValue = prev - 1;
-          localStorage.setItem('ctf_level8_time', nextValue.toString());
-          if (nextValue < 0 && !hasOvertimePenalty) {
-            setHasOvertimePenalty(true);
-            localStorage.setItem('ctf_level8_overtime', 'true');
-            setStars(s => {
-              const newStars = Math.max(0, s - 1);
-              localStorage.setItem('ctf_level8_stars', newStars.toString());
-              return newStars;
-            });
-          }
-          return nextValue;
-        });
+        setElapsed(prev => prev + 1);
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [status, hasOvertimePenalty]);
+  }, [status]);
 
   const formatTime = (seconds) => {
     const isNeg = seconds < 0;
@@ -81,7 +63,7 @@ const Level8 = () => {
 
     if (inputText.trim() === realFlag) {
       setStatus('complete');
-      const timeTakenStr = formatTime(900 - timeLeft);
+      const timeTakenStr = formatTime(elapsed);
       setCompletionTime(timeTakenStr);
       
       const stats = JSON.parse(localStorage.getItem('ctf_mode_acak_stats')) || {};
@@ -112,12 +94,10 @@ const Level8 = () => {
 
   const unlockHintStage = (stage) => {
     if (stage <= hintStage) return;
-    const penalty = stage === 3 ? 3 : 1;
-    setStars(s => {
-      const newStars = Math.max(0, s - penalty);
-      localStorage.setItem('ctf_level8_stars', newStars.toString());
-      return newStars;
-    });
+    const newStars = Math.max(1, 4 - stage);
+    setStars(newStars);
+    localStorage.setItem('ctf_level8_stars', newStars.toString());
+    
     setHintStage(stage);
     localStorage.setItem('ctf_level8_hint_stage', stage.toString());
   };
@@ -128,20 +108,20 @@ const Level8 = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(244,63,94,0.1)_0%,transparent_70%)]" />
         <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="z-10 bg-gray-900 border-4 border-rose-500 p-12 rounded-3xl text-center max-w-xl shadow-[0_0_50px_rgba(244,63,94,0.3)]">
           <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="w-24 h-24 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-rose-500/30">
-            <Lock className="w-12 h-12 text-rose-400 drop-shadow-[0_0_10px_#f43f5e]" />
+            <Skull className="w-12 h-12 text-rose-400 drop-shadow-[0_0_10px_#f43f5e]" />
           </motion.div>
-          <h1 className="text-5xl font-black italic tracking-tighter mb-2 text-white uppercase leading-none text-rose-500">MISI BERHASIL</h1>
-          <p className="text-rose-500 font-bold tracking-[0.3em] mb-4 text-[10px]">SEKTOR: PENGINTAIAN_OSINT // DATA_DIEKSTRAKSI</p>
+          <h1 className="text-5xl font-black italic tracking-tighter mb-2 text-white uppercase leading-none">MISSION COMPLETE</h1>
+          <p className="text-rose-500 font-bold tracking-[0.3em] mb-4 text-[10px]">SECTOR: SHADOW_REALM // ACCESS_CRACKED</p>
           <div className="bg-rose-500/5 border border-rose-500/10 rounded-2xl py-6 px-10 mb-8 inline-block">
              <div className="text-[10px] font-black text-gray-500 tracking-[0.4em] uppercase mb-4">Misi terselesaikan dalam</div>
              <div className="text-4xl font-black text-white italic tracking-tighter mb-6">{completionTime}</div>
              <div className="flex justify-center gap-4">
-               {[1, 2, 3].map(s => (
+               {[1, 2, 3, 4].map(s => (
                  <Zap key={s} className={`w-10 h-10 transition-all duration-500 ${s <= stars ? 'text-rose-400 fill-rose-400 drop-shadow-[0_0_15px_#f43f5e]' : 'text-gray-800 fill-transparent'}`} />
                ))}
              </div>
           </div>
-          <button onClick={handleExit} className="w-full bg-rose-500 text-black font-black py-4 rounded-xl hover:bg-rose-400 transition-all text-sm tracking-widest uppercase shadow-[0_10px_30px_rgba(244,63,94,0.2)]">KEMBALI KE MAP TAKTIS</button>
+          <button onClick={() => navigate('/ctf-arena/mode-acak', { state: { returnToLevel: 8 } })} className="w-full bg-rose-500 text-black font-black py-4 rounded-xl hover:bg-rose-400 transition-all text-sm tracking-widest uppercase shadow-[0_10px_30px_rgba(244,63,94,0.2)]">KEMBALI KE MAP TAKTIS</button>
         </motion.div>
       </div>
     );
@@ -149,7 +129,7 @@ const Level8 = () => {
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-4 md:p-8 flex flex-col overflow-hidden relative">
-      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #f43f5e15 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
+      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #4c0519 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
       <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col relative z-10">
         
         {/* HEADER AREA */}
@@ -165,10 +145,10 @@ const Level8 = () => {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-2 h-2 bg-rose-500 rounded-full animate-pulse shadow-[0_0_8px_#f43f5e]" />
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-rose-400/80">TARGET: SEKTOR_PENGINTAIAN</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-rose-400/80">TARGET: SECTOR_SOCIAL</span>
               </div>
               <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase leading-none">
-                LEVEL 8: <span className="text-rose-500 drop-shadow-[0_0_10px_#f43f5e]">OSINT RECON</span>
+                LEVEL 8: <span className="text-rose-600 drop-shadow-[0_0_10px_#f43f5e]">SOCIAL ENGINEERING</span>
               </h1>
             </div>
           </div>
@@ -176,16 +156,16 @@ const Level8 = () => {
           <div className="absolute left-1/2 -translate-x-1/2 top-0 flex flex-col items-center">
              <div className="text-[8px] font-black text-gray-700 tracking-[0.5em] uppercase mb-2">RANK_EFFICIENCY</div>
              <div className="flex gap-3">
-                {[1, 2, 3].map(s => (
+                {[1, 2, 3, 4].map(s => (
                   <Zap key={s} className={`w-6 h-6 transition-all duration-700 ${s <= stars ? 'text-rose-400 fill-rose-400 drop-shadow-[0_0_10px_#f43f5e]' : 'text-white/10 fill-transparent opacity-20'}`} />
                 ))}
              </div>
           </div>
 
           <div className="text-right">
-            <div className="text-[10px] font-black text-red-500/80 tracking-[0.3em] uppercase mb-1">WAKTU_TERSISA</div>
-            <div className={`text-4xl font-black italic tracking-tighter transition-colors duration-500 ${timeLeft < 60 ? 'text-red-500 animate-pulse' : 'text-rose-600'}`}>
-              {formatTime(timeLeft)}
+            <div className="text-[10px] font-black text-cyan-500/30 tracking-[0.3em] uppercase mb-1">ELAPSED_TIME</div>
+            <div className={`text-4xl font-black italic tracking-tighter transition-colors duration-500 text-rose-600`}>
+              {formatTime(elapsed)}
             </div>
           </div>
         </div>
@@ -203,188 +183,213 @@ const Level8 = () => {
               </div>
               <div className="text-xs leading-relaxed text-gray-400 overflow-y-auto pr-2 custom-scrollbar space-y-4 italic mb-8">
                 <p>{" > "} Intelijen telah mencegat pengiriman data terfragmentasi dari server messenger pribadi "The Shadow Syndicate".</p>
-                <p>{" > "} Misi Anda melakukan profiling mendalam pada log chat. Temukan kata kunci untuk brankas aman mereka.</p>
-                <div className="p-4 bg-rose-950/20 border border-rose-500/20 rounded-xl space-y-2">
-                   <p className="text-[10px] text-rose-500 font-bold uppercase tracking-widest flex items-center gap-2">
-                      <History className="w-3 h-3" /> Metadata_Sistem
+                <div className="p-3 bg-rose-950/20 border border-rose-500/20 rounded-lg">
+                   <p className="text-rose-400 font-black tracking-tight uppercase mb-1 flex items-center gap-2">
+                     <MessageSquare className="w-3 h-3" /> CHAT_CONTEXT
                    </p>
-                   <div className="space-y-1">
-                      <div className="flex justify-between text-[9px] font-bold">
-                         <span className="text-gray-500">Tahun_Aktif:</span>
-                         <span className="text-rose-400 font-black">2024</span>
-                      </div>
-                      <div className="flex justify-between text-[9px] font-bold">
-                         <span className="text-gray-500">Proyek:</span>
-                         <span className="text-gray-300">SHADOW</span>
-                      </div>
-                   </div>
-                   <p className="text-[8px] text-gray-600 uppercase italic mt-4 border-t border-rose-500/10 pt-2">
-                      Tugas: Inisial proyek + Tahun lahir pengembang utama (Ghost).
-                   </p>
+                   <p className="text-[9px] text-gray-600 uppercase italic">Pelajari riwayat percakapan antara anggota sindikat di panel pusat. Cari kunci akses (Flag) yang mungkin tidak sengaja mereka sebutkan selama diskusi teknis.</p>
                 </div>
               </div>
 
-              {/* HINT BUTTON */}
-              <button 
-                onClick={() => setShowHintModal(true)} 
-                className={`mt-auto bg-rose-900/20 border rounded-xl p-4 flex items-center justify-center gap-3 group transition-all shadow-[0_0_20px_rgba(244,63,94,0.1)] ${hintStage > 0 ? 'border-rose-400 bg-rose-900/40' : 'border-rose-500/40 hover:bg-rose-900/30'}`}
-              >
-                <Zap className={`w-4 h-4 transition-colors ${hintStage > 0 ? 'text-rose-400 fill-rose-400' : 'text-rose-400'}`} />
-                <span className="text-xs font-black text-rose-100 uppercase tracking-widest">
-                  {hintStage > 0 ? `PETUNJUK AKTIF (Tahap ${hintStage})` : '💡 MINTA PETUNJUK'}
-                </span>
-              </button>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5">
+                   <div className="flex items-center gap-3">
+                      <History className="w-4 h-4 text-rose-500" />
+                      <span className="text-[10px] font-black uppercase tracking-widest">Chat Logs Extracted</span>
+                   </div>
+                   <span className="text-[10px] font-bold text-rose-500">22.4 MB</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5">
+                   <div className="flex items-center gap-3">
+                      <Skull className="w-4 h-4 text-rose-500" />
+                      <span className="text-[10px] font-black uppercase tracking-widest">Anonymity Shield</span>
+                   </div>
+                   <span className="text-[10px] font-bold text-green-500 italic">ACTIVE</span>
+                </div>
+              </div>
             </div>
+
+            <button onClick={() => setShowHintModal(true)} className={`bg-rose-900/20 border rounded-xl p-4 flex items-center justify-center gap-3 group transition-all shadow-[0_0_20px_rgba(244,63,94,0.1)] ${hintStage > 0 ? 'border-rose-400 bg-rose-900/40' : 'border-rose-500/40 hover:bg-rose-900/30'}`}>
+              <Zap className={`w-4 h-4 transition-colors ${hintStage > 0 ? 'text-rose-400 fill-rose-400' : 'text-rose-400'}`} />
+              <span className="text-xs font-black text-rose-200 uppercase tracking-widest uppercase">💡 MINTA HINT BOS ({hintStage}/3)</span>
+            </button>
           </div>
 
-          {/* RIGHT SIDE: MESSENGER UI & FLAG INPUT */}
+          {/* CENTER: CHAT INTERFACE & SUBMISSION */}
           <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
-            
-            {/* MESSENGER INTERFACE */}
-            <div className="flex-1 bg-black/40 border border-rose-500/20 rounded-2xl flex flex-col overflow-hidden shadow-2xl relative">
-               <div className="p-4 border-b border-rose-500/20 bg-rose-950/10 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                     <div className="w-2 h-2 bg-rose-500 rounded-full animate-pulse" />
-                     <span className="text-[10px] font-black text-gray-500 tracking-widest uppercase">Shadow_Syndicate_Messenger // Encrypted_Link</span>
+            <div className="flex-1 bg-black border border-rose-500/20 rounded-2xl flex flex-col overflow-hidden relative group shadow-2xl">
+               <div className="h-10 bg-gray-900/80 border-b border-white/5 flex items-center px-4 gap-4 backdrop-blur-md justify-between">
+                  <div className="flex items-center gap-2">
+                     <MessageSquare className="w-3 h-3 text-rose-500" />
+                     <span className="text-[10px] text-gray-500 font-bold tracking-widest uppercase">ShadowChat encrypted_log_#8812</span>
                   </div>
-                  <div className="flex gap-1">
-                     <div className="w-1.5 h-1.5 rounded-full bg-rose-500/40" />
-                     <div className="w-1.5 h-1.5 rounded-full bg-rose-500/20" />
+                  <div className="flex gap-1.5">
+                     <div className="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_5px_#f43f5e]" />
+                     <div className="text-[8px] font-black text-rose-500/80 uppercase">LIVE_INTERCEPT</div>
                   </div>
                </div>
 
-               <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-black/20">
-                  <div className="text-center py-4">
-                     <span className="px-4 py-1 bg-white/5 border border-white/5 rounded-full text-[8px] font-black text-gray-500 uppercase tracking-[0.3em]">-- Akhir Log Terenkripsi: 28 Maret 2024 --</span>
+               <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+                  {/* CHAT MESSAGES */}
+                  <div className="flex items-start gap-4">
+                     <div className="w-8 h-8 rounded bg-rose-900/30 border border-rose-500/30 flex items-center justify-center text-[10px] font-black text-rose-400 shadow-lg">NX</div>
+                     <div className="flex-1">
+                        <div className="flex items-baseline gap-2 mb-1">
+                           <span className="text-xs font-black text-rose-400 uppercase tracking-tighter">NightCrawler</span>
+                           <span className="text-[8px] text-gray-600 font-mono italic">02:14:15</span>
+                        </div>
+                        <div className="bg-gray-900/80 p-3 rounded-2xl rounded-tl-none border border-white/5 text-xs text-gray-300 leading-relaxed max-w-[85%]">
+                           Yo, sytem admin udah update password vault ke server baru. Tapi dia lupa hapus log debug-nya di folder log harian.
+                        </div>
+                     </div>
                   </div>
 
-                  {/* CHAT LOGS */}
-                  <div className="flex flex-col gap-1">
-                     <span className="text-[10px] text-rose-500 font-bold uppercase tracking-widest flex items-center gap-2"><div className="w-1 h-1 bg-rose-500 rounded-full" /> ShadowKing [14:02]</span>
-                     <p className="bg-white/5 p-3 rounded-2xl rounded-tl-none text-[11px] text-gray-300 border border-white/5 max-w-[80%]">Apakah file proyek <span className="text-white font-bold">"SHADOW_LOG"</span> sudah diamankan?</p>
-                  </div>
-                  
-                  <div className="flex flex-col gap-1 items-end">
-                     <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">CyberGhost [14:05]</span>
-                     <p className="bg-rose-900/20 p-3 rounded-2xl rounded-tr-none text-[11px] text-rose-100 border border-rose-500/20 max-w-[80%]">Sudah bos. Semua log terenkripsi di server pusat.</p>
-                  </div>
-
-                  <div className="flex flex-col gap-1">
-                     <span className="text-[10px] text-rose-500 font-bold uppercase tracking-widest flex items-center gap-2"><div className="w-1 h-1 bg-rose-500 rounded-full" /> ShadowKing [14:08]</span>
-                     <p className="bg-white/5 p-3 rounded-2xl rounded-tl-none text-[11px] text-gray-300 border border-white/5 max-w-[80%]">Bagus. Ingat, kuncinya adalah inisial proyek dan tahun lahir pengembang utamamu (si Ghost itu lahir <span className="text-white font-bold">2024</span> kan?).</p>
+                  <div className="flex items-start gap-4 flex-row-reverse">
+                     <div className="w-8 h-8 rounded bg-gray-800 border border-white/10 flex items-center justify-center text-[10px] font-black text-gray-500">GV</div>
+                     <div className="flex-1 text-right flex flex-col items-end">
+                        <div className="flex items-baseline gap-2 mb-1">
+                           <span className="text-[8px] text-gray-700 font-mono italic">02:15:33</span>
+                           <span className="text-xs font-black text-gray-400 uppercase tracking-tighter">G0st_Viper</span>
+                        </div>
+                        <div className="bg-rose-950/20 p-3 rounded-2xl rounded-tr-none border border-rose-500/10 text-xs text-gray-400 leading-relaxed max-w-[85%] italic">
+                           Log debug yang mana? Bukannya kemaren udah di-purge sama script cronjob?
+                        </div>
+                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-1 items-end">
-                     <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">CyberGhost [14:10]</span>
-                     <p className="bg-rose-900/20 p-3 rounded-2xl rounded-tr-none text-[11px] text-rose-100 border border-rose-500/20 max-w-[80%] uppercase font-black tracking-widest">Siap Bos. Kode Proyek: SHADOW. User: GHOST. Tahun: 2024.</p>
+                  <div className="flex items-start gap-4">
+                     <div className="w-8 h-8 rounded bg-rose-900/30 border border-rose-500/30 flex items-center justify-center text-[10px] font-black text-rose-400 shadow-lg">NX</div>
+                     <div className="flex-1">
+                        <div className="flex items-baseline gap-2 mb-1">
+                           <span className="text-xs font-black text-rose-400 uppercase tracking-tighter">NightCrawler</span>
+                           <span className="text-[8px] text-gray-600 font-mono italic">02:16:02</span>
+                        </div>
+                        <div className="bg-gray-900/80 p-3 rounded-2xl rounded-tl-none border border-white/5 text-xs text-gray-300 leading-relaxed max-w-[85%]">
+                           Niatnya sih gitu, tapi ternyata parser-nya error. Dia simpan variabel di folder <span className="text-rose-500 font-mono">/dev/null/backup_secrets/</span>. Nama flag-nya unik, kombinasi dari <span className="text-rose-400 italic">Nama Project</span> dan <span className="text-rose-400 italic">Tahun Shutdown</span>.
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="flex items-start gap-4 flex-row-reverse">
+                     <div className="w-8 h-8 rounded bg-gray-800 border border-white/10 flex items-center justify-center text-[10px] font-black text-gray-500">GV</div>
+                     <div className="flex-1 text-right flex flex-col items-end">
+                        <div className="flex items-baseline gap-2 mb-1">
+                           <span className="text-[8px] text-gray-700 font-mono italic">02:16:44</span>
+                           <span className="text-xs font-black text-gray-400 uppercase tracking-tighter">G0st_Viper</span>
+                        </div>
+                        <div className="bg-rose-950/20 p-3 rounded-2xl rounded-tr-none border border-rose-500/10 text-xs text-gray-400 leading-relaxed max-w-[85%]">
+                           Oh, maksud lu project <span className="text-rose-300 font-bold">"SHADOW_REALM"</span> yang kena takedown tahun <span className="text-rose-300 font-bold">2023</span> itu?
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                     <div className="w-8 h-8 rounded bg-rose-900/30 border border-rose-500/30 flex items-center justify-center text-[10px] font-black text-rose-400 shadow-lg">NX</div>
+                     <div className="flex-1">
+                        <div className="flex items-baseline gap-2 mb-1">
+                           <span className="text-xs font-black text-rose-400 uppercase tracking-tighter">NightCrawler</span>
+                           <span className="text-[8px] text-gray-600 font-mono italic">02:17:10</span>
+                        </div>
+                        <div className="bg-gray-900/80 p-3 rounded-2xl rounded-tl-none border border-white/5 text-xs text-gray-300 leading-relaxed max-w-[85%]">
+                           Bingo. Lu gabungin aja jadi satu: <span className="text-rose-500 font-mono italic">CTF{"{NAMA_TAHUN}"}</span>. Tebak sendiri lah sisanya, masa semuanya harus disuapin.
+                        </div>
+                     </div>
                   </div>
                </div>
-            </div>
 
-            {/* FLAG INPUT terminal style */}
-            <div className={`bg-gray-950 border rounded-2xl p-6 relative overflow-hidden transition-all duration-500 ${status === 'wrong' ? 'border-red-500 shadow-[0_0_30px_rgba(239,68,68,0.2)]' : 'border-rose-500/30'}`}>
-               <div className="text-[10px] font-black text-gray-500 tracking-[0.3em] uppercase mb-4 flex justify-between">
-                  <span>TERMINAL_RECON_INPUT</span>
-                  {status === 'wrong' && <span className="text-red-500 animate-pulse">FLAG_INVALID</span>}
-                  {attempts.length > 0 && <span>PERCOBAAN: {attempts.length}</span>}
-               </div>
-               
-               <form onSubmit={submitFlag} className="flex gap-4">
-                  <div className="flex-1 relative">
-                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-rose-500 font-bold">$</span>
-                     <input 
-                        type="text" 
-                        value={inputText}
-                        onChange={(e) => setInputText(e.target.value)}
-                        placeholder="MASUKKAN FLAG AKSES (CTF{...})"
-                        className={`w-full bg-gray-900 border ${status === 'wrong' ? 'border-red-500/50 text-red-100' : 'border-rose-500/20 text-rose-100 focus:border-rose-400'} rounded-xl py-4 pl-12 pr-4 outline-none font-mono text-sm tracking-wider transition-all`}
-                        onKeyDown={(e) => e.key === 'Enter' && submitFlag()}
-                     />
+               {/* FLAGS SUBMISSION */}
+               <div className="bg-gray-900/80 border-t border-rose-500/20 p-6 backdrop-blur-md">
+                  <div className="text-[9px] font-black text-rose-500/50 uppercase tracking-[0.3em] mb-4">Input recovered credentials:</div>
+                  <form onSubmit={submitFlag} className="flex gap-4">
+                     <div className="relative flex-1 group">
+                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-500/30 group-focus-within:text-rose-500 transition-colors" />
+                        <input
+                           type="text"
+                           value={inputText}
+                           onChange={(e) => setInputText(e.target.value)}
+                           placeholder="CTF{...}"
+                           className={`w-full bg-black/60 border ${status === 'wrong' ? 'border-red-500 shadow-[0_0_15px_#ef4444]' : 'border-rose-500/30 focus:border-rose-500'} rounded-xl py-4 pl-12 pr-4 text-xs font-mono text-white focus:outline-none transition-all tracking-widest`}
+                        />
+                     </div>
+                     <button type="submit" className="bg-rose-600 hover:bg-rose-500 text-white font-black px-8 py-4 rounded-xl text-xs tracking-widest uppercase transition-all shadow-lg active:scale-95 flex items-center gap-2">
+                        [ CRACK ] <Check className="w-4 h-4" />
+                     </button>
+                  </form>
+                  <div className="mt-4 flex gap-2 overflow-x-auto pb-2 h-8">
+                     {attempts.map((att, i) => (
+                        <div key={i} className="px-2 py-1 bg-red-950/30 border border-red-500/20 rounded text-[8px] text-red-400/50 italic line-through whitespace-nowrap">{att}</div>
+                     ))}
                   </div>
-                  <button 
-                    type="submit"
-                    className="bg-rose-600 hover:bg-rose-500 text-white px-8 rounded-xl font-black tracking-widest uppercase transition-all flex items-center gap-2 hover:shadow-[0_0_20px_rgba(244,63,94,0.4)]"
-                  >
-                    KIRIM <Check className="w-4 h-4" />
-                  </button>
-               </form>
+               </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-700">
+           <div className="flex items-center gap-4 text-[9px] font-black tracking-widest">
+              <span className="text-rose-500/50">{" > "} INTERCEPT: ACTIVE</span>
+              <span className="text-gray-800">//</span>
+              <span>MODE: ACAK</span>
+              <span className="text-gray-800">//</span>
+              <span>LEVEL: 8</span>
+           </div>
+           <div className="text-[8px] font-bold uppercase tracking-tighter italic opacity-50">-- TERMINAL_INTERCEPT_V.8.1 // SHADOW_MESSENGER_PROTO --</div>
         </div>
       </div>
 
       {/* MODALS */}
       <AnimatePresence>
-         {showExitModal && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex justify-center items-center p-4">
-               <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-gray-900 border border-rose-500/30 rounded-2xl p-8 max-w-md w-full text-center relative overflow-hidden shadow-2xl">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-rose-500" />
-                  <Skull className="w-12 h-12 text-rose-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-black text-white tracking-widest uppercase mb-2">BATALKAN MISI?</h3>
-                  <p className="text-sm text-gray-400 mb-8">Progress saat ini akan hilang dan di-reset dari awal.</p>
-                  <div className="flex gap-4">
-                    <button onClick={() => setShowExitModal(false)} className="flex-1 py-3 bg-gray-800 text-white font-bold rounded-xl border border-white/5 hover:bg-gray-700 transition-colors">BATAL</button>
-                    <button onClick={handleExit} className="flex-1 py-3 bg-red-600 text-white font-black uppercase tracking-widest rounded-xl hover:bg-red-400 transition-colors">KELUAR</button>
-                  </div>
-               </motion.div>
-            </motion.div>
-         )}
-      </AnimatePresence>
-
-      {/* HINT MODAL */}
-      <AnimatePresence>
         {showHintModal && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex justify-center items-center p-4">
-            <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-gray-900 border border-rose-500/30 rounded-2xl p-8 max-w-lg w-full relative overflow-hidden shadow-2xl">
-              <div className="absolute top-0 left-0 w-full h-1 bg-rose-500" />
-              <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-rose-500" />
-                  <h3 className="text-lg font-black italic text-white uppercase tracking-tighter">Petunjuk_Hacker</h3>
-                </div>
-                <button onClick={() => setShowHintModal(false)} className="p-1 hover:bg-white/5 rounded-lg border border-transparent active:border-white/10 transition-all">
-                  <X className="w-5 h-5 text-gray-600" />
-                </button>
-              </div>
-              
-              <div className="space-y-3 mb-6">
-                {[1, 2, 3].map(stage => (
-                  <div key={stage} className={`p-4 rounded-xl border transition-all ${
-                    hintStage >= stage 
-                      ? 'bg-rose-500/10 border-rose-500/40 text-rose-100' 
-                      : 'bg-white/5 border-white/5 text-gray-600 cursor-not-allowed'
-                  }`}>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-[8px] font-black tracking-widest uppercase">
-                        Tahap {stage}: {stage === 1 ? 'Petunjuk Logika' : stage === 2 ? 'Panduan Teknis' : 'Pola Solusi'}
-                      </span>
-                      {hintStage < stage && (
-                        <button
-                          onClick={() => unlockHintStage(stage)}
-                          className="text-[8px] px-3 py-1 bg-rose-600 hover:bg-rose-500 text-white font-black rounded-md transition-colors"
-                        >
-                          {stage === 3 ? 'UNGKAP POLA (-3 BINTANG)' : 'BUKA (-1 BINTANG)'}
-                        </button>
-                      )}
-                    </div>
-                    <p className="text-[11px] font-bold italic">
-                      {hintStage >= stage ? (
-                        stage === 1
-                          ? "Log chat menyimpan lebih dari sekedar obrolan. Perhatikan setiap kata yang dicetak tebal — ada nama, peran, dan angka yang tersembunyi di dalamnya."
-                          : stage === 2
-                          ? "Ada tiga elemen kunci: nama PROYEK, nama peran pengguna (GHOST), dan TAHUN. Cari ketiga elemen itu di chat log dan susun dengan pemisah garis bawah (_)."
-                          : "Format flag: CTF{SHADOW_GHOST_2024} — proyek SHADOW, pengguna GHOST, tahun 2024."
-                      ) : 'Data Terenkripsi...'}
-                    </p>
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowHintModal(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+            <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative bg-gray-900 border border-rose-500/30 rounded-3xl p-8 max-w-lg w-full shadow-[0_0_50px_rgba(244,63,94,0.2)] overflow-hidden">
+               <div className="absolute top-0 left-0 w-full h-1 bg-rose-500 shadow-[0_0_15px_#f43f5e]" />
+               <div className="flex justify-between items-start mb-8">
+                  <div>
+                    <h2 className="text-2xl font-black text-white italic tracking-tighter uppercase mb-1">INTEL_RECOVERY_HUB</h2>
+                    <p className="text-[10px] text-gray-500 font-bold tracking-widest uppercase">Sector 8: Social Engineering Analysis</p>
                   </div>
-                ))}
-              </div>
+                  <button onClick={() => setShowHintModal(false)} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-500 hover:text-white"><X className="w-5 h-5" /></button>
+               </div>
 
-              <p className="text-[9px] text-gray-500 italic text-center uppercase tracking-widest font-black">
-                -- Peringatan Sistem: Penggunaan hint mempengaruhi skor akhir --
-              </p>
+               <div className="space-y-4 mb-8">
+                  {[
+                    { depth: 1, label: "ANALYZING_CONTEXT", content: `<span class="text-purple-300 font-black block mb-2">💡 Apa itu Social Engineering?</span><span class="text-gray-400 block normal-case not-italic">Teknik manipulasi psikologis untuk mendapatkan informasi rahasia. Perhatikan log chat — seringkali admin atau user tidak sengaja membocorkan Flag saat berdiskusi di kanal yang mereka anggap aman. Cari string berpola <span class="text-purple-300 font-mono">CTF{...}</span> di percakapan.</span>` },
+                    { depth: 2, label: "DEEP_SCAN_SOCIAL", content: "Chat log ini berisi jejak password yang tak sengaja terekspos. Perhatikan dengan teliti pesan dari 'NightCrawler' di bagian akhir percakapan." },
+                    { depth: 3, label: "EXTRACT_FLAG_DATA", content: "Flag yang kamu cari adalah: <span class='text-rose-500 font-mono'>CTF{SHADOW_REALM_2023}</span>" }
+                  ].map((h, i) => (
+                    <div key={i} className={`p-4 rounded-2xl border transition-all ${hintStage >= h.depth ? 'bg-rose-500/10 border-rose-500/40 text-gray-200' : 'bg-black/40 border-white/5 text-gray-600'}`}>
+                       <div className="flex justify-between items-center mb-2">
+                          <span className="text-[10px] font-black tracking-widest uppercase">{h.label}</span>
+                          {hintStage >= h.depth ? <Check className="w-3 h-3 text-rose-500" /> : <Lock className="w-3 h-3" />}
+                       </div>
+                       {hintStage >= h.depth ? (
+                         <p className="text-xs leading-relaxed italic" dangerouslySetInnerHTML={{ __html: h.content }} />
+                       ) : (
+                         <button onClick={() => unlockHintStage(h.depth)} className="w-full py-2 bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all">UNLOCK INTEL DEPTH {h.depth}</button>
+                       )}
+                    </div>
+                  ))}
+               </div>
+               
+               <p className="text-[8px] text-center text-gray-700 uppercase font-bold tracking-[0.2em]">-- WARNING: Intel recovery will reduce efficiency rank --</p>
             </motion.div>
-          </motion.div>
+          </div>
+        )}
+
+        {showExitModal && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowExitModal(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+             <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ opacity: 0 }} className="relative bg-gray-900 border border-rose-500/30 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
+                <ShieldAlert className="w-12 h-12 text-rose-600 mx-auto mb-4" />
+                <h3 className="text-xl font-black text-white italic tracking-tighter uppercase mb-2">ABORT MISSION?</h3>
+                <p className="text-xs text-gray-500 uppercase italic mb-8 leading-relaxed">INTERSEPSI YANG SEDANG BERJALAN AKAN DIPUTUSKAN DAN PROGRESS LOG AKAN DI-RESET.</p>
+                <div className="flex gap-4">
+                   <button onClick={handleExit} className="flex-1 bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl text-xs tracking-widest uppercase transition-all">YES, ABORT</button>
+                   <button onClick={() => setShowExitModal(false)} className="flex-1 bg-white/5 hover:bg-white/10 text-white font-black py-4 rounded-xl border border-white/5 text-xs tracking-widest uppercase transition-all">CANCEL</button>
+                </div>
+             </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>

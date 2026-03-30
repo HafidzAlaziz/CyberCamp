@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Radio,
-  Clock,
   Zap,
   ChevronLeft,
-  X,
-  Play,
   Terminal,
   Cpu,
   Copy,
@@ -19,21 +16,17 @@ import {
 const Level2 = () => {
   const navigate = useNavigate();
   
-  // Timer Persistence Logic
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const saved = localStorage.getItem('ctf_level2_time');
-    return saved ? parseInt(saved) : 300;
-  });
+  // Timer: Count-up
+  const [elapsed, setElapsed] = useState(0);
 
   const [stars, setStars] = useState(() => {
     const saved = localStorage.getItem('ctf_level2_stars');
-    return saved ? parseInt(saved) : 3;
+    if (saved) return parseInt(saved);
+    const hasHint = localStorage.getItem('ctf_level2_hint_used') === 'true';
+    return Math.max(1, 3 - (hasHint ? 1 : 0));
   });
   const [hasUsedHint, setHasUsedHint] = useState(() => {
     return localStorage.getItem('ctf_level2_hint_used') === 'true';
-  });
-  const [hasOvertimePenalty, setHasOvertimePenalty] = useState(() => {
-    return localStorage.getItem('ctf_level2_overtime') === 'true';
   });
 
   const [flag, setFlag] = useState('');
@@ -52,24 +45,11 @@ const Level2 = () => {
   useEffect(() => {
     if (status !== 'complete') {
       const timer = setInterval(() => {
-        setTimeLeft(prev => {
-          const nextValue = prev - 1;
-          localStorage.setItem('ctf_level2_time', nextValue.toString());
-          if (nextValue < 0 && !hasOvertimePenalty) {
-            setHasOvertimePenalty(true);
-            localStorage.setItem('ctf_level2_overtime', 'true');
-            setStars(s => {
-              const newStars = Math.max(0, s - 1);
-              localStorage.setItem('ctf_level2_stars', newStars.toString());
-              return newStars;
-            });
-          }
-          return nextValue;
-        });
+        setElapsed(prev => prev + 1);
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [status, hasOvertimePenalty]);
+  }, [status]);
 
   const handleHintClick = () => {
     if (!showHint) {
@@ -78,7 +58,7 @@ const Level2 = () => {
         setHasUsedHint(true);
         localStorage.setItem('ctf_level2_hint_used', 'true');
         setStars(s => {
-          const newStars = Math.max(0, s - 1);
+          const newStars = Math.max(1, 3 - 1);
           localStorage.setItem('ctf_level2_stars', newStars.toString());
           return newStars;
         });
@@ -95,18 +75,15 @@ const Level2 = () => {
   };
 
   const formatTime = (seconds) => {
-    const isNegative = seconds < 0;
-    const absSeconds = Math.abs(seconds);
-    const mins = Math.floor(absSeconds / 60);
-    const secs = absSeconds % 60;
-    return `${isNegative ? '-' : ''}${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (flag.trim() === CORRECT_FLAG) {
-      const timeTaken = 300 - timeLeft;
-      const timeTakenStr = formatTime(timeTaken);
+      const timeTakenStr = formatTime(elapsed);
       setCompletionTime(timeTakenStr);
       setStatus('complete');
       
@@ -120,7 +97,6 @@ const Level2 = () => {
       localStorage.removeItem('ctf_level2_time');
       localStorage.removeItem('ctf_level2_stars');
       localStorage.removeItem('ctf_level2_hint_used');
-      localStorage.removeItem('ctf_level2_overtime');
     } else if (flag.trim() === DECOY_FLAG) {
       setStatus('decoy');
       setAttempts(prev => [...prev, flag]);
@@ -137,7 +113,6 @@ const Level2 = () => {
     localStorage.removeItem('ctf_level2_time');
     localStorage.removeItem('ctf_level2_stars');
     localStorage.removeItem('ctf_level2_hint_used');
-    localStorage.removeItem('ctf_level2_overtime');
     navigate('/ctf-arena/mode-acak', { state: { returnToLevel: 2 } });
   };
 
@@ -202,9 +177,9 @@ const Level2 = () => {
           </div>
 
           <div className="text-right">
-            <div className="text-[10px] font-black text-red-500/80 tracking-[0.3em] uppercase mb-1">REMAINING_TIME</div>
-            <div className={`text-4xl font-black italic tracking-tighter transition-colors duration-500 ${timeLeft < 0 ? 'text-red-500' : timeLeft < 60 ? 'text-red-500 animate-pulse' : 'text-red-600'}`}>
-              {formatTime(timeLeft)}
+            <div className="text-[10px] font-black text-cyan-500/30 tracking-[0.3em] uppercase mb-1">ELAPSED_TIME</div>
+            <div className={`text-4xl font-black italic tracking-tighter transition-colors duration-500 text-cyan-500`}>
+              {formatTime(elapsed)}
             </div>
           </div>
         </div>
@@ -241,8 +216,7 @@ const Level2 = () => {
             <AnimatePresence>
               {showHint && (
                 <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="bg-gray-900/50 border border-white/5 rounded-xl p-4 text-[10px] text-gray-500 italic uppercase leading-tight">
-                  Perhatikan tanda sama dengan (=) di akhir teks sandi. Itu adalah karakter padding khas dari Base64. Coba cari tools Decoder Base64 to Text di internet.
-                </motion.div>
+                  <span dangerouslySetInnerHTML={{ __html: `<span className="text-purple-300 font-black block mb-2">💡 Apa itu Base64?</span><span className="text-gray-400 block normal-case not-italic">Base64 BUKAN enkripsi — hanya encoding (format penyandian) yang bisa didecode siapa saja. String yang diakhiri '=' biasanya Base64. Decode string payload yang ada di layar menggunakan <span className="text-purple-300 font-mono">atob()</span> atau situs base64decode.org.</span>` }} /></motion.div>
               )}
             </AnimatePresence>
           </div>
@@ -341,18 +315,18 @@ const Level2 = () => {
       </div>
       <AnimatePresence>
          {showExitModal && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex justify-center items-center p-4">
-               <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-gray-900 border border-purple-500/30 rounded-2xl p-8 max-w-md w-full text-center relative overflow-hidden shadow-[0_0_40px_rgba(168,85,247,0.1)]">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-purple-500" />
-                  <ShieldAlert className="w-12 h-12 text-purple-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-black text-white tracking-widest uppercase mb-2">ABORT MISSION?</h3>
-                  <p className="text-sm text-gray-400 mb-8 font-sans">Anda yakin ingin keluar? Waktu akan terus berjalan dan progress misi Anda saat ini akan di-reset.</p>
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowExitModal(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+               <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ opacity: 0 }} className="relative bg-gray-900 border border-purple-500/30 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
+                  <ShieldAlert className="w-12 h-12 text-purple-600 mx-auto mb-4" />
+                  <h3 className="text-xl font-black text-white italic tracking-tighter uppercase mb-2">ABORT MISSION?</h3>
+                  <p className="text-xs text-gray-500 uppercase italic mb-8 leading-relaxed">INTERSEPSI YANG SEDANG BERJALAN AKAN DIPUTUSKAN DAN PROGRESS LOG AKAN DI-RESET.</p>
                   <div className="flex gap-4">
-                    <button onClick={() => setShowExitModal(false)} className="flex-1 py-3 bg-gray-800 text-white font-bold rounded-xl border border-white/5 hover:bg-gray-700 transition-colors">BATAL</button>
-                    <button onClick={handleExit} className="flex-1 py-3 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl hover:bg-red-400 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)]">KELUAR</button>
+                     <button onClick={handleExit} className="flex-1 bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl text-xs tracking-widest uppercase transition-all">YES, ABORT</button>
+                     <button onClick={() => setShowExitModal(false)} className="flex-1 bg-white/5 hover:bg-white/10 text-white font-black py-4 rounded-xl border border-white/5 text-xs tracking-widest uppercase transition-all">CANCEL</button>
                   </div>
                </motion.div>
-            </motion.div>
+            </div>
          )}
       </AnimatePresence>
 

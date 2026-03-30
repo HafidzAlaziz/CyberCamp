@@ -20,21 +20,17 @@ import {
 const Level6 = () => {
   const navigate = useNavigate();
 
-  // Timer Persistence Logic (600s / 10 Minutes)
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const saved = localStorage.getItem('ctf_level6_time');
-    return saved ? parseInt(saved) : 600;
-  });
+  // Timer: Count-up
+  const [elapsed, setElapsed] = useState(0);
 
   const [stars, setStars] = useState(() => {
     const saved = localStorage.getItem('ctf_level6_stars');
-    return saved ? parseInt(saved) : 3;
+    if (saved) return parseInt(saved);
+    const hasHint = localStorage.getItem('ctf_level6_hint_used') === 'true';
+    return Math.max(1, 3 - (hasHint ? 1 : 0));
   });
   const [hasUsedHint, setHasUsedHint] = useState(() => {
     return localStorage.getItem('ctf_level6_hint_used') === 'true';
-  });
-  const [hasOvertimePenalty, setHasOvertimePenalty] = useState(() => {
-    return localStorage.getItem('ctf_level6_overtime') === 'true';
   });
 
   const [flag, setFlag] = useState('');
@@ -74,31 +70,13 @@ const Level6 = () => {
   ];
 
   useEffect(() => {
-    // ANTI-CHEAT Console Warning
-    console.log("%c[DB FIREWALL] WARNING: MALICIOUS SQL PAYLOAD INSPECTION DETECTED.", "color: #ec4899; font-weight: bold; font-size: 16px; background: black; padding: 4px; border: 1px solid #ec4899;");
-    console.log("%cSearching for 'CTF' in Elements tab? The real flag is dynamically injected and obfuscated.", "color: gray; font-size: 12px;");
-    console.log(`%c[CACHED_MEMORY_DUMP]: ${decoyString[0]}`, "color: #ec4899; font-size: 10px;");
-    
     if (status !== 'complete') {
       const timer = setInterval(() => {
-        setTimeLeft(prev => {
-          const nextValue = prev - 1;
-          localStorage.setItem('ctf_level6_time', nextValue.toString());
-          if (nextValue < 0 && !hasOvertimePenalty) {
-            setHasOvertimePenalty(true);
-            localStorage.setItem('ctf_level6_overtime', 'true');
-            setStars(s => {
-              const newStars = Math.max(0, s - 1);
-              localStorage.setItem('ctf_level6_stars', newStars.toString());
-              return newStars;
-            });
-          }
-          return nextValue;
-        });
+        setElapsed(prev => prev + 1);
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [status, hasOvertimePenalty, decoyString]);
+  }, [status]);
 
   const handleHintClick = () => {
     if (!showHint) {
@@ -107,7 +85,7 @@ const Level6 = () => {
         setHasUsedHint(true);
         localStorage.setItem('ctf_level6_hint_used', 'true');
         setStars(s => {
-          const newStars = Math.max(0, s - 1);
+          const newStars = Math.max(1, 3 - 1);
           localStorage.setItem('ctf_level6_stars', newStars.toString());
           return newStars;
         });
@@ -118,11 +96,9 @@ const Level6 = () => {
   };
 
   const formatTime = (seconds) => {
-    const isNegative = seconds < 0;
-    const absSeconds = Math.abs(seconds);
-    const mins = Math.floor(absSeconds / 60);
-    const secs = absSeconds % 60;
-    return `${isNegative ? '-' : ''}${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
   const handleDatabaseSearch = (e) => {
@@ -151,8 +127,7 @@ const Level6 = () => {
     const inputFlag = flag.trim();
 
     if (inputFlag === realFlag) {
-      const timeTaken = 600 - timeLeft;
-      const timeTakenStr = formatTime(timeTaken);
+      const timeTakenStr = formatTime(elapsed);
       setCompletionTime(timeTakenStr);
       setStatus('complete');
       
@@ -249,9 +224,9 @@ const Level6 = () => {
           </div>
 
           <div className="text-right">
-            <div className="text-[10px] font-black text-red-500/80 tracking-[0.3em] uppercase mb-1">REMAINING_TIME</div>
-            <div className={`text-4xl font-black italic tracking-tighter transition-colors duration-500 ${timeLeft < 0 ? 'text-red-500' : timeLeft < 60 ? 'text-red-500 animate-pulse' : 'text-pink-600'}`}>
-              {formatTime(timeLeft)}
+            <div className="text-[10px] font-black text-cyan-500/30 tracking-[0.3em] uppercase mb-1">ELAPSED_TIME</div>
+            <div className={`text-4xl font-black italic tracking-tighter transition-colors duration-500 text-pink-600`}>
+              {formatTime(elapsed)}
             </div>
           </div>
         </div>
@@ -288,8 +263,7 @@ const Level6 = () => {
             <AnimatePresence>
               {showHint && (
                 <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="bg-gray-900/50 border border-white/5 rounded-xl p-4 text-[10px] text-gray-500 italic uppercase leading-tight">
-                  Gunakan teknik injeksi seperti <span className="text-pink-400">' OR '1'='1</span> atau <span className="text-pink-400">' OR 1=1</span> (termasuk spasi). Jika tabel kosong tiba-tiba memuntahkan belasan baris, telusuri kolom Department satu per satu!
-                </motion.div>
+                  <span dangerouslySetInnerHTML={{ __html: `<span className="text-purple-300 font-black block mb-2">💡 Apa itu SQL Tautology?</span><span className="text-gray-400 block normal-case not-italic">Serangan SQL Injection yang memasukkan pernyataan logika yang selalu bernilai TRUE. Coba gunakan payload: <span className="text-purple-300 font-mono">' OR '1'='1</span>. Karena <span className="text-purple-300 font-mono">'1'='1'</span> selalu benar, filter pencarian database dilewati dan seluruh isi tabel akan dikeluarkan (dumped).</span>` }} /></motion.div>
               )}
             </AnimatePresence>
           </div>
@@ -413,18 +387,18 @@ const Level6 = () => {
       </div>
       <AnimatePresence>
          {showExitModal && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex justify-center items-center p-4">
-               <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-gray-900 border border-pink-500/30 rounded-2xl p-8 max-w-md w-full text-center relative overflow-hidden shadow-[0_0_40px_rgba(236,72,153,0.1)]">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-pink-500" />
-                  <ShieldAlert className="w-12 h-12 text-pink-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-black text-white tracking-widest uppercase mb-2">ABORT MISSION?</h3>
-                  <p className="text-sm text-gray-400 mb-8 font-sans">Anda yakin ingin keluar? Waktu akan terus berjalan dan progress misi Anda saat ini akan di-reset.</p>
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowExitModal(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+               <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ opacity: 0 }} className="relative bg-gray-900 border border-pink-500/30 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
+                  <ShieldAlert className="w-12 h-12 text-pink-600 mx-auto mb-4" />
+                  <h3 className="text-xl font-black text-white italic tracking-tighter uppercase mb-2">ABORT MISSION?</h3>
+                  <p className="text-xs text-gray-500 uppercase italic mb-8 leading-relaxed">INTERSEPSI YANG SEDANG BERJALAN AKAN DIPUTUSKAN DAN PROGRESS LOG AKAN DI-RESET.</p>
                   <div className="flex gap-4">
-                    <button onClick={() => setShowExitModal(false)} className="flex-1 py-3 bg-gray-800 text-white font-bold rounded-xl border border-white/5 hover:bg-gray-700 transition-colors">BATAL</button>
-                    <button onClick={handleExit} className="flex-1 py-3 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl hover:bg-red-400 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)]">KELUAR</button>
+                     <button onClick={handleExit} className="flex-1 bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl text-xs tracking-widest uppercase transition-all">YES, ABORT</button>
+                     <button onClick={() => setShowExitModal(false)} className="flex-1 bg-white/5 hover:bg-white/10 text-white font-black py-4 rounded-xl border border-white/5 text-xs tracking-widest uppercase transition-all">CANCEL</button>
                   </div>
                </motion.div>
-            </motion.div>
+            </div>
          )}
       </AnimatePresence>
 

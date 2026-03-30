@@ -169,9 +169,10 @@ const IndexModeAcak = () => {
       stars: levelStats[7]?.stars || 0,
       bestTime: levelStats[7]?.bestTime || null,
       objectives: [
-        { text: "Selesaikan Tantangan", sub: "Status: Operasional", type: "COMPLETE" },
-        { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" },
-        { text: "Selesai di bawah 10 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }
+        { text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" },
+        { text: "Analisis Mandiri I", sub: "Tanpa Hint Tahap 1", type: "HINT" },
+        { text: "Analisis Mandiri II", sub: "Tanpa Hint Tahap 2", type: "HINT" },
+        { text: "Analisis Mandiri III", sub: "Tanpa Hint Tahap 3", type: "HINT" }
       ]
     },
     { 
@@ -183,9 +184,10 @@ const IndexModeAcak = () => {
       stars: levelStats[8]?.stars || 0,
       bestTime: levelStats[8]?.bestTime || null,
       objectives: [
-        { text: "Selesaikan Tantangan", sub: "Status: Operasional", type: "COMPLETE" },
-        { text: "Gunakan Maksimal 1 Hint", sub: "Intelijen tingkat tinggi", type: "HINT" },
-        { text: "Selesai di bawah 15 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }
+        { text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" },
+        { text: "Analisis Mandiri I", sub: "Tanpa Hint Tahap 1", type: "HINT" },
+        { text: "Analisis Mandiri II", sub: "Tanpa Hint Tahap 2", type: "HINT" },
+        { text: "Analisis Mandiri III", sub: "Tanpa Hint Tahap 3", type: "HINT" }
       ]
     },
     { 
@@ -197,9 +199,10 @@ const IndexModeAcak = () => {
       stars: levelStats[9]?.stars || 0,
       bestTime: levelStats[9]?.bestTime || null,
       objectives: [
-        { text: "Selesaikan Tantangan", sub: "Status: Operasional", type: "COMPLETE" },
-        { text: "Gunakan Maksimal 1 Hint", sub: "Logika presisi", type: "HINT" },
-        { text: "Selesai di bawah 10 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }
+        { text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" },
+        { text: "Analisis Mandiri I", sub: "Tanpa Hint Tahap 1", type: "HINT" },
+        { text: "Analisis Mandiri II", sub: "Tanpa Hint Tahap 2", type: "HINT" },
+        { text: "Analisis Mandiri III", sub: "Tanpa Hint Tahap 3", type: "HINT" }
       ]
     },
     { 
@@ -211,9 +214,10 @@ const IndexModeAcak = () => {
       stars: levelStats[10]?.stars || 0,
       bestTime: levelStats[10]?.bestTime || null,
       objectives: [
-        { text: "Selesaikan Tantangan", sub: "Status: Operasional", type: "COMPLETE" },
-        { text: "Gunakan Maksimal 1 Hint", sub: "Eksploitasi Kernel", type: "HINT" },
-        { text: "Selesai di bawah 10 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }
+        { text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" },
+        { text: "Analisis Mandiri I", sub: "Tanpa Hint Tahap 1", type: "HINT" },
+        { text: "Analisis Mandiri II", sub: "Tanpa Hint Tahap 2", type: "HINT" },
+        { text: "Analisis Mandiri III", sub: "Tanpa Hint Tahap 3", type: "HINT" }
       ]
     },
   ];
@@ -337,14 +341,17 @@ const IndexModeAcak = () => {
                                className={`flex flex-col items-center gap-1 transition-all duration-700 ${node.id === selectedLevel?.id || (node.current && !selectedLevel) ? 'opacity-100' : 'opacity-60'}`}
                              >
                                 <div className="flex gap-1">
-                                   {[1,2,3].map(s => (
-                                     <Zap 
-                                       key={s} 
-                                       className={`w-3.5 h-3.5 transition-all duration-500
-                                         ${s <= node.stars ? 'text-cyan-400 fill-cyan-400 drop-shadow-[0_0_8px_#06b6d4]' : 'text-white/10 fill-transparent'}
-                                       `} 
-                                     />
-                                   ))}
+                                   {[...Array(node.id >= 7 ? 4 : 3)].map((_, i) => {
+                                     const s = i + 1;
+                                     return (
+                                       <Zap 
+                                         key={s} 
+                                         className={`w-3.5 h-3.5 transition-all duration-500
+                                           ${s <= node.stars ? 'text-cyan-400 fill-cyan-400 drop-shadow-[0_0_8px_#06b6d4]' : 'text-white/10 fill-transparent'}
+                                         `} 
+                                       />
+                                     );
+                                   })}
                                 </div>
                                 {node.bestTime && (
                                    <div className="text-[7px] font-black text-white/40 tracking-wider uppercase">BEST: {node.bestTime}</div>
@@ -620,23 +627,53 @@ const IndexModeAcak = () => {
                         </button>
                      </div>
 
-                     <div className="space-y-4 flex-1 overflow-hidden">
+                      <div className="space-y-4 flex-1 overflow-y-auto pr-2 custom-scrollbar">
                         <div className="pt-2">
                            <div className="text-[9px] font-black uppercase text-gray-600 mb-3 tracking-[0.2em] flex items-center gap-2">Reward Efficiency</div>
                            <div className="space-y-1.5">
-                              {selectedLevel.objectives?.map((obj, i) => (
-                                 <div key={i} className="flex gap-4 p-2 rounded-lg bg-white/[0.01] border border-transparent hover:border-white/[0.03]">
-                                     <div className="relative flex flex-col items-center">
-                                 <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all duration-700 ${selectedLevel.id === 2 ? 'bg-purple-500/10 border-purple-500/20 shadow-[0_0_10px_rgba(168,85,247,0.2)]' : selectedLevel.id === 3 ? 'bg-orange-500/10 border-orange-500/20 shadow-[0_0_10px_rgba(249,115,22,0.2)]' : selectedLevel.id === 4 ? 'bg-emerald-500/10 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.2)]' : selectedLevel.id === 5 ? 'bg-yellow-500/10 border-yellow-500/20 shadow-[0_0_10px_rgba(250,204,21,0.2)]' : selectedLevel.id === 6 ? 'bg-pink-500/10 border-pink-500/20 shadow-[0_0_10px_rgba(236,72,153,0.2)]' : selectedLevel.id === 7 ? 'bg-indigo-500/10 border-indigo-500/20 shadow-[0_0_10px_rgba(99,102,241,0.2)]' : selectedLevel.id === 8 ? 'bg-rose-500/10 border-rose-500/20 shadow-[0_0_10px_rgba(244,63,94,0.2)]' : selectedLevel.id === 9 ? 'bg-red-500/10 border-red-500/20 shadow-[0_0_10px_rgba(239,68,68,0.2)]' : selectedLevel.id === 10 ? 'bg-red-700/10 border-red-700/20 shadow-[0_0_10px_rgba(185,28,28,0.2)]' : 'bg-cyan-500/10 border-cyan-500/20 shadow-[0_0_10px_rgba(6,182,212,0.2)]'}`}>
-                                          <Zap className={`w-2.5 h-2.5 ${selectedLevel.id === 2 ? 'text-purple-400 fill-purple-400 drop-shadow-[0_0_5px_#a855f7]' : selectedLevel.id === 3 ? 'text-orange-400 fill-orange-400 drop-shadow-[0_0_5px_#f97316]' : selectedLevel.id === 4 ? 'text-emerald-400 fill-emerald-400 drop-shadow-[0_0_5px_#10b981]' : selectedLevel.id === 5 ? 'text-yellow-400 fill-yellow-400 drop-shadow-[0_0_5px_#facc15]' : selectedLevel.id === 6 ? 'text-pink-400 fill-pink-400 drop-shadow-[0_0_5px_#ec4899]' : selectedLevel.id === 7 ? 'text-indigo-400 fill-indigo-400 drop-shadow-[0_0_5px_#6366f1]' : selectedLevel.id === 8 ? 'text-rose-400 fill-rose-400 drop-shadow-[0_0_5px_#f43f5e]' : selectedLevel.id === 9 ? 'text-red-400 fill-red-400 drop-shadow-[0_0_5px_#ef4444]' : selectedLevel.id === 10 ? 'text-red-600 fill-red-600 drop-shadow-[0_0_5px_#b91c1c]' : 'text-cyan-400 fill-cyan-400 drop-shadow-[0_0_5px_#06b6d4]'}`} />
+                               {selectedLevel.objectives?.map((obj, i) => {
+                                 const isCompleted = (levelStats[selectedLevel.id]?.stars || 0) > i;
+                                 return (
+                                   <div key={i} className={`flex gap-4 p-2 rounded-lg border transition-all ${isCompleted ? 'bg-cyan-500/5 border-cyan-500/10' : 'bg-white/[0.01] border-transparent opacity-40'}`}>
+                                       <div className="relative flex flex-col items-center">
+                                          <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all duration-700 ${
+                                            !isCompleted ? 'bg-gray-800 border-white/5' :
+                                            selectedLevel.id === 2 ? 'bg-purple-500/10 border-purple-500/20 shadow-[0_0_10px_rgba(168,85,247,0.2)]' : 
+                                            selectedLevel.id === 3 ? 'bg-orange-500/10 border-orange-500/20 shadow-[0_0_10px_rgba(249,115,22,0.2)]' : 
+                                            selectedLevel.id === 4 ? 'bg-emerald-500/10 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.2)]' : 
+                                            selectedLevel.id === 5 ? 'bg-yellow-500/10 border-yellow-500/20 shadow-[0_0_10px_rgba(250,204,21,0.2)]' : 
+                                            selectedLevel.id === 6 ? 'bg-pink-500/10 border-pink-500/20 shadow-[0_0_10px_rgba(236,72,153,0.2)]' : 
+                                            selectedLevel.id === 7 ? 'bg-indigo-500/10 border-indigo-500/20 shadow-[0_0_10px_rgba(99,102,241,0.2)]' : 
+                                            selectedLevel.id === 8 ? 'bg-rose-500/10 border-rose-500/20 shadow-[0_0_10px_rgba(244,63,94,0.2)]' : 
+                                            selectedLevel.id === 9 ? 'bg-red-500/10 border-red-500/20 shadow-[0_0_10px_rgba(239,68,68,0.2)]' : 
+                                            selectedLevel.id === 10 ? 'bg-red-700/10 border-red-700/20 shadow-[0_0_10px_rgba(185,28,28,0.2)]' : 
+                                            'bg-cyan-500/10 border-cyan-500/20 shadow-[0_0_10px_rgba(6,182,212,0.2)]'}`}>
+                                             <Zap className={`w-2.5 h-2.5 ${
+                                               !isCompleted ? 'text-gray-700 fill-transparent' :
+                                               selectedLevel.id === 2 ? 'text-purple-400 fill-purple-400 drop-shadow-[0_0_5px_#a855f7]' : 
+                                               selectedLevel.id === 3 ? 'text-orange-400 fill-orange-400 drop-shadow-[0_0_5px_#f97316]' : 
+                                               selectedLevel.id === 4 ? 'text-emerald-400 fill-emerald-400 drop-shadow-[0_0_5px_#10b981]' : 
+                                               selectedLevel.id === 5 ? 'text-yellow-400 fill-yellow-400 drop-shadow-[0_0_5px_#facc15]' : 
+                                               selectedLevel.id === 6 ? 'text-pink-400 fill-pink-400 drop-shadow-[0_0_5px_#ec4899]' : 
+                                               selectedLevel.id === 7 ? 'text-indigo-400 fill-indigo-400 drop-shadow-[0_0_5px_#6366f1]' : 
+                                               selectedLevel.id === 8 ? 'text-rose-400 fill-rose-400 drop-shadow-[0_0_5px_#f43f5e]' : 
+                                               selectedLevel.id === 9 ? 'text-red-400 fill-red-400 drop-shadow-[0_0_5px_#ef4444]' : 
+                                               selectedLevel.id === 10 ? 'text-red-600 fill-red-600 drop-shadow-[0_0_5px_#b91c1c]' : 
+                                               'text-cyan-400 fill-cyan-400 drop-shadow-[0_0_5px_#06b6d4]'}`} />
+                                          </div>
                                        </div>
+                                       <div className="flex-1 min-w-0">
+                                          <div className={`text-[10px] font-black uppercase tracking-tight leading-none mb-1 ${isCompleted ? 'text-white' : 'text-gray-600'}`}>{obj.text}</div>
+                                          <div className="text-[8px] text-gray-500 font-bold tracking-widest leading-none">{obj.sub}</div>
+                                       </div>
+                                       {isCompleted && (
+                                          <div className="flex items-center">
+                                             <div className="w-1 h-1 rounded-full bg-cyan-400 animate-pulse" />
+                                          </div>
+                                       )}
                                     </div>
-                                    <div>
-                                       <div className="text-[10px] font-black uppercase tracking-tight text-cyan-200 leading-none mb-1">{obj.text}</div>
-                                       <div className="text-[8px] text-gray-500 font-bold tracking-widest leading-none">{obj.sub}</div>
-                                    </div>
-                                 </div>
-                              ))}
+                                 );
+                               })}
                            </div>
                         </div>
 

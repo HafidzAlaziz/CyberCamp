@@ -13,33 +13,30 @@ import {
   ShieldAlert,
   Activity,
   ScanSearch,
-  Check
+  Check,
+  Lock
 } from 'lucide-react';
 
 const Level7 = () => {
   const navigate = useNavigate();
   
-  // Timer Persistence Logic
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const saved = localStorage.getItem('ctf_level7_time');
-    return saved ? parseInt(saved) : 600; // 10 minutes
+  // Timer: Count-up
+  const [elapsed, setElapsed] = useState(0);
+  const [hintStage, setHintStage] = useState(() => {
+    return parseInt(localStorage.getItem('ctf_level7_hint_stage') || '0');
   });
 
   const [stars, setStars] = useState(() => {
     const saved = localStorage.getItem('ctf_level7_stars');
-    return saved ? parseInt(saved) : 3;
-  });
-  const [hasUsedHint, setHasUsedHint] = useState(() => {
-    return localStorage.getItem('ctf_level7_hint_used') === 'true';
-  });
-  const [hasOvertimePenalty, setHasOvertimePenalty] = useState(() => {
-    return localStorage.getItem('ctf_level7_overtime') === 'true';
+    if (saved) return parseInt(saved);
+    const currentHint = parseInt(localStorage.getItem('ctf_level7_hint_stage') || '0');
+    return Math.max(1, 4 - currentHint);
   });
 
   const [flagInput, setFlagInput] = useState('');
   const [status, setStatus] = useState('active'); // 'active', 'wrong', 'decoy', 'complete'
   const [attempts, setAttempts] = useState([]);
-  const [showHint, setShowHint] = useState(false);
+  const [showHintModal, setShowHintModal] = useState(false);
   const [completionTime, setCompletionTime] = useState(null);
   const [showExitModal, setShowExitModal] = useState(false);
   
@@ -68,8 +65,7 @@ const Level7 = () => {
   const getRenderedFlagText = () => {
     if (isCompleteMatch) return TRUE_FLAG;
     
-    // Calculate overall deviation score (0 to 1) 1 is perfect
-    const maxDev = 200 * 4; // Max slider value is 200, 4 sliders
+    const maxDev = 200 * 4;
     const currentDev = 
       Math.abs(filters.alphaPhase - TARGETS.alphaPhase) +
       Math.abs(filters.betaFreq - TARGETS.betaFreq) +
@@ -78,11 +74,8 @@ const Level7 = () => {
       
     const accuracy = 1 - (currentDev / maxDev);
     
-    // Replace characters randomly if accuracy is low
     let display = "";
     for(let i=0; i<TRUE_FLAG.length; i++) {
-        // High accuracy -> higher chance to reveal true char
-        // If they are somewhat close, start revealing structure "CTF{...}"
         if (accuracy > 0.4 && (i < 4 || i === TRUE_FLAG.length -1)) {
            display += TRUE_FLAG[i];
         } else if (Math.random() < Math.pow(accuracy, 2.5)) {
@@ -96,40 +89,22 @@ const Level7 = () => {
 
   const [renderedText, setRenderedText] = useState(getRenderedFlagText());
 
-  // Scramble text effect & Anti-Cheat
+  // Scramble text effect
   useEffect(() => {
-    // ANTI-CHEAT Console Warning
-    console.log("%c[STEGANOGRAPHY ENGINE] WARNING: UNAUTHORIZED DOM INSPECTION DETECTED.", "color: #6366f1; font-weight: bold; font-size: 16px; background: black; padding: 4px; border: 1px solid #6366f1;");
-    console.log("%cSearching for 'CTF' inside the noise buffer? The real flag is dynamically rendered and hidden via composite CSS mix-blend modes.", "color: gray; font-size: 12px;");
-    console.log(`%c[CACHED_MEMORY_DUMP]: CTF{F4K3_FL4G_M4K3_Y0U_CRAZY}`, "color: #6366f1; font-size: 10px;");
-
-    const scrambleInt = setInterval(() => {
-        setRenderedText(getRenderedFlagText());
-    }, isCompleteMatch ? 5000 : 50); // Fast scramble if not matched, stable if matched
-    return () => clearInterval(scrambleInt);
-  }, [filters, isCompleteMatch]);
+    const scrambler = setInterval(() => {
+      setRenderedText(getRenderedFlagText());
+    }, 150);
+    return () => clearInterval(scrambler);
+  }, [filters]);
 
   useEffect(() => {
     if (status !== 'complete') {
       const timer = setInterval(() => {
-        setTimeLeft(prev => {
-          const nextValue = prev - 1;
-          localStorage.setItem('ctf_level7_time', nextValue.toString());
-          if (nextValue < 0 && !hasOvertimePenalty) {
-            setHasOvertimePenalty(true);
-            localStorage.setItem('ctf_level7_overtime', 'true');
-            setStars(s => {
-              const newStars = Math.max(0, s - 1);
-              localStorage.setItem('ctf_level7_stars', newStars.toString());
-              return newStars;
-            });
-          }
-          return nextValue;
-        });
+        setElapsed(prev => prev + 1);
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [status, hasOvertimePenalty]);
+  }, [status]);
 
   const formatTime = (seconds) => {
     const isNeg = seconds < 0;
@@ -140,12 +115,12 @@ const Level7 = () => {
   };
 
   const verifyFlag = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (!flagInput.trim()) return;
 
     if (flagInput.trim() === TRUE_FLAG) {
       setStatus('complete');
-      const timeTakenStr = formatTime(600 - timeLeft);
+      const timeTakenStr = formatTime(elapsed);
       setCompletionTime(timeTakenStr);
       
       const stats = JSON.parse(localStorage.getItem('ctf_mode_acak_stats')) || {};
@@ -156,7 +131,7 @@ const Level7 = () => {
       }
       localStorage.removeItem('ctf_level7_time');
       localStorage.removeItem('ctf_level7_stars');
-      localStorage.removeItem('ctf_level7_hint_used');
+      localStorage.removeItem('ctf_level7_hint_stage');
       localStorage.removeItem('ctf_level7_overtime');
     } else if (flagInput !== "") {
       setStatus('wrong');
@@ -169,22 +144,19 @@ const Level7 = () => {
   const handleExit = () => {
     localStorage.removeItem('ctf_level7_time');
     localStorage.removeItem('ctf_level7_stars');
-    localStorage.removeItem('ctf_level7_hint_used');
+    localStorage.removeItem('ctf_level7_hint_stage');
     localStorage.removeItem('ctf_level7_overtime');
     navigate('/ctf-arena/mode-acak', { state: { returnToLevel: 7 } });
   };
 
-  const handleHintClick = () => {
-    setShowHint(true);
-    if (!hasUsedHint) {
-      setHasUsedHint(true);
-      localStorage.setItem('ctf_level7_hint_used', 'true');
-      setStars(s => {
-        const newStars = Math.max(0, s - 1);
-        localStorage.setItem('ctf_level7_stars', newStars.toString());
-        return newStars;
-      });
-    }
+  const unlockHintStage = (stage) => {
+    if (stage <= hintStage) return;
+    const newStars = Math.max(1, 4 - stage);
+    setStars(newStars);
+    localStorage.setItem('ctf_level7_stars', newStars.toString());
+    
+    setHintStage(stage);
+    localStorage.setItem('ctf_level7_hint_stage', stage.toString());
   };
 
   if (status === 'complete') {
@@ -201,7 +173,7 @@ const Level7 = () => {
              <div className="text-[10px] font-black text-gray-500 tracking-[0.4em] uppercase mb-4">Misi terselesaikan dalam</div>
              <div className="text-4xl font-black text-white italic tracking-tighter mb-6">{completionTime}</div>
              <div className="flex justify-center gap-4">
-               {[1, 2, 3].map(s => (
+               {[1, 2, 3, 4].map(s => (
                  <Zap key={s} className={`w-10 h-10 transition-all duration-500 ${s <= stars ? 'text-indigo-400 fill-indigo-400 drop-shadow-[0_0_15px_#6366f1]' : 'text-gray-800 fill-transparent'}`} />
                ))}
              </div>
@@ -244,16 +216,16 @@ const Level7 = () => {
           <div className="absolute left-1/2 -translate-x-1/2 top-0 flex flex-col items-center">
              <div className="text-[8px] font-black text-gray-700 tracking-[0.5em] uppercase mb-2">RANK_EFFICIENCY</div>
              <div className="flex gap-3">
-                {[1, 2, 3].map(s => (
+                {[1, 2, 3, 4].map(s => (
                   <Zap key={s} className={`w-6 h-6 transition-all duration-700 ${s <= stars ? 'text-indigo-400 fill-indigo-400 drop-shadow-[0_0_10px_#6366f1]' : 'text-white/10 fill-transparent opacity-20'}`} />
                 ))}
              </div>
           </div>
 
           <div className="text-right">
-            <div className="text-[10px] font-black text-red-500/80 tracking-[0.3em] uppercase mb-1">REMAINING_TIME</div>
-            <div className={`text-4xl font-black italic tracking-tighter transition-colors duration-500 ${timeLeft < 0 ? 'text-red-500' : timeLeft < 60 ? 'text-red-500 animate-pulse' : 'text-indigo-600'}`}>
-              {formatTime(timeLeft)}
+            <div className="text-[10px] font-black text-cyan-500/30 tracking-[0.3em] uppercase mb-1">ELAPSED_TIME</div>
+            <div className={`text-4xl font-black italic tracking-tighter transition-colors duration-500 text-indigo-600`}>
+              {formatTime(elapsed)}
             </div>
           </div>
         </div>
@@ -293,7 +265,7 @@ const Level7 = () => {
                    <div key={slider.stateKey}>
                       <div className="flex justify-between text-[10px] text-gray-500 mb-1">
                          <span>{slider.label}</span>
-                         <span className={Math.abs(filters[slider.stateKey] - slider.target) <= TOLERANCE ? 'text-indigo-400' : ''}>
+                         <span className={Math.abs(filters[slider.stateKey] - slider.target) <= TOLERANCE ? 'text-indigo-400 font-bold drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]' : ''}>
                            {filters[slider.stateKey]}%
                          </span>
                       </div>
@@ -308,18 +280,10 @@ const Level7 = () => {
               </div>
             </div>
 
-            <button onClick={handleHintClick} className={`bg-indigo-900/20 border rounded-xl p-4 flex items-center justify-center gap-3 group transition-all shadow-[0_0_20px_rgba(99,102,241,0.1)] ${showHint ? 'border-indigo-400 bg-indigo-900/40' : 'border-indigo-500/40 hover:bg-indigo-900/30'}`}>
-              <Zap className={`w-4 h-4 transition-colors ${showHint ? 'text-indigo-400 fill-indigo-400' : 'text-indigo-400'}`} />
-              <span className="text-xs font-black text-indigo-200 uppercase tracking-widest">{showHint ? 'HINT ACTIVE' : '💡 MINTA HINT BOS'}</span>
+            <button onClick={() => setShowHintModal(true)} className={`bg-indigo-900/20 border rounded-xl p-4 flex items-center justify-center gap-3 group transition-all shadow-[0_0_20px_rgba(99,102,241,0.1)] ${hintStage > 0 ? 'border-indigo-400 bg-indigo-900/40' : 'border-indigo-500/40 hover:bg-indigo-900/30'}`}>
+              <Zap className={`w-4 h-4 transition-colors ${hintStage > 0 ? 'text-indigo-400 fill-indigo-400' : 'text-indigo-400'}`} />
+              <span className="text-xs font-black text-indigo-200 uppercase tracking-widest">💡 MINTA HINT BOS ({hintStage}/3)</span>
             </button>
-            
-            <AnimatePresence>
-              {showHint && (
-                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="bg-indigo-950/40 border border-indigo-500/30 rounded-xl p-4 text-xs text-indigo-200 italic shadow-[0_0_15px_rgba(99,102,241,0.1)]">
-                  "Agen lapangan kita membocorkan kalibrasi spektrum: Alpha (80-90), Beta (~40), Gamma (170+), Sigma (~100). Validasi ulang angka-angkanya."
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
 
           {/* RIGHT SIDE: STEGANOGRAPHY VIEW & FLAG INPUT */}
@@ -384,25 +348,74 @@ const Level7 = () => {
           </div>
         </div>
 
+        <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-700">
+           <div className="flex items-center gap-4 text-[9px] font-black tracking-widest">
+              <span className="text-indigo-500/50">{" > "} SYSTEM: OPERATIONAL</span>
+              <span className="text-gray-800">//</span>
+              <span>MODE: ACAK</span>
+              <span className="text-gray-800">//</span>
+              <span>LEVEL: 7</span>
+           </div>
+           <div className="text-[8px] font-bold uppercase tracking-tighter italic opacity-50">-- CORE_GRID_ESTABLISHED // DATA_UNCOVERED --</div>
+        </div>
+
       </div>
 
+      {/* MODALS */}
       <AnimatePresence>
-         {showExitModal && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex justify-center items-center p-4">
-               <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-gray-900 border border-indigo-500/30 rounded-2xl p-8 max-w-md w-full text-center relative overflow-hidden shadow-[0_0_40px_rgba(99,102,241,0.1)]">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-indigo-500" />
-                  <ShieldAlert className="w-12 h-12 text-indigo-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-black text-white tracking-widest uppercase mb-2">ABORT MISSION?</h3>
-                  <p className="text-sm text-gray-400 mb-8 font-sans">Anda yakin ingin keluar? Waktu akan terus berjalan dan progress misi Anda saat ini akan di-reset.</p>
-                  <div className="flex gap-4">
-                    <button onClick={() => setShowExitModal(false)} className="flex-1 py-3 bg-gray-800 text-white font-bold rounded-xl border border-white/5 hover:bg-gray-700 transition-colors">BATAL</button>
-                    <button onClick={handleExit} className="flex-1 py-3 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl hover:bg-red-400 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)]">KELUAR</button>
+        {showHintModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowHintModal(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+            <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative bg-gray-900 border border-indigo-500/30 rounded-3xl p-8 max-w-lg w-full shadow-[0_0_50px_rgba(99,102,241,0.2)] overflow-hidden">
+               <div className="absolute top-0 left-0 w-full h-1 bg-indigo-500" />
+               <div className="flex justify-between items-start mb-8">
+                  <div>
+                    <h2 className="text-2xl font-black text-white italic tracking-tighter uppercase mb-1">INTEL_RECOVERY_HUB</h2>
+                    <p className="text-[10px] text-gray-500 font-bold tracking-widest uppercase">Sector 7: Steganography Analysis</p>
                   </div>
-               </motion.div>
-            </motion.div>
-         )}
-      </AnimatePresence>
+                  <button onClick={() => setShowHintModal(false)} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-500 hover:text-white"><X className="w-5 h-5" /></button>
+               </div>
 
+               <div className="space-y-4 mb-8">
+                  {[
+                    { depth: 1, label: "ANALYZING_SPECTRUM", content: `<span class="text-purple-300 font-black block mb-2">💡 Apa itu Steganografi?</span><span class="text-gray-400 block normal-case not-italic">Seni menyembunyikan pesan di dalam media. Gunakan spectrum tuner di kiri untuk memfilter layer noise digital. Pesan rahasia akan muncul perlahan jika kalibrasi warnanya tepat.</span>` },
+                    { depth: 2, label: "CALIBRATING_FREQUENCY", content: "Perhatikan angka persentase pada panel tuner di kiri. Jika angka tersebut sudah mendekati nilai target yang tepat, maka angkanya akan berubah warna menjadi <span class='text-indigo-400 font-bold'>Indigo Glow</span>. Pastikan keempat tuner menyala secara bersamaan." },
+                    { depth: 3, label: "MASTER_OVERRIDE", content: "Intel dikonfirmasi. Berikut adalah nilai kalibrasi yang tepat untuk mengungkap flag: <span class='text-indigo-400 font-mono font-black'>ALPHA: 85</span>, <span class='text-indigo-400 font-mono font-black'>BETA: 42</span>, <span class='text-indigo-400 font-mono font-black'>GAMMA: 175</span>, <span class='text-indigo-400 font-mono font-black'>SIGMA: 99</span>." }
+                  ].map((h, i) => (
+                    <div key={i} className={`p-4 rounded-2xl border transition-all ${hintStage >= h.depth ? 'bg-indigo-500/10 border-indigo-500/40 text-gray-200' : 'bg-black/40 border-white/5 text-gray-600'}`}>
+                       <div className="flex justify-between items-center mb-2">
+                          <span className="text-[10px] font-black tracking-widest uppercase">{h.label}</span>
+                          {hintStage >= h.depth ? <Check className="w-3 h-3 text-indigo-500" /> : <Lock className="w-3 h-3 text-gray-700" />}
+                       </div>
+                       {hintStage >= h.depth ? (
+                         <p className="text-xs leading-relaxed italic" dangerouslySetInnerHTML={{ __html: h.content }} />
+                       ) : (
+                         <button onClick={() => unlockHintStage(h.depth)} className="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all">UNLOCK INTEL DEPTH {h.depth} (-1 ⚡)</button>
+                       )}
+                    </div>
+                  ))}
+               </div>
+               
+               <p className="text-[8px] text-center text-gray-700 uppercase font-bold tracking-[0.2em]">-- WARNING: Intel recovery will reduce efficiency rank --</p>
+            </motion.div>
+          </div>
+        )}
+
+        {showExitModal && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowExitModal(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+             <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ opacity: 0 }} className="relative bg-gray-900 border border-indigo-500/30 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
+                <ShieldAlert className="w-12 h-12 text-indigo-600 mx-auto mb-4" />
+                <h3 className="text-xl font-black text-white italic tracking-tighter uppercase mb-2">ABORT MISSION?</h3>
+                <p className="text-xs text-gray-500 uppercase italic mb-8 leading-relaxed">INTERSEPSI YANG SEDANG BERJALAN AKAN DIPUTUSKAN DAN PROGRESS LOG AKAN DI-RESET.</p>
+                <div className="flex gap-4">
+                   <button onClick={handleExit} className="flex-1 bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl text-xs tracking-widest uppercase transition-all">YES, ABORT</button>
+                   <button onClick={() => setShowExitModal(false)} className="flex-1 bg-white/5 hover:bg-white/10 text-white font-black py-4 rounded-xl border border-white/5 text-xs tracking-widest uppercase transition-all">CANCEL</button>
+                </div>
+             </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

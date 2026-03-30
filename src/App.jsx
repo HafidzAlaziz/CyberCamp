@@ -20,6 +20,13 @@ import WebExploitHub from './pages/arena/mode-pilihan/web-exploit/Web';
 import WebLevel1 from './pages/arena/mode-pilihan/web-exploit/Level1';
 import WebLevel2 from './pages/arena/mode-pilihan/web-exploit/Level2';
 import WebLevel3 from './pages/arena/mode-pilihan/web-exploit/Level3';
+import WebLevel4 from './pages/arena/mode-pilihan/web-exploit/Level4';
+import WebLevel5 from './pages/arena/mode-pilihan/web-exploit/Level5';
+import WebLevel6 from './pages/arena/mode-pilihan/web-exploit/Level6';
+import WebLevel7 from './pages/arena/mode-pilihan/web-exploit/Level7';
+import WebLevel8 from './pages/arena/mode-pilihan/web-exploit/Level8';
+import WebLevel9 from './pages/arena/mode-pilihan/web-exploit/Level9';
+import WebLevel10 from './pages/arena/mode-pilihan/web-exploit/Level10';
 
 // Academy Modul 1 Hardware Imports
 import IntroHardware from './pages/academy/stage1-fundamental/modul1-hardware/IntroHardware';
@@ -204,6 +211,13 @@ function AnimatedRoutes() {
         <Route path="/ctf-arena/web-exploit/level/1" element={<WebLevel1 />} />
         <Route path="/ctf-arena/web-exploit/level/2" element={<WebLevel2 />} />
         <Route path="/ctf-arena/web-exploit/level/3" element={<WebLevel3 />} />
+        <Route path="/ctf-arena/web-exploit/level/4" element={<WebLevel4 />} />
+        <Route path="/ctf-arena/web-exploit/level/5" element={<WebLevel5 />} />
+        <Route path="/ctf-arena/web-exploit/level/6" element={<WebLevel6 />} />
+        <Route path="/ctf-arena/web-exploit/level/7" element={<WebLevel7 />} />
+        <Route path="/ctf-arena/web-exploit/level/8" element={<WebLevel8 />} />
+        <Route path="/ctf-arena/web-exploit/level/9" element={<WebLevel9 />} />
+        <Route path="/ctf-arena/web-exploit/level/10" element={<WebLevel10 />} />
         
         {/* Academy Modul 1 Hardware Routes */}
         <Route path="/academy/stage-1/modul-1/intro" element={<IntroHardware />} />

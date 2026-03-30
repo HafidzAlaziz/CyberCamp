@@ -16,6 +16,10 @@ import Level7 from './pages/arena/mode-acak/levels/Level7';
 import Level8 from './pages/arena/mode-acak/levels/Level8';
 import Level9 from './pages/arena/mode-acak/levels/Level9';
 import Level10 from './pages/arena/mode-acak/levels/Level10';
+import WebExploitHub from './pages/arena/mode-pilihan/web-exploit/Web';
+import WebLevel1 from './pages/arena/mode-pilihan/web-exploit/Level1';
+import WebLevel2 from './pages/arena/mode-pilihan/web-exploit/Level2';
+import WebLevel3 from './pages/arena/mode-pilihan/web-exploit/Level3';
 
 // Academy Modul 1 Hardware Imports
 import IntroHardware from './pages/academy/stage1-fundamental/modul1-hardware/IntroHardware';
@@ -196,6 +200,10 @@ function AnimatedRoutes() {
         
         <Route path="/ctf-arena/mode-acak" element={<IndexModeAcak />} />
         <Route path="/ctf-arena/mode-pilihan" element={<IndexModePilihan />} />
+        <Route path="/ctf-arena/web-exploit" element={<WebExploitHub />} />
+        <Route path="/ctf-arena/web-exploit/level/1" element={<WebLevel1 />} />
+        <Route path="/ctf-arena/web-exploit/level/2" element={<WebLevel2 />} />
+        <Route path="/ctf-arena/web-exploit/level/3" element={<WebLevel3 />} />
         
         {/* Academy Modul 1 Hardware Routes */}
         <Route path="/academy/stage-1/modul-1/intro" element={<IntroHardware />} />

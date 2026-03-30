@@ -408,8 +408,8 @@ const IndexModeAcak = () => {
                             </defs>
                             
                             {/* Connection 1-2 */}
-                            <motion.line x1="71" y1="50" x2="179" y2="50" stroke={levelStats[1]?.stars > 0 ? "url(#path-grad-1-2)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
-                            {levelStats[1]?.stars > 0 && (
+                            <motion.line x1="71" y1="50" x2="179" y2="50" stroke={!!levelStats[1]?.bestTime ? "url(#path-grad-1-2)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
+                            {!!levelStats[1]?.bestTime && (
                               <>
                                 <motion.line x1="71" y1="50" x2="179" y2="50" stroke="#06b6d4" strokeWidth="12" filter="url(#neon-glow)" opacity="0.3" />
                                 <motion.line x1="71" y1="50" x2="179" y2="50" stroke="#ffffff" strokeWidth="2" strokeDasharray="8 16" animate={{ strokeDashoffset: [0, -24] }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="opacity-60" />
@@ -417,8 +417,8 @@ const IndexModeAcak = () => {
                             )}
 
                             {/* Connection 2-3 */}
-                            <motion.line x1="259" y1="50" x2="367" y2="50" stroke={levelStats[2]?.stars > 0 ? "url(#path-grad-2-3)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
-                            {levelStats[2]?.stars > 0 && (
+                            <motion.line x1="259" y1="50" x2="367" y2="50" stroke={!!levelStats[2]?.bestTime ? "url(#path-grad-2-3)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
+                            {!!levelStats[2]?.bestTime && (
                               <>
                                 <motion.line x1="259" y1="50" x2="367" y2="50" stroke="#a855f7" strokeWidth="12" filter="url(#neon-glow)" opacity="0.3" />
                                 <motion.line x1="259" y1="50" x2="367" y2="50" stroke="#ffffff" strokeWidth="2" strokeDasharray="8 16" animate={{ strokeDashoffset: [0, -24] }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="opacity-60" />
@@ -426,8 +426,8 @@ const IndexModeAcak = () => {
                             )}
 
                             {/* Connection 3-4 */}
-                            <motion.line x1="447" y1="50" x2="555" y2="50" stroke={levelStats[3]?.stars > 0 ? "url(#path-grad-3-4)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
-                            {levelStats[3]?.stars > 0 && (
+                            <motion.line x1="447" y1="50" x2="555" y2="50" stroke={!!levelStats[3]?.bestTime ? "url(#path-grad-3-4)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
+                            {!!levelStats[3]?.bestTime && (
                               <>
                                 <motion.line x1="447" y1="50" x2="555" y2="50" stroke="#f97316" strokeWidth="12" filter="url(#neon-glow)" opacity="0.3" />
                                 <motion.line x1="447" y1="50" x2="555" y2="50" stroke="#ffffff" strokeWidth="2" strokeDasharray="8 16" animate={{ strokeDashoffset: [0, -24] }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="opacity-60" />
@@ -435,8 +435,8 @@ const IndexModeAcak = () => {
                             )}
 
                             {/* Connection 4-5 */}
-                            <motion.line x1="635" y1="50" x2="743" y2="50" stroke={levelStats[4]?.stars > 0 ? "url(#path-grad-4-5)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
-                            {levelStats[4]?.stars > 0 && (
+                            <motion.line x1="635" y1="50" x2="743" y2="50" stroke={!!levelStats[4]?.bestTime ? "url(#path-grad-4-5)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
+                            {!!levelStats[4]?.bestTime && (
                               <>
                                 <motion.line x1="635" y1="50" x2="743" y2="50" stroke="#10b981" strokeWidth="12" filter="url(#neon-glow)" opacity="0.3" />
                                 <motion.line x1="635" y1="50" x2="743" y2="50" stroke="#ffffff" strokeWidth="2" strokeDasharray="8 16" animate={{ strokeDashoffset: [0, -24] }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="opacity-60" />
@@ -444,8 +444,8 @@ const IndexModeAcak = () => {
                             )}
 
                             {/* Connection 5-6 */}
-                            <motion.line x1="823" y1="50" x2="931" y2="50" stroke={levelStats[5]?.stars > 0 ? "url(#path-grad-5-6)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
-                            {levelStats[5]?.stars > 0 && (
+                            <motion.line x1="823" y1="50" x2="931" y2="50" stroke={!!levelStats[5]?.bestTime ? "url(#path-grad-5-6)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
+                            {!!levelStats[5]?.bestTime && (
                               <>
                                 <motion.line x1="823" y1="50" x2="931" y2="50" stroke="#facc15" strokeWidth="12" filter="url(#neon-glow)" opacity="0.3" />
                                 <motion.line x1="823" y1="50" x2="931" y2="50" stroke="#ffffff" strokeWidth="2" strokeDasharray="8 16" animate={{ strokeDashoffset: [0, -24] }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="opacity-60" />
@@ -453,8 +453,8 @@ const IndexModeAcak = () => {
                             )}
 
                             {/* Connection 6-7 */}
-                            <motion.line x1="1011" y1="50" x2="1119" y2="50" stroke={levelStats[6]?.stars > 0 ? "url(#path-grad-6-7)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
-                            {levelStats[6]?.stars > 0 && (
+                            <motion.line x1="1011" y1="50" x2="1119" y2="50" stroke={!!levelStats[6]?.bestTime ? "url(#path-grad-6-7)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
+                            {!!levelStats[6]?.bestTime && (
                               <>
                                 <motion.line x1="1011" y1="50" x2="1119" y2="50" stroke="#ec4899" strokeWidth="12" filter="url(#neon-glow)" opacity="0.3" />
                                 <motion.line x1="1011" y1="50" x2="1119" y2="50" stroke="#ffffff" strokeWidth="2" strokeDasharray="8 16" animate={{ strokeDashoffset: [0, -24] }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="opacity-60" />
@@ -462,8 +462,8 @@ const IndexModeAcak = () => {
                             )}
 
                             {/* Connection 7-8 */}
-                            <motion.line x1="1199" y1="50" x2="1307" y2="50" stroke={levelStats[7]?.stars > 0 ? "url(#path-grad-7-8)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
-                            {levelStats[7]?.stars > 0 && (
+                            <motion.line x1="1199" y1="50" x2="1307" y2="50" stroke={!!levelStats[7]?.bestTime ? "url(#path-grad-7-8)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
+                            {!!levelStats[7]?.bestTime && (
                               <>
                                 <motion.line x1="1199" y1="50" x2="1307" y2="50" stroke="#6366f1" strokeWidth="12" filter="url(#neon-glow)" opacity="0.3" />
                                 <motion.line x1="1199" y1="50" x2="1307" y2="50" stroke="#ffffff" strokeWidth="2" strokeDasharray="8 16" animate={{ strokeDashoffset: [0, -24] }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="opacity-60" />
@@ -471,8 +471,8 @@ const IndexModeAcak = () => {
                             )}
 
                             {/* Connection 8-9 */}
-                            <motion.line x1="1387" y1="50" x2="1495" y2="50" stroke={levelStats[8]?.stars > 0 ? "url(#path-grad-8-9)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
-                            {levelStats[8]?.stars > 0 && (
+                            <motion.line x1="1387" y1="50" x2="1495" y2="50" stroke={!!levelStats[8]?.bestTime ? "url(#path-grad-8-9)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
+                            {!!levelStats[8]?.bestTime && (
                               <>
                                 <motion.line x1="1387" y1="50" x2="1495" y2="50" stroke="#f43f5e" strokeWidth="12" filter="url(#neon-glow)" opacity="0.3" />
                                 <motion.line x1="1387" y1="50" x2="1495" y2="50" stroke="#ffffff" strokeWidth="2" strokeDasharray="8 16" animate={{ strokeDashoffset: [0, -24] }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="opacity-60" />
@@ -480,8 +480,8 @@ const IndexModeAcak = () => {
                             )}
 
                             {/* Connection 9-10 */}
-                            <motion.line x1="1575" y1="50" x2="1683" y2="50" stroke={levelStats[9]?.stars > 0 ? "url(#path-grad-9_10)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
-                            {levelStats[9]?.stars > 0 && (
+                            <motion.line x1="1575" y1="50" x2="1683" y2="50" stroke={!!levelStats[9]?.bestTime ? "url(#path-grad-9_10)" : "url(#path-grad-inactive)"} strokeWidth="3" strokeLinecap="round" />
+                            {!!levelStats[9]?.bestTime && (
                               <>
                                 <motion.line x1="1575" y1="50" x2="1683" y2="50" stroke="#ef4444" strokeWidth="12" filter="url(#neon-glow)" opacity="0.3" />
                                 <motion.line x1="1575" y1="50" x2="1683" y2="50" stroke="#ffffff" strokeWidth="2" strokeDasharray="8 16" animate={{ strokeDashoffset: [0, -24] }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} className="opacity-60" />
@@ -493,55 +493,49 @@ const IndexModeAcak = () => {
                       <div className="w-full flex justify-between items-center relative z-10">
                          {levels.map((node) => (
                             <motion.button
-                              key={`hex-${node.id}`}
-                              disabled={!node.active}
-                              onClick={() => setSelectedLevel(node)}
-                              whileHover={node.active ? { scale: 1.05, y: -2 } : {}}
-                              className={`w-20 h-20 flex items-center justify-center relative transition-all duration-700
-                                ${node.active ? 'cursor-pointer active:scale-95' : 'cursor-not-allowed'}
-                                ${(!node.current && !selectedLevel) || (selectedLevel && node.id !== selectedLevel.id) ? node.active ? 'opacity-100' : 'opacity-30 grayscale-[0.8]' : 'opacity-100'}`}
+                               key={`hex-${node.id}`}
+                               disabled={!node.active}
+                               onClick={() => setSelectedLevel(node)}
+                               whileHover={node.active ? { scale: 1.05, y: -2 } : {}}
+                               className={`w-20 h-20 flex items-center justify-center relative transition-all duration-700
+                                 ${node.active ? 'cursor-pointer active:scale-95' : 'cursor-not-allowed'}
+                                 ${(!node.current && !selectedLevel) || (selectedLevel && node.id !== selectedLevel.id) ? node.active ? 'opacity-100' : 'opacity-30 grayscale-[0.8]' : 'opacity-100'}`}
                             >
                                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
                                   <polygon 
                                      points="50 3, 93 25, 93 75, 50 97, 7 75, 7 25" 
                                      className={`transition-all duration-700 stroke-[2.5]
                                        ${node.id === selectedLevel?.id || (node.current && !selectedLevel)
-                                         ? node.id === 2 ? 'fill-purple-950/90 stroke-purple-400 shadow-[0_0_35px_rgba(168,85,247,0.8)]' 
-                                           : node.id === 3 ? 'fill-orange-950/90 stroke-orange-400 shadow-[0_0_35px_rgba(249,115,22,0.8)]'
-                                           : node.id === 4 ? 'fill-emerald-950/90 stroke-emerald-400 shadow-[0_0_35px_rgba(16,185,129,0.8)]'
-                                           : node.id === 5 ? 'fill-yellow-950/90 stroke-yellow-400 shadow-[0_0_35px_rgba(250,204,21,0.8)]'
-                                           : node.id === 6 ? 'fill-pink-950/90 stroke-pink-400 shadow-[0_0_35px_rgba(236,72,153,0.8)]'
-                                           : node.id === 7 ? 'fill-indigo-950/90 stroke-indigo-400 shadow-[0_0_35px_rgba(99,102,241,0.8)]'
-                                           : node.id === 8 ? 'fill-rose-950/90 stroke-rose-400 shadow-[0_0_35px_rgba(244,63,94,0.8)]'
-                                           : node.id === 9 ? 'fill-red-950/90 stroke-red-400 shadow-[0_0_35px_rgba(239,68,68,0.8)]'
-                                           : node.id === 10 ? 'fill-red-950/90 stroke-red-600 shadow-[0_0_35px_rgba(153,27,27,0.8)]'
-                                           : 'fill-cyan-950/90 stroke-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.8)]' 
+                                         ? node.id === 2 ? 'fill-purple-900/90 stroke-purple-400 shadow-[0_0_35px_rgba(168,85,247,0.8)]' 
+                                           : node.id === 10 ? 'fill-red-800/90 stroke-red-500 shadow-[0_0_35px_rgba(239,68,68,0.8)]'
+                                           : node.id === 3 ? 'fill-orange-900/90 stroke-orange-400 shadow-[0_0_35px_rgba(249,115,22,0.8)]'
+                                           : node.id === 4 ? 'fill-emerald-900/90 stroke-emerald-400 shadow-[0_0_35px_rgba(16,185,129,0.8)]'
+                                           : node.id === 5 ? 'fill-yellow-900/90 stroke-yellow-400 shadow-[0_0_35px_rgba(250,204,21,0.8)]'
+                                           : node.id === 6 ? 'fill-pink-900/90 stroke-pink-400 shadow-[0_0_35px_rgba(236,72,153,0.8)]'
+                                           : node.id === 7 ? 'fill-indigo-900/90 stroke-indigo-400 shadow-[0_0_35px_rgba(99,102,241,0.8)]'
+                                           : node.id === 8 ? 'fill-rose-900/90 stroke-rose-400 shadow-[0_0_35px_rgba(244,63,94,0.8)]'
+                                           : node.id === 9 ? 'fill-red-900/90 stroke-red-400 shadow-[0_0_35px_rgba(239,68,68,0.8)]'
+                                           : 'fill-cyan-900/90 stroke-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.8)]' 
                                          : node.active 
-                                           ? node.id === 1 
-                                             ? 'fill-cyan-900/60 stroke-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)]' 
-                                             : node.id === 3
-                                               ? 'fill-orange-900/60 stroke-orange-400 shadow-[0_0_25px_rgba(249,115,22,0.6)]'
-                                               : node.id === 4
-                                                 ? 'fill-emerald-900/60 stroke-emerald-400 shadow-[0_0_25px_rgba(16,185,129,0.6)]'
-                                                 : node.id === 5
-                                                   ? 'fill-yellow-900/60 stroke-yellow-400 shadow-[0_0_25px_rgba(250,204,21,0.6)]'
-                                                   : node.id === 6
-                                                     ? 'fill-pink-900/60 stroke-pink-400 shadow-[0_0_25px_rgba(236,72,153,0.6)]'
-                                                     : node.id === 7
-                                                       ? 'fill-indigo-900/60 stroke-indigo-400 shadow-[0_0_25px_rgba(99,102,241,0.6)]'
-                                                       : node.id === 8
-                                                         ? 'fill-rose-900/60 stroke-rose-400 shadow-[0_0_25px_rgba(244,63,94,0.6)]'
-                                                         : node.id === 9
-                                                           ? 'fill-red-900/60 stroke-red-400 shadow-[0_0_25px_rgba(239,68,68,0.6)]'
-                                                           : node.id === 10
-                                                             ? 'fill-red-950/60 stroke-red-600 shadow-[0_0_25px_rgba(153,27,27,0.6)]'
-                                                             : 'fill-purple-900/60 stroke-purple-400 shadow-[0_0_25px_rgba(168,85,247,0.6)]'
+                                           ? node.id === 1 ? 'fill-cyan-800/40 stroke-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)]' 
+                                             : node.id === 10 ? 'fill-red-800/40 stroke-red-500 shadow-[0_0_25px_rgba(239,68,68,0.6)]'
+                                             : node.id === 3 ? 'fill-orange-800/40 stroke-orange-400 shadow-[0_0_25px_rgba(249,115,22,0.6)]'
+                                             : node.id === 4 ? 'fill-emerald-800/40 stroke-emerald-400 shadow-[0_0_25px_rgba(16,185,129,0.6)]'
+                                             : node.id === 5 ? 'fill-yellow-800/40 stroke-yellow-400 shadow-[0_0_25px_rgba(250,204,21,0.6)]'
+                                             : node.id === 6 ? 'fill-pink-800/40 stroke-pink-400 shadow-[0_0_25px_rgba(236,72,153,0.6)]'
+                                             : node.id === 7 ? 'fill-indigo-800/40 stroke-indigo-400 shadow-[0_0_25px_rgba(99,102,241,0.6)]'
+                                             : node.id === 8 ? 'fill-rose-800/40 stroke-rose-400 shadow-[0_0_25px_rgba(244,63,94,0.6)]'
+                                             : node.id === 9 ? 'fill-red-800/40 stroke-red-400 shadow-[0_0_25px_rgba(239,68,68,0.6)]'
+                                             : 'fill-purple-800/40 stroke-purple-400 shadow-[0_0_25px_rgba(168,85,247,0.6)]'
                                            : 'fill-gray-900 stroke-gray-800'}`}
+                                     style={{ opacity: Math.max(0.2, 1 - ((node.id - 1) * 0.045)) }}
                                   />
                                </svg>
                                <div className="relative z-10 flex flex-col items-center">
                                   {!node.active && <Lock className="w-4 h-4 text-gray-700 mb-0.5" />}
-                                  <span className={`text-2xl font-black italic tracking-tighter ${node.active ? 'text-white' : 'text-gray-800'}`}>
+                                  <span className={`text-2xl font-black italic tracking-tighter ${node.active ? 'text-white' : 'text-gray-800'}`}
+                                     style={{ opacity: Math.max(0.3, 1 - ((node.id - 1) * 0.045)) }}
+                                  >
                                     {node.id}
                                   </span>
                                </div>
@@ -550,10 +544,10 @@ const IndexModeAcak = () => {
                                  <motion.div 
                                    animate={{ 
                                      scale: [1, 1.25, 1], 
-                                     opacity: node.id === selectedLevel?.id || (node.current && !selectedLevel) ? [0.3, 0.6, 0.3] : [0.2, 0.4, 0.2]
+                                     opacity: (node.id === selectedLevel?.id || (node.current && !selectedLevel) ? [0.3, 0.6, 0.3] : [0.2, 0.4, 0.2]).map(v => v * Math.max(0.2, 1 - ((node.id - 1) * 0.05)))
                                    }}
                                    transition={{ duration: 2, repeat: Infinity }}
-                                   className={`absolute inset-0 rounded-lg blur-3xl -z-10 ${node.id === 2 ? 'bg-purple-400' : node.id === 3 ? 'bg-orange-400' : node.id === 4 ? 'bg-emerald-400' : node.id === 5 ? 'bg-yellow-400' : node.id === 6 ? 'bg-pink-400' : node.id === 7 ? 'bg-indigo-400' : node.id === 8 ? 'bg-rose-400' : node.id === 9 ? 'bg-red-400' : node.id === 10 ? 'bg-red-600' : 'bg-cyan-400'}`}
+                                   className={`absolute inset-0 rounded-lg blur-3xl -z-10 ${node.id === 2 ? 'bg-purple-400' : node.id === 3 ? 'bg-orange-400' : node.id === 4 ? 'bg-emerald-400' : node.id === 5 ? 'bg-yellow-400' : node.id === 6 ? 'bg-pink-400' : node.id === 7 ? 'bg-indigo-400' : node.id === 8 ? 'bg-rose-400' : node.id === 9 ? 'bg-red-400' : node.id === 10 ? 'bg-red-500' : 'bg-cyan-400'}`}
                                  />
                                )}
                             </motion.button>
@@ -573,22 +567,24 @@ const IndexModeAcak = () => {
 
                    <div className="flex justify-between items-start w-[1960px] h-10 relative z-10">
                       {levels.map((node) => (
-                         <div key={`status-${node.id}`} className="w-20 flex flex-col items-center text-center">
+                         <div key={`status-${node.id}`} className="w-20 flex flex-col items-center text-center pb-2 px-1">
                             <div className="flex flex-col items-center gap-1.5 h-6">
                                {(node.id === selectedLevel?.id || (node.current && !selectedLevel)) && (
-                                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-1.5">
-                                     <div className={`w-1 h-1 rounded-full animate-ping ${node.id === 2 ? 'bg-purple-400 shadow-[0_0_5px_#a855f7]' : node.id === 3 ? 'bg-orange-400 shadow-[0_0_5px_#f97316]' : node.id === 4 ? 'bg-emerald-400 shadow-[0_0_5px_#10b981]' : node.id === 5 ? 'bg-yellow-400 shadow-[0_0_5px_#facc15]' : node.id === 6 ? 'bg-pink-400 shadow-[0_0_5px_#ec4899]' : node.id === 7 ? 'bg-indigo-400 shadow-[0_0_5px_#6366f1]' : node.id === 8 ? 'bg-rose-400 shadow-[0_0_5px_#f43f5e]' : node.id === 9 ? 'bg-red-400 shadow-[0_0_5px_#ef4444]' : node.id === 10 ? 'bg-red-600 shadow-[0_0_5px_#991b1b]' : 'bg-cyan-400 shadow-[0_0_5px_#06b6d4]'}`} />
-                                     <span className={`text-[9px] font-black tracking-[0.2em] italic uppercase ${node.id === 2 ? 'text-purple-400' : node.id === 3 ? 'text-orange-400' : node.id === 4 ? 'text-emerald-400' : node.id === 5 ? 'text-yellow-400' : node.id === 6 ? 'text-pink-400' : node.id === 7 ? 'text-indigo-400' : node.id === 8 ? 'text-rose-400' : node.id === 9 ? 'text-red-400' : node.id === 10 ? 'text-red-600' : 'text-cyan-400'}`}>
-                                        CURRENT
+                                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-1.5"
+                                     style={{ opacity: Math.max(0.2, 1 - ((node.id - 1) * 0.05)) }}
+                                  >
+                                     <div className={`w-1 h-1 rounded-full animate-ping ${node.id === 2 ? 'bg-purple-400 shadow-[0_0_5px_#a855f7]' : node.id === 3 ? 'bg-orange-400 shadow-[0_0_5px_#f97316]' : node.id === 4 ? 'bg-emerald-400 shadow-[0_0_5px_#10b981]' : node.id === 5 ? 'bg-yellow-400 shadow-[0_0_5px_#facc15]' : node.id === 6 ? 'bg-pink-400 shadow-[0_0_5px_#ec4899]' : node.id === 7 ? 'bg-indigo-400 shadow-[0_0_5px_#6366f1]' : node.id === 8 ? 'bg-rose-400 shadow-[0_0_5px_#f43f5e]' : node.id === 9 ? 'bg-red-400 shadow-[0_0_5px_#ef4444]' : node.id === 10 ? 'bg-red-500 shadow-[0_0_5px_#ef4444]' : 'bg-cyan-400 shadow-[0_0_5px_#06b6d4]'}`} />
+                                     <span className={`text-[9px] font-black tracking-[0.2em] italic ${node.id === 2 ? 'text-purple-400' : node.id === 3 ? 'text-orange-400' : node.id === 4 ? 'text-emerald-400' : node.id === 5 ? 'text-yellow-400' : node.id === 6 ? 'text-pink-400' : node.id === 7 ? 'text-indigo-400' : node.id === 8 ? 'text-rose-400' : node.id === 9 ? 'text-red-400' : node.id === 10 ? 'text-red-500' : 'text-cyan-400'}`}>
+                                        Aktif
                                      </span>
                                   </motion.div>
                                )}
-                               {!node.active && <span className="text-[8px] font-black text-gray-800 tracking-widest uppercase italic leading-none inline-block">LOCKED</span>}
+                               {!node.active && <span className="text-[8px] font-black text-gray-800 tracking-widest uppercase italic leading-none inline-block">TERKUNCI</span>}
                             </div>
                          </div>
                       ))}
                       <div className="w-20 flex justify-center">
-                         <span className="text-[7px] font-black text-white/20 tracking-[0.4em] uppercase italic transition-colors">Soon</span>
+                         <span className="text-[7px] font-black text-white/20 tracking-[0.4em] uppercase italic transition-colors">Segera</span>
                       </div>
                    </div>
                    </div>

@@ -372,7 +372,7 @@ const Level7 = () => {
                     value={flagInput}
                     onChange={(e) => setFlagInput(e.target.value)}
                     placeholder="Masukkan flag (contoh: CTF{...})"
-                    className={`w-full bg-gray-900 border ${status === 'wrong' ? 'border-red-500/50 text-red-100' : 'border-indigo-500/20 text-indigo-100 focus:border-indigo-400'} rounded-xl py-4 pl-12 pr-4 outline-none font-mono text-sm uppercase tracking-wider transition-all shadow-[inset_0_2px_10px_rgba(0,0,0,0.3)]`}
+                    className={`w-full bg-gray-900 border ${status === 'wrong' ? 'border-red-500/50 text-red-100' : 'border-indigo-500/20 text-indigo-100 focus:border-indigo-400'} rounded-xl py-4 pl-12 pr-4 outline-none font-mono text-sm tracking-wider transition-all shadow-[inset_0_2px_10px_rgba(0,0,0,0.3)]`}
                   />
                 </div>
                 <button type="submit" className="bg-indigo-600 hover:bg-indigo-500 text-white px-8 rounded-xl font-black tracking-widest uppercase transition-all flex items-center gap-2 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)]">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { Target, Zap } from 'lucide-react';
 
 const TiltCard = ({ children, colorClass, borderColor }) => {
   const x = useMotionValue(0);
@@ -72,115 +73,125 @@ const LandingPage = () => {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="flex flex-col min-h-screen items-center justify-center py-12 px-4 md:px-6"
+      className="flex flex-col min-h-screen bg-[#020617] text-gray-300 font-mono items-center justify-center py-12 px-4 md:px-6 relative overflow-hidden selection:bg-cyan-500/30"
     >
-      {/* Hero Section */}
-      <header className="flex flex-col items-center text-center mb-16 max-w-4xl w-full">
-        <motion.div variants={itemVariants} className="mb-2">
-          <span className="text-[9px] md:text-[10px] tracking-[0.6em] md:tracking-[1em] text-cyan-400 font-bold uppercase drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]">
-            [ SYSTEM_INITIALIZED ]
-          </span>
-        </motion.div>
+      {/* BACKGROUND DECORATION */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-500/10 blur-[130px] rounded-full opacity-60" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/10 blur-[130px] rounded-full opacity-60" />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]" />
+      </div>
+
+      <div className="max-w-[1400px] w-full flex-1 flex flex-col items-center justify-center relative z-20">
         
-        <motion.h1 
-          variants={itemVariants}
-          className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white uppercase leading-none drop-shadow-[0_0_20px_rgba(255,255,255,0.15)] mb-3"
-        >
-          CYBERCAMP
-        </motion.h1>
-        
-        <motion.div 
-          variants={itemVariants}
-          className="bg-cyan-500/10 border border-cyan-500/40 px-4 md:px-6 py-1.5 mb-8"
-        >
-          <h2 className="text-base md:text-xl font-bold tracking-[0.2em] md:tracking-[0.3em] text-cyan-400 uppercase">
-            HACKER TRAINING GROUND
-          </h2>
-        </motion.div>
-
-        <motion.p 
-          variants={itemVariants}
-          className="max-w-md md:max-w-xl text-gray-400 text-xs md:text-base font-medium leading-relaxed italic border-l-2 border-cyan-500/20 pl-4 text-center md:text-left mx-auto"
-        >
-          "Platform interaktif untuk belajar Cybersecurity dan simulasi CTF."
-        </motion.p>
-      </header>
-
-      {/* Main Menu Cards */}
-      <main className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 p-4 md:p-8 max-w-[1600px] w-full mb-20">
-        {/* Card 1: Academy */}
-        <motion.div variants={itemVariants} className="w-full flex justify-center">
-          <TiltCard colorClass="text-cyan-500" borderColor="border-[#30363d] hover:border-cyan-500/50">
-            <motion.div 
-              whileHover={{ rotate: [-2, 2, -2, 0], scale: 1.05 }}
-              className="text-6xl md:text-8xl mb-6 select-none"
-            >
-              📚
-            </motion.div>
-            <h3 className="text-2xl md:text-3xl font-black text-white mb-2 tracking-tight uppercase">
-              CYBER ACADEMY
-            </h3>
-            <p className="text-gray-400 text-xs md:text-sm mb-8 font-medium px-4">
-              Pelajari fundamental IT, Jaringan, dan Keamanan dari nol.
-            </p>
-            <motion.div whileTap={{ scale: 0.95 }} className="w-full px-4">
-              <Link 
-                to="/academy" 
-                className="block w-full py-4 bg-cyan-500 text-black text-xs md:text-sm font-black tracking-widest uppercase transition-all duration-300 hover:bg-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
-              >
-                MULAI BELAJAR
-              </Link>
-            </motion.div>
-            <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-cyan-500/30" />
-            <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-cyan-500/30" />
-          </TiltCard>
-        </motion.div>
-
-        {/* Card 2: CTF Arena */}
-        <motion.div variants={itemVariants} className="w-full flex justify-center">
-          <TiltCard colorClass="text-rose-500" borderColor="border-[#30363d] hover:border-rose-500/50">
-            <motion.div 
-              whileHover={{ rotate: [2, -2, 2, 0], scale: 1.05 }}
-              className="text-6xl md:text-8xl mb-6 select-none"
-            >
-              🏴‍☠️
-            </motion.div>
-            <h3 className="text-2xl md:text-3xl font-black text-white mb-2 tracking-tight uppercase">
-              CTF ARENA
-            </h3>
-            <p className="text-gray-400 text-xs md:text-sm mb-8 font-medium px-4">
-              Simulasi peretasan server nyata dan tantangan Capture The Flag.
-            </p>
-            <motion.div whileTap={{ scale: 0.95 }} className="w-full px-4">
-              <Link 
-                to="/ctf-arena" 
-                className="block w-full py-4 bg-[#ff2d55] text-white text-xs md:text-sm font-black tracking-widest uppercase transition-all duration-300 hover:bg-[#ff4d74] hover:shadow-[0_0_20px_rgba(255,45,85,0.4)]"
-              >
-                MASUK ARENA
-              </Link>
-            </motion.div>
-            <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-rose-500/30" />
-            <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-rose-500/30" />
-          </TiltCard>
-        </motion.div>
-      </main>
-
-      {/* Status Footer */}
-      <footer className="w-full py-10 px-4 mt-auto">
-        <div className="max-w-6xl mx-auto flex flex-wrap justify-center md:justify-between items-center gap-6 text-[8px] md:text-[9px] font-bold text-gray-500 uppercase tracking-[0.2em] md:tracking-[0.4em]">
-          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
-            <span className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_6px_#22c55e]"></span>
-              SYSTEM_STATUS: <span className="text-green-500">ONLINE</span>
+        {/* Hero Section */}
+        <header className="flex flex-col items-center text-center mb-16 max-w-4xl w-full">
+          <motion.div variants={itemVariants} className="mb-4">
+            <span className="text-[10px] md:text-[11px] tracking-[0.8em] md:tracking-[1.2em] text-cyan-500/80 font-black uppercase drop-shadow-[0_0_15px_rgba(34,211,238,0.5)] italic">
+              [ System_Initialized ]
             </span>
-            <span>ENC: <span className="text-cyan-400">AES-256</span></span>
-            <span>NODE: <span className="text-white">ASIA-S1</span></span>
+          </motion.div>
+          
+          <motion.h1 
+            variants={itemVariants}
+            className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white uppercase leading-none mb-6 italic"
+            style={{ textShadow: '0 0 60px rgba(255,255,255,0.15), 0 0 100px rgba(6,182,212,0.1)' }}
+          >
+            CYBERCAMP
+          </motion.h1>
+          
+          <motion.div 
+            variants={itemVariants}
+            className="relative mb-12"
+          >
+            <div className="absolute inset-0 bg-cyan-500/20 blur-xl rounded-full" />
+            <div className="relative bg-gray-950/60 backdrop-blur-3xl border border-cyan-500/40 px-6 md:px-10 py-2.5 rounded-full">
+              <h2 className="text-sm md:text-lg font-black tracking-[0.4em] md:tracking-[0.5em] text-cyan-400 uppercase italic">
+                Hacker Training Ground
+              </h2>
+            </div>
+          </motion.div>
+  
+          <motion.p 
+            variants={itemVariants}
+            className="max-w-md md:max-w-lg text-gray-500 text-[11px] md:text-sm font-black tracking-wider uppercase leading-relaxed italic border-l-2 border-cyan-500/20 pl-6 text-center md:text-left mx-auto opacity-70"
+          >
+            {">>"} Platform interaktif untuk belajar Cybersecurity dan simulasi Capture The Flag.
+          </motion.p>
+        </header>
+  
+        {/* Main Menu Cards */}
+        <main className="flex flex-col md:flex-row items-stretch justify-center gap-8 md:gap-14 p-4 md:p-8 w-full max-w-5xl mb-20">
+          {/* Card 1: Academy */}
+          <motion.div variants={itemVariants} className="w-full">
+            <Link to="/academy" className="block h-full transition-transform active:scale-95">
+              <TiltCard colorClass="text-cyan-500" borderColor="border-cyan-500/20 hover:border-cyan-500/60">
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                   <Target className="w-24 h-24 text-cyan-400" />
+                </div>
+                <div className="text-6xl md:text-7xl mb-10 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">📚</div>
+                <h3 className="text-3xl md:text-4xl font-black text-white mb-3 tracking-tighter uppercase italic">
+                  Cyber Academy
+                </h3>
+                <p className="text-gray-500 text-[10px] md:text-xs mb-10 font-black tracking-[0.1em] uppercase italic opacity-80 max-w-[200px]">
+                  Fundamental IT, OS Hardening, & Network Security.
+                </p>
+                <div className="w-full bg-cyan-500 hover:bg-white text-black py-4 font-black text-[10px] tracking-[0.3em] uppercase italic transition-all shadow-[0_10px_30px_rgba(6,182,212,0.3)] rounded-xl">
+                  Mulai Belajar
+                </div>
+                <div className="absolute top-0 left-0 w-4 h-1.5 bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
+                <div className="absolute -bottom-1 right-12 w-12 h-0.5 bg-cyan-500/30" />
+              </TiltCard>
+            </Link>
+          </motion.div>
+  
+          {/* Card 2: CTF Arena */}
+          <motion.div variants={itemVariants} className="w-full">
+            <Link to="/ctf-arena" className="block h-full transition-transform active:scale-95">
+              <TiltCard colorClass="text-rose-500" borderColor="border-rose-500/20 hover:border-rose-500/60">
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                   <Zap className="w-24 h-24 text-rose-500" />
+                </div>
+                <div className="text-6xl md:text-7xl mb-10 drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">🚩</div>
+                <h3 className="text-3xl md:text-4xl font-black text-white mb-3 tracking-tighter uppercase italic">
+                  CTF Arena
+                </h3>
+                <p className="text-gray-500 text-[10px] md:text-xs mb-10 font-black tracking-[0.1em] uppercase italic opacity-80 max-w-[200px]">
+                  Offensive Security, Scripting, & Vulnerability Exploit.
+                </p>
+                <div className="w-full bg-rose-600 hover:bg-white text-white hover:text-rose-600 py-4 font-black text-[10px] tracking-[0.3em] uppercase italic transition-all shadow-[0_10px_30px_rgba(244,63,94,0.3)] rounded-xl">
+                  Masuk Arena
+                </div>
+                <div className="absolute top-0 left-0 w-4 h-1.5 bg-rose-600 shadow-[0_0_10px_rgba(244,63,94,0.5)]" />
+                <div className="absolute -bottom-1 right-12 w-12 h-0.5 bg-rose-600/30" />
+              </TiltCard>
+            </Link>
+          </motion.div>
+        </main>
+  
+        {/* Status Footer */}
+        <footer className="w-full py-12 px-6 mt-auto border-t border-white/5 bg-gray-950/20">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black uppercase tracking-[0.4em] italic text-gray-700">
+            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+              <span className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_#10b981]" />
+                System_Status: <span className="text-emerald-500">Online</span>
+              </span>
+              <span>Enc: <span className="text-cyan-600/60">AES-256</span></span>
+              <span>Node: <span className="text-gray-500">Asia-S1</span></span>
+            </div>
+            <div className="flex items-center gap-6 opacity-40">
+              <span>Terminal_Access</span>
+              <span className="text-gray-800">|</span>
+              <span>User_ID: {userId}</span>
+              <span className="text-gray-800">|</span>
+              <span>{time.toLocaleTimeString()}</span>
+            </div>
           </div>
-          <div className="text-gray-600 text-[8px] md:text-[9px] text-center md:text-right font-mono">
-            TERMINAL_ACCESS // USER_ID: {userId} // {time.toLocaleTimeString()}
-          </div>
-        </div>
-      </footer>
+        </footer>
+      </div>
+
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent pointer-events-none" />
     </motion.div>
   );
 };

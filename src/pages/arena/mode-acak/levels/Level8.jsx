@@ -297,7 +297,7 @@ const Level8 = () => {
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
                         placeholder="MASUKKAN FLAG AKSES (CTF{...})"
-                        className={`w-full bg-gray-900 border ${status === 'wrong' ? 'border-red-500/50 text-red-100' : 'border-rose-500/20 text-rose-100 focus:border-rose-400'} rounded-xl py-4 pl-12 pr-4 outline-none font-mono text-sm uppercase tracking-wider transition-all`}
+                        className={`w-full bg-gray-900 border ${status === 'wrong' ? 'border-red-500/50 text-red-100' : 'border-rose-500/20 text-rose-100 focus:border-rose-400'} rounded-xl py-4 pl-12 pr-4 outline-none font-mono text-sm tracking-wider transition-all`}
                         onKeyDown={(e) => e.key === 'Enter' && submitFlag()}
                      />
                   </div>

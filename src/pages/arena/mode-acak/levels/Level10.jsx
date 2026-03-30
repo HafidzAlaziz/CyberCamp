@@ -348,8 +348,8 @@ const Level10 = () => {
                         type="text" 
                         value={inputText}
                         onChange={(e) => setInputText(e.target.value)}
-                        placeholder="MASUKKAN FLAG EXPLOITASI (CTF{...})"
-                        className={`w-full bg-gray-900 border ${status === 'wrong' ? 'border-red-500/50 text-red-100' : 'border-red-700/20 text-red-100 focus:border-red-500'} rounded-xl py-4 pl-12 pr-4 outline-none font-mono text-sm uppercase tracking-wider transition-all`}
+                        placeholder="Masukkan flag exploitasi (CTF{...})"
+                        className={`w-full bg-gray-900 border ${status === 'wrong' ? 'border-red-500/50 text-red-100' : 'border-red-700/20 text-red-100 focus:border-red-500'} rounded-xl py-4 pl-12 pr-4 outline-none font-mono text-sm tracking-wider transition-all`}
                         onKeyDown={(e) => e.key === 'Enter' && submitFlag()}
                      />
                   </div>

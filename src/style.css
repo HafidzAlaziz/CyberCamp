@@ -74,5 +74,5 @@ body {
   background: #333;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--cyber-cyan);
+  background: var(--accent-color, var(--cyber-cyan));
 }

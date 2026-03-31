@@ -6,16 +6,18 @@ import LearningDashboard from './pages/LearningDashboard';
 import CtfArenaHome from './pages/CtfArenaHome';
 import IndexModeAcak from './pages/arena/mode-acak/IndexModeAcak';
 import IndexModePilihan from './pages/arena/mode-pilihan/IndexModePilihan';
-import Level1 from './pages/arena/mode-acak/levels/Level1';
-import Level2 from './pages/arena/mode-acak/levels/Level2';
-import Level3 from './pages/arena/mode-acak/levels/Level3';
-import Level4 from './pages/arena/mode-acak/levels/Level4';
-import Level5 from './pages/arena/mode-acak/levels/Level5';
-import Level6 from './pages/arena/mode-acak/levels/Level6';
-import Level7 from './pages/arena/mode-acak/levels/Level7';
-import Level8 from './pages/arena/mode-acak/levels/Level8';
-import Level9 from './pages/arena/mode-acak/levels/Level9';
-import Level10 from './pages/arena/mode-acak/levels/Level10';
+import MudahLevel1 from './pages/arena/mode-acak/kategori/mudah/Level1';
+import MudahLevel2 from './pages/arena/mode-acak/kategori/mudah/Level2';
+import MudahLevel3 from './pages/arena/mode-acak/kategori/mudah/Level3';
+import MudahLevel4 from './pages/arena/mode-acak/kategori/mudah/Level4';
+
+import MenengahLevel1 from './pages/arena/mode-acak/kategori/menengah/Level1';
+import MenengahLevel2 from './pages/arena/mode-acak/kategori/menengah/Level2';
+import MenengahLevel3 from './pages/arena/mode-acak/kategori/menengah/Level3';
+
+import SulitLevel1 from './pages/arena/mode-acak/kategori/sulit/Level1';
+import SulitLevel2 from './pages/arena/mode-acak/kategori/sulit/Level2';
+import SulitLevel3 from './pages/arena/mode-acak/kategori/sulit/Level3';
 import WebExploitHub from './pages/arena/mode-pilihan/web-exploit/Web';
 import WebLevel1 from './pages/arena/mode-pilihan/web-exploit/Level1';
 import WebLevel2 from './pages/arena/mode-pilihan/web-exploit/Level2';
@@ -194,16 +196,21 @@ function AnimatedRoutes() {
         <Route path="/academy" element={<LearningDashboard />} />
         <Route path="/ctf-arena" element={<CtfArenaHome />} />
         {/* Mission Level Routes (Higher Specificity First) */}
-        <Route path="/ctf-arena/mode-acak/level/1" element={<Level1 />} />
-        <Route path="/ctf-arena/mode-acak/level/2" element={<Level2 />} />
-        <Route path="/ctf-arena/mode-acak/level/3" element={<Level3 />} />
-        <Route path="/ctf-arena/mode-acak/level/4" element={<Level4 />} />
-        <Route path="/ctf-arena/mode-acak/level/5" element={<Level5 />} />
-        <Route path="/ctf-arena/mode-acak/level/6" element={<Level6 />} />
-        <Route path="/ctf-arena/mode-acak/level/7" element={<Level7 />} />
-        <Route path="/ctf-arena/mode-acak/level/8" element={<Level8 />} />
-        <Route path="/ctf-arena/mode-acak/level/9" element={<Level9 />} />
-        <Route path="/ctf-arena/mode-acak/level/10" element={<Level10 />} />
+        {/* Mission Level Routes Mudah */}
+        <Route path="/ctf-arena/mode-acak/mudah/level/1" element={<MudahLevel1 />} />
+        <Route path="/ctf-arena/mode-acak/mudah/level/2" element={<MudahLevel2 />} />
+        <Route path="/ctf-arena/mode-acak/mudah/level/3" element={<MudahLevel3 />} />
+        <Route path="/ctf-arena/mode-acak/mudah/level/4" element={<MudahLevel4 />} />
+
+        {/* Mission Level Routes Menengah */}
+        <Route path="/ctf-arena/mode-acak/menengah/level/1" element={<MenengahLevel1 />} />
+        <Route path="/ctf-arena/mode-acak/menengah/level/2" element={<MenengahLevel2 />} />
+        <Route path="/ctf-arena/mode-acak/menengah/level/3" element={<MenengahLevel3 />} />
+
+        {/* Mission Level Routes Sulit */}
+        <Route path="/ctf-arena/mode-acak/sulit/level/1" element={<SulitLevel1 />} />
+        <Route path="/ctf-arena/mode-acak/sulit/level/2" element={<SulitLevel2 />} />
+        <Route path="/ctf-arena/mode-acak/sulit/level/3" element={<SulitLevel3 />} />
         
         <Route path="/ctf-arena/mode-acak" element={<IndexModeAcak />} />
         <Route path="/ctf-arena/mode-pilihan" element={<IndexModePilihan />} />

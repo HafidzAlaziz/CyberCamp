@@ -15,23 +15,24 @@ import {
    Check
 } from 'lucide-react';
 
-const Level10 = () => {
+const SulitLevel3 = () => {
    const navigate = useNavigate();
 
    // Timer: Count-up
    const [elapsed, setElapsed] = useState(0);
 
    const [hintStage, setHintStage] = useState(() => {
-      return parseInt(localStorage.getItem('ctf_level10_hint_stage') || '0');
+      return parseInt(localStorage.getItem('ctf_sulit_level3_hint_stage') || '0');
    });
 
-   const [stars, setStars] = useState(() => {
-      const saved = localStorage.getItem('ctf_level10_stars');
-      if (saved) return parseInt(saved);
-      // Jika belum ada data bintang tapi ada hint yang terbuka, sinkronkan
-      const currentHint = parseInt(localStorage.getItem('ctf_level10_hint_stage') || '0');
-      return Math.max(1, 4 - currentHint);
-   });
+
+  
+  // Calculate dynamic stars
+  const timeLimit = 1200; // 20 minutes
+  const isTimeFailed = elapsed > timeLimit;
+  const timePenalty = isTimeFailed ? 1 : 0;
+  const hintPenalty = Math.min(3, hintStage); // max 3 penalties for 3 hint stages
+  const stars = Math.max(1, 5 - hintPenalty - timePenalty);
 
    const [inputText, setInputText] = useState('');
    const [bufferInput, setBufferInput] = useState('');
@@ -44,6 +45,11 @@ const Level10 = () => {
    const [showExitModal, setShowExitModal] = useState(false);
 
    const realFlag = "CTF{B0FF3R_0V3RFL0W_D34DB33F}";
+
+   useEffect(() => {
+     document.documentElement.style.setProperty('--accent-color', '#ef4444');
+     return () => document.documentElement.style.setProperty('--accent-color', '#00ffff');
+   }, []);
 
    useEffect(() => {
       if (status !== 'complete') {
@@ -74,16 +80,24 @@ const Level10 = () => {
          const timeTakenStr = formatTime(elapsed);
          setCompletionTime(timeTakenStr);
 
-         const stats = JSON.parse(localStorage.getItem('ctf_mode_acak_stats')) || {};
-         const currentBestStars = stats[10]?.stars || 0;
-         if (stars >= currentBestStars) {
-            stats[10] = { stars: stars, bestTime: timeTakenStr };
+         const savedStats = localStorage.getItem('ctf_mode_acak_stats');
+         const stats = savedStats ? JSON.parse(savedStats) : {};
+         const currentBestStars = stats['sulit-3']?.stars || 0;
+         const currentBestTimeSec = (() => { 
+            const t = stats['sulit-3']?.bestTime; 
+            if (!t) return 999999;
+            const parts = String(t).split(':').map(Number);
+            return parts.length === 2 ? parts[0] * 60 + parts[1] : (Number(parts[0]) || 999999);
+         })();
+         const isBetter = stars > currentBestStars || (stars === currentBestStars && elapsed < currentBestTimeSec);
+         if (isBetter) {
+            stats['sulit-3'] = { stars: stars, bestTime: timeTakenStr, conditions: [true, hintStage < 1, hintStage < 2, hintStage < 3, !isTimeFailed] };
             localStorage.setItem('ctf_mode_acak_stats', JSON.stringify(stats));
          }
-         localStorage.removeItem('ctf_level10_time');
-         localStorage.removeItem('ctf_level10_stars');
-         localStorage.removeItem('ctf_level10_hint_stage');
-         localStorage.removeItem('ctf_level10_overtime');
+         localStorage.removeItem('ctf_sulit_level3_time');
+         localStorage.removeItem('ctf_sulit_level3_stars');
+         localStorage.removeItem('ctf_sulit_level3_hint_stage');
+         localStorage.removeItem('ctf_sulit_level3_overtime');
       } else {
          setStatus('wrong');
          setAttempts(prev => [...prev, inputText]);
@@ -92,23 +106,22 @@ const Level10 = () => {
       setInputText('');
    };
 
-   const handleExit = () => {
-      localStorage.removeItem('ctf_level10_time');
-      localStorage.removeItem('ctf_level10_stars');
-      localStorage.removeItem('ctf_level10_hint_stage');
-      localStorage.removeItem('ctf_level10_overtime');
-      navigate('/ctf-arena/mode-acak', { state: { returnToLevel: 10 } });
+   
+  const unlockHintStage = (stage) => {
+    if (stage <= hintStage) return;
+    setHintStage(stage);
+    localStorage.setItem('ctf_sulit_level3_hint_stage', stage.toString());
+  };
+
+  const handleExit = () => {
+      localStorage.removeItem('ctf_sulit_level3_time');
+      localStorage.removeItem('ctf_sulit_level3_stars');
+      localStorage.removeItem('ctf_sulit_level3_hint_stage');
+      localStorage.removeItem('ctf_sulit_level3_overtime');
+      navigate('/ctf-arena/mode-acak', { state: { returnToLevel: 'sulit-3' } });
    };
 
-   const unlockHintStage = (stage) => {
-      if (stage <= hintStage) return;
-      const newStars = Math.max(1, 4 - stage);
-      setStars(newStars);
-      localStorage.setItem('ctf_level10_stars', newStars.toString());
-
-      setHintStage(stage);
-      localStorage.setItem('ctf_level10_hint_stage', stage.toString());
-   };
+   
 
    if (status === 'complete') {
       return (
@@ -124,12 +137,12 @@ const Level10 = () => {
                   <div className="text-[10px] font-black text-gray-500 tracking-[0.4em] uppercase mb-4">Misi terselesaikan dalam</div>
                   <div className="text-4xl font-black text-white italic tracking-tighter mb-6">{completionTime}</div>
                   <div className="flex justify-center gap-4">
-                     {[1, 2, 3, 4].map(s => (
-                        <Zap key={s} className={`w-10 h-10 transition-all duration-500 ${s <= stars ? 'text-red-400 fill-red-400 drop-shadow-[0_0_15px_#ef4444]' : 'text-gray-800 fill-transparent'}`} />
+                     {[1, 2, 3, 4, 5].map(s => (
+                        <Zap key={s} className={`w-10 h-10 transition-all duration-500 ${s <= stars ? 'text-red-500 fill-red-500 drop-shadow-[0_0_15px_#ef4444]' : 'text-gray-800 fill-transparent'}`} />
                      ))}
                   </div>
                </div>
-               <button onClick={() => navigate('/ctf-arena/mode-acak', { state: { returnToLevel: 10 } })} className="w-full bg-red-500 text-black font-black py-4 rounded-xl hover:bg-red-400 transition-all text-sm tracking-widest uppercase shadow-[0_10px_30px_rgba(239,68,68,0.2)]">KEMBALI KE MAP TAKTIS</button>
+               <button onClick={() => navigate('/ctf-arena/mode-acak', { state: { returnToLevel: 'sulit-3' } })} className="w-full bg-red-500 text-black font-black py-4 rounded-xl hover:bg-red-500 transition-all text-sm tracking-widest uppercase shadow-[0_10px_30px_rgba(239,68,68,0.2)]">KEMBALI KE MAP TAKTIS</button>
             </motion.div>
          </div>
       );
@@ -137,7 +150,7 @@ const Level10 = () => {
 
    return (
       <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-4 md:p-8 flex flex-col overflow-hidden relative">
-         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #450a0a 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
+      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, rgba(239, 68, 68, 0.15) 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
          <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col relative z-10">
 
             {/* HEADER AREA */}
@@ -145,7 +158,7 @@ const Level10 = () => {
                <div className="flex gap-4 items-start z-10">
                   <button
                      onClick={() => setShowExitModal(true)}
-                     className="mt-1 p-2 bg-gray-900 border border-red-500/30 rounded-xl hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-all group"
+                     className="mt-1 p-2 bg-gray-900 border border-red-500/30 rounded-xl hover:bg-red-500/20 text-gray-400 hover:text-red-500 transition-all group"
                      title="Abort Mission"
                   >
                      <ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
@@ -156,7 +169,7 @@ const Level10 = () => {
                         <span className="text-[10px] font-black uppercase tracking-[0.4em] text-red-500/80">TARGET: SECTOR_ROOT</span>
                      </div>
                      <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase leading-none shadow-red-500/20">
-                        LEVEL 10: <span className="text-red-600 drop-shadow-[0_0_10px_#ef4444]">BINARY EXPLOITATION</span>
+                        LEVEL 10: <span className="text-red-500 drop-shadow-[0_0_10px_#ef4444]">INTI PWNING</span>
                      </h1>
                   </div>
                </div>
@@ -164,15 +177,15 @@ const Level10 = () => {
                <div className="absolute left-1/2 -translate-x-1/2 top-0 flex flex-col items-center">
                   <div className="text-[8px] font-black text-gray-700 tracking-[0.5em] uppercase mb-2">RANK_EFFICIENCY</div>
                   <div className="flex gap-3">
-                     {[1, 2, 3, 4].map(s => (
-                        <Zap key={s} className={`w-6 h-6 transition-all duration-700 ${s <= stars ? 'text-red-400 fill-red-400 drop-shadow-[0_0_10px_#ef4444]' : 'text-white/10 fill-transparent opacity-20'}`} />
+                     {[1, 2, 3, 4, 5].map(s => (
+                        <Zap key={s} className={`w-6 h-6 transition-all duration-700 ${s <= stars ? 'text-red-500 fill-red-500 drop-shadow-[0_0_10px_#ef4444]' : 'text-white/10 fill-transparent opacity-20'}`} />
                      ))}
                   </div>
                </div>
 
                <div className="text-right">
-                  <div className="text-[10px] font-black text-cyan-500/30 tracking-[0.3em] uppercase mb-1">ELAPSED_TIME</div>
-                  <div className="text-4xl font-black italic tracking-tighter transition-colors duration-500 text-red-600">
+                  <div className="text-[10px] font-black text-red-500/30 tracking-[0.3em] uppercase mb-1">ELAPSED_TIME</div>
+                  <div className="text-4xl font-black italic tracking-tighter transition-colors duration-500 text-red-500">
                      {formatTime(elapsed)}
                   </div>
                </div>
@@ -255,10 +268,12 @@ const Level10 = () => {
                      </div>
 
                      <div className="mt-8">
-                        <button onClick={() => setShowHintModal(true)} className="w-full py-4 bg-red-950/10 hover:bg-red-950/20 border border-red-500/20 text-red-100 text-[11px] font-black uppercase tracking-[0.2em] rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg">
-                           <Zap className={`w-4 h-4 text-red-500 ${hintStage > 0 ? 'fill-red-500' : ''}`} />
-                           💡 MINTA HINT BOS ({hintStage}/3)
-                        </button>
+                        <div className="mt-auto space-y-3">
+                   <button onClick={() => setShowHintModal(true)} className={`bg-red-900/20 border rounded-xl p-4 flex items-center justify-center gap-3 group transition-all shadow-[0_0_20px_rgba(239,68,68,0.1)] ${hintStage > 0 ? 'border-red-500 bg-red-900/40' : 'border-red-500/40 hover:bg-red-900/30'}`}>
+              <Zap className={`w-4 h-4 transition-colors ${hintStage > 0 ? 'text-red-500 fill-red-500' : 'text-red-500'}`} />
+              <span className="text-xs font-black text-red-200 uppercase tracking-widest">{hintStage > 0 ? `HINT ACTIVE (${hintStage}/3)` : '💡 MINTA HINT BOS'}</span>
+            </button>
+                 </div>
                      </div>
                   </div>
 
@@ -274,7 +289,7 @@ const Level10 = () => {
                               PWNED_EXECUTION_SUCCESSFUL
                            </div>
                            <div className="text-gray-400 font-mono text-[10px] mb-3 uppercase italic tracking-widest">Stack dump successful. Flag found:</div>
-                           <div className="bg-black/60 p-4 rounded border border-red-500/20 font-mono text-red-400 font-bold tracking-[0.2em] break-all select-all text-sm">
+                           <div className="bg-black/60 p-4 rounded border border-red-500/20 font-mono text-red-500 font-bold tracking-[0.2em] break-all select-all text-sm">
                               {realFlag}
                            </div>
                         </motion.div>
@@ -360,42 +375,40 @@ const Level10 = () => {
          {/* MODALS */}
          <AnimatePresence>
             {showHintModal && (
-               <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowHintModal(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-                  <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative bg-gray-900 border border-red-500/30 rounded-3xl p-8 max-w-lg w-full shadow-[0_0_50px_rgba(239,68,68,0.2)] overflow-hidden">
-                     <div className="absolute top-0 left-0 w-full h-1 bg-red-500 shadow-[0_0_15px_#ef4444]" />
-                     <div className="flex justify-between items-start mb-8">
-                        <div>
-                           <h2 className="text-2xl font-black text-white italic tracking-tighter uppercase mb-1">EXPLOIT_RECOVERY_HUB</h2>
-                           <p className="text-[10px] text-gray-500 font-bold tracking-widest uppercase">Sector 10: Final Binary Pwnage</p>
-                        </div>
-                        <button onClick={() => setShowHintModal(false)} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-500 hover:text-white"><X className="w-5 h-5" /></button>
-                     </div>
-
-                     <div className="space-y-4 mb-8">
-                        {[
-                           { depth: 1, label: "ANALYZING_PROTECTION", content: `<span class="text-purple-300 font-black block mb-2">💡 Apa itu Buffer Overflow?</span><span class="text-gray-400 block normal-case not-italic">Kerentanan yang terjadi ketika aplikasi mencoba menulis data melebihi kapasitas buffer yang disediakan. Dengan mengisi input lebih dari 20 karakter, kamu bisa menimpa register EIP untuk mengubah alur eksekusi aplikasi ke kode milikmu.</span>` },
-                           { depth: 2, label: "CALCULATING_OFFSET", content: "Buffer hanya disediakan sebesar 20 byte. Karakter ke-21 dan seterusnya akan menimpa memori penting di stack. Gunakan string 'DEADBEEF' tepat setelah 20 karakter sampah." },
-                           { depth: 3, label: "PWN_INSTRUCTION", content: "Kirimkan payload: <span class='text-red-500 font-mono font-black'>AAAAAAAAAAAAAAAAAAAADEADBEEF</span> (20 'A' dan string DEADBEEF)." }
-                        ].map((h, i) => (
-                           <div key={i} className={`p-4 rounded-2xl border transition-all ${hintStage >= h.depth ? 'bg-red-500/10 border-red-500/40 text-gray-200' : 'bg-black/40 border-white/5 text-gray-600'}`}>
-                              <div className="flex justify-between items-center mb-2">
-                                 <span className="text-[10px] font-black tracking-widest uppercase">{h.label}</span>
-                                 {hintStage >= h.depth ? <Check className="w-3 h-3 text-red-500" /> : <Lock className="w-3 h-3" />}
-                              </div>
-                              {hintStage >= h.depth ? (
-                                 <p className="text-xs leading-relaxed italic" dangerouslySetInnerHTML={{ __html: h.content }} />
-                              ) : (
-                                 <button onClick={() => unlockHintStage(h.depth)} className="w-full py-2 bg-red-600 hover:bg-red-500 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all">UNLOCK EXPLOIT DEPTH {h.depth}</button>
-                              )}
-                           </div>
-                        ))}
-                     </div>
-
-                     <p className="text-[8px] text-center text-gray-700 uppercase font-bold tracking-[0.2em]">-- WARNING: Final rank will be severely impacted --</p>
-                  </motion.div>
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowHintModal(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+            <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative bg-gray-900 border border-red-500/30 rounded-3xl p-8 max-w-lg w-full shadow-[0_0_50px_rgba(239,68,68,0.2)] overflow-hidden">
+               <div className="absolute top-0 left-0 w-full h-1 bg-red-500" />
+               <div className="flex justify-between items-start mb-8">
+                  <div>
+                    <h2 className="text-2xl font-black text-white italic tracking-tighter uppercase mb-1">EXPLOIT_RECOVERY_HUB</h2>
+                    <p className="text-[10px] text-gray-500 font-bold tracking-widest uppercase">Target Analysis Protocol</p>
+                  </div>
+                  <button onClick={() => setShowHintModal(false)} className="p-2 hover:bg-white/5 rounded-lg transition-colors text-gray-500 hover:text-white"><X className="w-5 h-5" /></button>
                </div>
-            )}
+               <div className="space-y-4 mb-8">
+                  {[
+                    { depth: 1, label: "ANALYZING_PROTECTION", content: "Analisis proteksi awal: Evaluasi apa yang memblokir instruksimu. Biasanya sistem ini rentan dengan manipulasi memori dasar." },
+                    { depth: 2, label: "CALCULATING_OFFSET", content: "Penghitungan offset: Hitung alamat injeksi yang valid atau cari parameter tersembunyi untuk ditembus." },
+                    { depth: 3, label: "PWN_INSTRUCTION", content: "Instruksi eksekusi: Bypass telah dipetakan, lakukan submit <span className='text-red-500 font-black tracking-widest select-all'>`" + "CTF{B0FF3R_0V3RFL0W_D34DB33F}" + "`</span>" }
+                  ].map((h, i) => (
+                    <div key={i} className={`p-4 rounded-2xl border transition-all ${hintStage >= h.depth ? 'bg-red-500/10 border-red-500/40 text-gray-200' : 'bg-black/40 border-white/5 text-gray-600'}`}>
+                       <div className="flex justify-between items-center mb-2">
+                          <span className="text-[10px] font-black tracking-widest uppercase">{h.label}</span>
+                          {hintStage >= h.depth ? <Check className="w-3 h-3 text-red-500" /> : <Lock className="w-3 h-3" />}
+                       </div>
+                       {hintStage >= h.depth ? (
+                         <p className="text-xs leading-relaxed italic" dangerouslySetInnerHTML={{ __html: h.content }} />
+                       ) : (
+                         <button onClick={() => { setHintStage(h.depth); localStorage.setItem('ctf_sulit_level3_hint_stage', h.depth.toString()); }} className="w-full py-2 bg-red-600 hover:bg-red-500 text-black text-[10px] font-black uppercase tracking-widest rounded-lg transition-all">UNLOCK EXPLOIT DEPTH {h.depth}</button>
+                       )}
+                    </div>
+                  ))}
+               </div>
+               <p className="text-[8px] text-center text-gray-700 uppercase font-bold tracking-[0.2em]">-- RANK_EFFICIENCY will be reduced upon unlock --</p>
+            </motion.div>
+          </div>
+        )}
 
             {showExitModal && (
                <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
@@ -405,7 +418,7 @@ const Level10 = () => {
                      <h3 className="text-xl font-black text-white italic tracking-tighter uppercase mb-2">ABORT MISSION?</h3>
                      <p className="text-xs text-gray-500 uppercase italic mb-8 leading-relaxed">INTERSEPSI YANG SEDANG BERJALAN AKAN DIPUTUSKAN DAN PROGRESS LOG AKAN DI-RESET.</p>
                      <div className="flex gap-4">
-                        <button onClick={handleExit} className="flex-1 bg-red-600 hover:bg-red-500 text-white font-black py-4 rounded-xl text-xs tracking-widest uppercase transition-all">YES, ABORT</button>
+                        <button onClick={handleExit} className="flex-1 bg-red-500 hover:bg-red-500 text-white font-black py-4 rounded-xl text-xs tracking-widest uppercase transition-all">YES, ABORT</button>
                         <button onClick={() => setShowExitModal(false)} className="flex-1 bg-white/5 hover:bg-white/10 text-white font-black py-4 rounded-xl border border-white/5 text-xs tracking-widest uppercase transition-all">CANCEL</button>
                      </div>
                   </motion.div>
@@ -416,4 +429,4 @@ const Level10 = () => {
    );
 };
 
-export default Level10;
+export default SulitLevel3;

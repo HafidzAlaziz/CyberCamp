@@ -10,18 +10,16 @@ const baseLevelData = {
     1: { id: 1, title: "Sektor 01: Pengintaian OSINT", challengeType: "OSINT", target: "SECTOR_OSINT", icon: 'Search', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" }, { text: "Selesai di bawah 10 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }] },
     2: { id: 2, title: "Sektor 02: System Terminal", challengeType: "LINUX / TERMINAL", target: "SECTOR_TERMINAL", icon: 'Terminal', objectives: [{ text: "Selesaikan Tantangan", sub: "Status: Operasional", type: "COMPLETE" }, { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" }, { text: "Selesai di bawah 12 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }] },
     3: { id: 3, title: "Sektor 03: Sinyal Kripto", challengeType: "CRYPTOGRAPHY", target: "SECTOR_CRYPTO", icon: 'Radio', objectives: [{ text: "Selesaikan Tantangan", sub: "Status: Operasional", type: "COMPLETE" }, { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" }, { text: "Selesai di bawah 5 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }] },
-    4: { id: 4, title: "Sektor 04: Digital Forensics", challengeType: "DIGITAL FORENSICS", target: "SECTOR_MEMORY", icon: 'HardDrive', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" }, { text: "Selesai di bawah 10 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }] }
+    4: { id: 4, title: "Sektor 04: Digital Forensics", challengeType: "DIGITAL FORENSICS", target: "SECTOR_FORENSIC", icon: 'HardDrive', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" }, { text: "Selesai di bawah 10 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }] },
+    5: { id: 5, title: "Sektor 05: Infiltrasi Web", challengeType: "WEB EXPLOITATION", target: "SECTOR_ALPHA", icon: 'Globe', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" }, { text: "Selesai di bawah 12 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }] },
+    6: { id: 6, title: "Sektor 06: Analisis Jaringan", challengeType: "NETWORK ANALYSIS", target: "SECTOR_NETWORK", icon: 'Network', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" }, { text: "Selesai di bawah 15 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }] },
+    7: { id: 7, title: "Sektor 07: Steganografi Media", challengeType: "STEGANOGRAPHY", target: "SECTOR_MEDIA", icon: 'Image', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" }, { text: "Selesai di bawah 15 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }] },
+    8: { id: 8, title: "Sektor 08: Infiltrasi Database", challengeType: "SQL INJECTION", target: "SECTOR_DATABASE", icon: 'Database', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" }, { text: "Selesai di bawah 20 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }] },
+    9: { id: 9, title: "Sektor 09: Pembalikan Logika", challengeType: "REVERSE ENGINEERING", target: "SECTOR_LOGIC", icon: 'Binary', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" }, { text: "Selesai di bawah 20 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }] },
+    10: { id: 10, title: "Sektor 10: Inti Pwning", challengeType: "PWNING", target: "SECTOR_KERNEL", icon: 'Skull', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Tanpa Bantuan / Hint", sub: "Gunakan keahlian murni", type: "HINT" }, { text: "Selesai di bawah 20 Menit", sub: "Kecepatan eksekusi tinggi", type: "TIME" }] }
   },
-  'MENENGAH': {
-    1: { id: 1, title: "Sektor 01: Infiltrasi Web", challengeType: "WEB EXPLOITATION", target: "SECTOR_ALPHA", icon: 'Globe', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Analisis Mandiri I", sub: "Tanpa Hint Tahap 1", type: "HINT" }, { text: "Analisis Mandiri II", sub: "Tanpa Hint Tahap 2", type: "HINT" }, { text: "Kecepatan Eksekusi", sub: "Selesai di bawah 12 Menit", type: "TIME" }] },
-    2: { id: 2, title: "Sektor 02: Analisis Jaringan", challengeType: "NETWORK ANALYSIS", target: "SECTOR_NETWORK", icon: 'Network', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Analisis Mandiri I", sub: "Tanpa Hint Tahap 1", type: "HINT" }, { text: "Analisis Mandiri II", sub: "Tanpa Hint Tahap 2", type: "HINT" }, { text: "Kecepatan Eksekusi", sub: "Selesai di bawah 15 Menit", type: "TIME" }] },
-    3: { id: 3, title: "Sektor 03: Steganografi Media", challengeType: "STEGANOGRAPHY", target: "SECTOR_MEDIA", icon: 'Image', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Analisis Mandiri I", sub: "Tanpa Hint Tahap 1", type: "HINT" }, { text: "Analisis Mandiri II", sub: "Tanpa Hint Tahap 2", type: "HINT" }, { text: "Kecepatan Eksekusi", sub: "Selesai di bawah 15 Menit", type: "TIME" }] }
-  },
-  'SULIT': {
-    1: { id: 1, title: "Sektor 01: Infiltrasi Database", challengeType: "SQL INJECTION", target: "SECTOR_DATABASE", icon: 'Database', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Analisis Mandiri I", sub: "Tanpa Hint Tahap 1", type: "HINT" }, { text: "Analisis Mandiri II", sub: "Tanpa Hint Tahap 2", type: "HINT" }, { text: "Analisis Mandiri III", sub: "Tanpa Hint Tahap 3", type: "HINT" }, { text: "Kecepatan Eksekusi", sub: "Selesai di bawah 20 Menit", type: "TIME" }] },
-    2: { id: 2, title: "Sektor 02: Pembalikan Logika", challengeType: "REVERSE ENGINEERING", target: "SECTOR_ASSEMBLY", icon: 'Binary', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Analisis Mandiri I", sub: "Tanpa Hint Tahap 1", type: "HINT" }, { text: "Analisis Mandiri II", sub: "Tanpa Hint Tahap 2", type: "HINT" }, { text: "Analisis Mandiri III", sub: "Tanpa Hint Tahap 3", type: "HINT" }, { text: "Kecepatan Eksekusi", sub: "Selesai di bawah 20 Menit", type: "TIME" }] },
-    3: { id: 3, title: "Sektor 03: Inti Pwning", challengeType: "PWNING", target: "SECTOR_KERNEL", icon: 'Skull', objectives: [{ text: "Selesaikan Tantangan", sub: "Misi Utama Berhasil", type: "COMPLETE" }, { text: "Analisis Mandiri I", sub: "Tanpa Hint Tahap 1", type: "HINT" }, { text: "Analisis Mandiri II", sub: "Tanpa Hint Tahap 2", type: "HINT" }, { text: "Analisis Mandiri III", sub: "Tanpa Hint Tahap 3", type: "HINT" }, { text: "Kecepatan Eksekusi", sub: "Selesai di bawah 20 Menit", type: "TIME" }] }
-  }
+  'MENENGAH': {},
+  'SULIT': {}
 };
 
 const categories = {
@@ -39,7 +37,8 @@ const categories = {
     lineColor: "#22d3ee",
     ping: "bg-cyan-400 shadow-[0_0_5px_#22d3ee]",
     icon: <ShieldCheck className="w-10 h-10 text-cyan-400 mb-2" />,
-    levels: [1, 2, 3, 4]
+    levels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    isComingSoon: false
   },
   MENENGAH: {
     title: "MENENGAH",
@@ -55,7 +54,8 @@ const categories = {
     lineColor: "#facc15",
     ping: "bg-yellow-400 shadow-[0_0_5px_#facc15]",
     icon: <Globe className="w-10 h-10 text-yellow-400 mb-2" />,
-    levels: [1, 2, 3]
+    levels: [],
+    isComingSoon: true
   },
   SULIT: {
     title: "SULIT",
@@ -71,7 +71,8 @@ const categories = {
     lineColor: "#ef4444",
     ping: "bg-red-500 shadow-[0_0_5px_#ef4444]",
     icon: <Cpu className="w-10 h-10 text-red-500 mb-2" />,
-    levels: [1, 2, 3]
+    levels: [],
+    isComingSoon: true
   }
 };
 
@@ -185,6 +186,12 @@ const IndexModeAcak = () => {
 
   const mapLevels = getMapLevels();
 
+  // Cek apakah semua level mudah sudah selesai
+  const mudahLevelIds = categories['MUDAH']?.levels || [];
+  const allMudahCompleted = mudahLevelIds.length > 0 && mudahLevelIds.every(
+    id => !!levelStats[`mudah-${id}`]?.bestTime
+  );
+
   const handleDeployMission = () => {
     if (!selectedLevel) return;
     
@@ -261,7 +268,17 @@ const IndexModeAcak = () => {
                     {Object.entries(categories).map(([catKey, cat]) => (
                         <motion.button 
                           key={catKey}
-                          onClick={() => setSelectedDifficulty(catKey)}
+                          onClick={() => {
+                              if (cat.isComingSoon) {
+                                  setSelectedLevel(null);
+                                  setIsShuffling(true);
+                                  setShuffleText('COMING SOON');
+                                  setShuffleColor(cat.color);
+                                  setTimeout(() => setIsShuffling(false), 2000);
+                                  return;
+                              }
+                              setSelectedDifficulty(catKey);
+                          }}
                           whileHover={{ scale: 1.05, y: -10 }}
                           whileTap={{ scale: 0.95 }}
                           className={`relative group w-full md:w-1/3 max-w-[340px] md:max-w-[300px] aspect-[1/1] flex flex-col items-center justify-center border ${cat.border} rounded-3xl bg-gray-900/50 backdrop-blur-sm transition-all duration-500 overflow-hidden ${cat.shadow} ${cat.hoverShadow}`}
@@ -275,8 +292,14 @@ const IndexModeAcak = () => {
                                  <div className="text-[10px] font-black tracking-[0.4em] uppercase text-white/50 mb-6">{cat.label} MODE</div>
                                  
                                  <div className="flex items-center gap-2 mt-auto">
-                                    <div className={`w-1.5 h-1.5 rounded-full ${cat.levels.filter(id => !!levelStats[`${catKey.toLowerCase()}-${id}`]?.bestTime).length === cat.levels.length ? 'bg-green-500' : 'bg-white/30 group-hover:bg-white animate-pulse'}`} />
-                                    <span className="text-[9px] font-black uppercase text-gray-500 tracking-widest group-hover:text-white transition-colors">Diselesaikan {cat.levels.filter(id => !!levelStats[`${catKey.toLowerCase()}-${id}`]?.bestTime).length}/{cat.levels.length}</span>
+                                    {cat.isComingSoon ? (
+                                       <span className="text-[9px] font-black uppercase text-gray-500 tracking-widest group-hover:text-white transition-colors">🚧 SYSTEM IN DEVELOPMENT 🚧</span>
+                                    ) : (
+                                       <>
+                                          <div className={`w-1.5 h-1.5 rounded-full ${cat.levels.filter(id => !!levelStats[`${catKey.toLowerCase()}-${id}`]?.bestTime).length === cat.levels.length ? 'bg-green-500' : 'bg-white/30 group-hover:bg-white animate-pulse'}`} />
+                                          <span className="text-[9px] font-black uppercase text-gray-500 tracking-widest group-hover:text-white transition-colors">Diselesaikan {cat.levels.filter(id => !!levelStats[`${catKey.toLowerCase()}-${id}`]?.bestTime).length}/{cat.levels.length}</span>
+                                       </>
+                                    )}
                                  </div>
                              </div>
                         </motion.button>
@@ -428,15 +451,45 @@ const IndexModeAcak = () => {
                                  </motion.button>
                               ))}
                               
-                              <div className="w-20 h-20 relative flex items-center justify-center group/soon cursor-not-allowed">
-                                 <motion.div 
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                                    className="w-full h-full border border-dashed border-white/10 rounded-full flex items-center justify-center bg-white/[0.03]"
-                                 >
-                                    <Plus className="w-6 h-6 text-white/10" />
-                                 </motion.div>
-                              </div>
+                               {/* COMING SOON NODE */}
+                               <div className="w-20 h-20 relative flex items-center justify-center group/soon cursor-default">
+                                  {allMudahCompleted && selectedDifficulty === 'MUDAH' ? (
+                                     <motion.div
+                                        initial={{ scale: 0.8, opacity: 0 }}
+                                        animate={{ scale: 1, opacity: 1 }}
+                                        className="absolute inset-0 flex flex-col items-center justify-center"
+                                     >
+                                        <motion.div
+                                           animate={{ scale: [1, 1.15, 1], opacity: [0.5, 1, 0.5] }}
+                                           transition={{ duration: 2.5, repeat: Infinity }}
+                                           className="w-full h-full flex items-center justify-center"
+                                        >
+                                           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                                              <polygon
+                                                 points="50 3, 93 25, 93 75, 50 97, 7 75, 7 25"
+                                                 className="fill-cyan-900/30 stroke-cyan-400 stroke-[2.5]"
+                                                 style={{ filter: 'drop-shadow(0 0 8px #06b6d4)' }}
+                                              />
+                                           </svg>
+                                           <span className="relative z-10 text-[8px] font-black text-center text-cyan-400 leading-tight uppercase tracking-tight px-1">NEXT<br/>UPDATE</span>
+                                        </motion.div>
+                                        {/* Pulse ring */}
+                                        <motion.div
+                                           animate={{ scale: [1, 1.6], opacity: [0.4, 0] }}
+                                           transition={{ duration: 1.5, repeat: Infinity, ease: 'easeOut' }}
+                                           className="absolute inset-0 rounded-full border border-cyan-400/50"
+                                        />
+                                     </motion.div>
+                                  ) : (
+                                     <motion.div
+                                        animate={{ rotate: 360 }}
+                                        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                                        className="w-full h-full border border-dashed border-white/10 rounded-full flex items-center justify-center bg-white/[0.03]"
+                                     >
+                                        <Plus className="w-6 h-6 text-white/10" />
+                                     </motion.div>
+                                  )}
+                               </div>
                            </div>
                        </div>
 
@@ -457,11 +510,43 @@ const IndexModeAcak = () => {
                              </div>
                           ))}
                           <div className="w-20 flex justify-center mt-1">
-                             <span className="text-[7px] font-black text-white/20 tracking-[0.4em] uppercase italic transition-colors">Segera</span>
+                             <span className={`text-[7px] font-black tracking-[0.4em] uppercase italic transition-colors ${allMudahCompleted && selectedDifficulty === 'MUDAH' ? 'text-cyan-400 animate-pulse' : 'text-white/20'}`}>
+                                {allMudahCompleted && selectedDifficulty === 'MUDAH' ? 'UPDATE' : 'Segera'}
+                             </span>
                           </div>
                        </div>
                        </div>
                     </div>
+
+                    {/* Banner ketika semua level MUDAH selesai */}
+                    {allMudahCompleted && selectedDifficulty === 'MUDAH' && (
+                       <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="mt-10 px-6"
+                       >
+                          <div className="bg-cyan-950/30 border border-cyan-500/30 rounded-2xl p-5 text-center relative overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.08)]">
+                             <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+                             <motion.div
+                                animate={{ opacity: [0.4, 1, 0.4] }}
+                                transition={{ duration: 3, repeat: Infinity }}
+                                className="text-[9px] font-black tracking-[0.6em] text-cyan-500 uppercase mb-2"
+                             >
+                                ✦ SEKTOR MUDAH: DILUMPUHKAN TOTAL ✦
+                             </motion.div>
+                             <p className="text-sm font-bold text-white/80 leading-relaxed">
+                                "Perjalanan belum berakhir di sini."
+                             </p>
+                             <p className="text-[10px] text-gray-400 mt-1 italic">
+                                Sistem sedang mempersiapkan sektor berikutnya. Tetap waspada — tantangan yang lebih dalam sedang menanti.
+                             </p>
+                             <div className="mt-4 inline-flex items-center gap-2 bg-black/40 border border-cyan-500/20 rounded-full px-4 py-1.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                                <span className="text-[9px] font-black text-cyan-400 uppercase tracking-[0.3em]">Tunggu Update Selanjutnya</span>
+                             </div>
+                          </div>
+                       </motion.div>
+                    )}
                 </div>
             )}
 

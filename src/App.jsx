@@ -10,15 +10,15 @@ import MudahLevel1 from './pages/arena/mode-acak/kategori/mudah/Level1';
 import MudahLevel2 from './pages/arena/mode-acak/kategori/mudah/Level2';
 import MudahLevel3 from './pages/arena/mode-acak/kategori/mudah/Level3';
 import MudahLevel4 from './pages/arena/mode-acak/kategori/mudah/Level4';
+import MudahLevel5 from './pages/arena/mode-acak/kategori/mudah/Level5';
+import MudahLevel6 from './pages/arena/mode-acak/kategori/mudah/Level6';
+import MudahLevel7 from './pages/arena/mode-acak/kategori/mudah/Level7';
+import MudahLevel8 from './pages/arena/mode-acak/kategori/mudah/Level8';
+import MudahLevel9 from './pages/arena/mode-acak/kategori/mudah/Level9';
+import MudahLevel10 from './pages/arena/mode-acak/kategori/mudah/Level10';
 
-import MenengahLevel1 from './pages/arena/mode-acak/kategori/menengah/Level1';
-import MenengahLevel2 from './pages/arena/mode-acak/kategori/menengah/Level2';
-import MenengahLevel3 from './pages/arena/mode-acak/kategori/menengah/Level3';
-
-import SulitLevel1 from './pages/arena/mode-acak/kategori/sulit/Level1';
-import SulitLevel2 from './pages/arena/mode-acak/kategori/sulit/Level2';
-import SulitLevel3 from './pages/arena/mode-acak/kategori/sulit/Level3';
 import WebExploitHub from './pages/arena/mode-pilihan/web-exploit/Web';
+import IndexWebExploit from './pages/arena/mode-pilihan/web-exploit/IndexWebExploit';
 import WebLevel1 from './pages/arena/mode-pilihan/web-exploit/Level1';
 import WebLevel2 from './pages/arena/mode-pilihan/web-exploit/Level2';
 import WebLevel3 from './pages/arena/mode-pilihan/web-exploit/Level3';
@@ -29,6 +29,20 @@ import WebLevel7 from './pages/arena/mode-pilihan/web-exploit/Level7';
 import WebLevel8 from './pages/arena/mode-pilihan/web-exploit/Level8';
 import WebLevel9 from './pages/arena/mode-pilihan/web-exploit/Level9';
 import WebLevel10 from './pages/arena/mode-pilihan/web-exploit/Level10';
+
+// Mode Pilihan Cryptography
+import IndexCryptography from './pages/arena/mode-pilihan/cryptography/IndexCryptography';
+import CryptoHub from './pages/arena/mode-pilihan/cryptography/Crypto';
+import CryptoLevel1 from './pages/arena/mode-pilihan/cryptography/Level1';
+import CryptoLevel2 from './pages/arena/mode-pilihan/cryptography/Level2';
+import CryptoLevel3 from './pages/arena/mode-pilihan/cryptography/Level3';
+import CryptoLevel4 from './pages/arena/mode-pilihan/cryptography/Level4';
+import CryptoLevel5 from './pages/arena/mode-pilihan/cryptography/Level5';
+import CryptoLevel6 from './pages/arena/mode-pilihan/cryptography/Level6';
+import CryptoLevel7 from './pages/arena/mode-pilihan/cryptography/Level7';
+import CryptoLevel8 from './pages/arena/mode-pilihan/cryptography/Level8';
+import CryptoLevel9 from './pages/arena/mode-pilihan/cryptography/Level9';
+import CryptoLevel10 from './pages/arena/mode-pilihan/cryptography/Level10';
 
 // Academy Modul 1 Hardware Imports
 import IntroHardware from './pages/academy/stage1-fundamental/modul1-hardware/IntroHardware';
@@ -201,20 +215,20 @@ function AnimatedRoutes() {
         <Route path="/ctf-arena/mode-acak/mudah/level/2" element={<MudahLevel2 />} />
         <Route path="/ctf-arena/mode-acak/mudah/level/3" element={<MudahLevel3 />} />
         <Route path="/ctf-arena/mode-acak/mudah/level/4" element={<MudahLevel4 />} />
-
-        {/* Mission Level Routes Menengah */}
-        <Route path="/ctf-arena/mode-acak/menengah/level/1" element={<MenengahLevel1 />} />
-        <Route path="/ctf-arena/mode-acak/menengah/level/2" element={<MenengahLevel2 />} />
-        <Route path="/ctf-arena/mode-acak/menengah/level/3" element={<MenengahLevel3 />} />
-
-        {/* Mission Level Routes Sulit */}
-        <Route path="/ctf-arena/mode-acak/sulit/level/1" element={<SulitLevel1 />} />
-        <Route path="/ctf-arena/mode-acak/sulit/level/2" element={<SulitLevel2 />} />
-        <Route path="/ctf-arena/mode-acak/sulit/level/3" element={<SulitLevel3 />} />
-        
+        <Route path="/ctf-arena/mode-acak/mudah/level/5" element={<MudahLevel5 />} />
+        <Route path="/ctf-arena/mode-acak/mudah/level/6" element={<MudahLevel6 />} />
+        <Route path="/ctf-arena/mode-acak/mudah/level/7" element={<MudahLevel7 />} />
+        <Route path="/ctf-arena/mode-acak/mudah/level/8" element={<MudahLevel8 />} />
+        <Route path="/ctf-arena/mode-acak/mudah/level/9" element={<MudahLevel9 />} />
+        <Route path="/ctf-arena/mode-acak/mudah/level/10" element={<MudahLevel10 />} />
         <Route path="/ctf-arena/mode-acak" element={<IndexModeAcak />} />
+
+        {/* Mode Pilihan */}
         <Route path="/ctf-arena/mode-pilihan" element={<IndexModePilihan />} />
-        <Route path="/ctf-arena/web-exploit" element={<WebExploitHub />} />
+
+        {/* Mode Pilihan Web Exploit */}
+        <Route path="/ctf-arena/web-exploit" element={<IndexWebExploit />} />
+        <Route path="/ctf-arena/web-exploit/mudah" element={<WebExploitHub />} />
         <Route path="/ctf-arena/web-exploit/level/1" element={<WebLevel1 />} />
         <Route path="/ctf-arena/web-exploit/level/2" element={<WebLevel2 />} />
         <Route path="/ctf-arena/web-exploit/level/3" element={<WebLevel3 />} />
@@ -225,7 +239,21 @@ function AnimatedRoutes() {
         <Route path="/ctf-arena/web-exploit/level/8" element={<WebLevel8 />} />
         <Route path="/ctf-arena/web-exploit/level/9" element={<WebLevel9 />} />
         <Route path="/ctf-arena/web-exploit/level/10" element={<WebLevel10 />} />
-        
+
+        {/* Mode Pilihan Cryptography */}
+        <Route path="/ctf-arena/cryptography" element={<IndexCryptography />} />
+        <Route path="/ctf-arena/cryptography/mudah" element={<CryptoHub />} />
+        <Route path="/ctf-arena/cryptography/level/1" element={<CryptoLevel1 />} />
+        <Route path="/ctf-arena/cryptography/level/2" element={<CryptoLevel2 />} />
+        <Route path="/ctf-arena/cryptography/level/3" element={<CryptoLevel3 />} />
+        <Route path="/ctf-arena/cryptography/level/4" element={<CryptoLevel4 />} />
+        <Route path="/ctf-arena/cryptography/level/5" element={<CryptoLevel5 />} />
+        <Route path="/ctf-arena/cryptography/level/6" element={<CryptoLevel6 />} />
+        <Route path="/ctf-arena/cryptography/level/7" element={<CryptoLevel7 />} />
+        <Route path="/ctf-arena/cryptography/level/8" element={<CryptoLevel8 />} />
+        <Route path="/ctf-arena/cryptography/level/9" element={<CryptoLevel9 />} />
+        <Route path="/ctf-arena/cryptography/level/10" element={<CryptoLevel10 />} />
+
         {/* Academy Modul 1 Hardware Routes */}
         <Route path="/academy/stage-1/modul-1/intro" element={<IntroHardware />} />
         <Route path="/academy/stage-1/modul-1/cpu-ram" element={<CpuDanRam />} />
@@ -261,54 +289,54 @@ function AnimatedRoutes() {
         <Route path="/academy/stage-2/modul-2/booting-bios" element={<ProsesBooting />} />
         <Route path="/academy/stage-2/modul-2/troubleshooting" element={<TroubleshootOS />} />
         <Route path="/academy/stage-2/modul-2/kesimpulan" element={<KesimpulanInstall />} />
-        
+
         {/* Stage 2 - Modul 3: CLI */}
         <Route path="/academy/stage-2/modul-3/intro" element={<IntroCli />} />
         <Route path="/academy/stage-2/modul-3/perintah-ping" element={<PerintahPing />} />
         <Route path="/academy/stage-2/modul-3/perintah-ipconfig" element={<PerintahIpconfig />} />
-          <Route path="/academy/stage-2/modul-3/kesimpulan" element={<KesimpulanCli />} />
-          
-          {/* Stage 2 - Modul 4: Virtualization */}
-          <Route path="/academy/stage-2/modul-4/intro" element={<IntroVirtualisasi />} />
-          <Route path="/academy/stage-2/modul-4/software-vm" element={<SoftwareVm />} />
-          <Route path="/academy/stage-2/modul-4/snapshot" element={<KeajaibanSnapshot />} />
-          <Route path="/academy/stage-2/modul-4/kesimpulan" element={<KesimpulanVirtualisasi />} />
-          
-          {/* Stage 3 - Networking Knowledge */}
-          <Route path="/academy/stage-3/modul-1" element={<IntroOsi />} />
-          <Route path="/academy/stage-3/modul-1/upper-layers" element={<UpperLayers />} />
-          <Route path="/academy/stage-3/modul-1/lower-layers" element={<LowerLayers />} />
-          <Route path="/academy/stage-3/modul-1/kesimpulan" element={<KesimpulanOsi />} />
+        <Route path="/academy/stage-2/modul-3/kesimpulan" element={<KesimpulanCli />} />
 
-          {/* Stage 3 - Modul 2: Common Ports & Protocols */}
-          <Route path="/academy/stage-3/modul-2" element={<IntroPorts />} />
-          <Route path="/academy/stage-3/modul-2/web-protocols" element={<WebProtocols />} />
-          <Route path="/academy/stage-3/modul-2/admin-protocols" element={<AdminProtocols />} />
-          <Route path="/academy/stage-3/modul-2/kesimpulan" element={<KesimpulanPorts />} />
+        {/* Stage 2 - Modul 4: Virtualization */}
+        <Route path="/academy/stage-2/modul-4/intro" element={<IntroVirtualisasi />} />
+        <Route path="/academy/stage-2/modul-4/software-vm" element={<SoftwareVm />} />
+        <Route path="/academy/stage-2/modul-4/snapshot" element={<KeajaibanSnapshot />} />
+        <Route path="/academy/stage-2/modul-4/kesimpulan" element={<KesimpulanVirtualisasi />} />
 
-          {/* Stage 3 - Modul 3: Network Topologies */}
-          <Route path="/academy/stage-3/modul-3/intro" element={<IntroTopology />} />
-          <Route path="/academy/stage-3/modul-3/star-bus-ring" element={<StarBusRing />} />
-          <Route path="/academy/stage-3/modul-3/mesh-tree" element={<MeshTree />} />
-          <Route path="/academy/stage-3/modul-3/kesimpulan" element={<KesimpulanTopology />} />
+        {/* Stage 3 - Networking Knowledge */}
+        <Route path="/academy/stage-3/modul-1" element={<IntroOsi />} />
+        <Route path="/academy/stage-3/modul-1/upper-layers" element={<UpperLayers />} />
+        <Route path="/academy/stage-3/modul-1/lower-layers" element={<LowerLayers />} />
+        <Route path="/academy/stage-3/modul-1/kesimpulan" element={<KesimpulanOsi />} />
 
-          {/* Stage 3 - Modul 4: IP, MAC, DHCP & DNS Routes */}
-          <Route path="/academy/stage-3/modul-4/intro" element={<IntroIpMac />} />
-          <Route path="/academy/stage-3/modul-4/dhcp" element={<DhcpServer />} />
-          <Route path="/academy/stage-3/modul-4/dns" element={<DnsResolution />} />
-          <Route path="/academy/stage-3/modul-4/kesimpulan" element={<KesimpulanIpDns />} />
+        {/* Stage 3 - Modul 2: Common Ports & Protocols */}
+        <Route path="/academy/stage-3/modul-2" element={<IntroPorts />} />
+        <Route path="/academy/stage-3/modul-2/web-protocols" element={<WebProtocols />} />
+        <Route path="/academy/stage-3/modul-2/admin-protocols" element={<AdminProtocols />} />
+        <Route path="/academy/stage-3/modul-2/kesimpulan" element={<KesimpulanPorts />} />
 
-          {/* Stage 3 - Modul 5: NAS & SAN Basics Routes */}
-          <Route path="/academy/stage-3/modul-5/intro-storage" element={<IntroStorage />} />
-          <Route path="/academy/stage-3/modul-5/nas-deep-dive" element={<DeepDiveNas />} />
-          <Route path="/academy/stage-3/modul-5/san-deep-dive" element={<DeepDiveSan />} />
-          <Route path="/academy/stage-3/modul-5/kesimpulan-storage" element={<KesimpulanNasSan />} />
+        {/* Stage 3 - Modul 3: Network Topologies */}
+        <Route path="/academy/stage-3/modul-3/intro" element={<IntroTopology />} />
+        <Route path="/academy/stage-3/modul-3/star-bus-ring" element={<StarBusRing />} />
+        <Route path="/academy/stage-3/modul-3/mesh-tree" element={<MeshTree />} />
+        <Route path="/academy/stage-3/modul-3/kesimpulan" element={<KesimpulanTopology />} />
 
-          {/* Stage 4 - Security Skills Routes */}
-          <Route path="/academy/stage-4/modul-1/intro" element={<IntroAuth />} />
-          <Route path="/academy/stage-4/modul-1/tiga-pilar" element={<TigaPilarMfa />} />
-          <Route path="/academy/stage-4/modul-1/sso" element={<SingleSignOn />} />
-          <Route path="/academy/stage-4/modul-1/kesimpulan" element={<KesimpulanAuth />} />
+        {/* Stage 3 - Modul 4: IP, MAC, DHCP & DNS Routes */}
+        <Route path="/academy/stage-3/modul-4/intro" element={<IntroIpMac />} />
+        <Route path="/academy/stage-3/modul-4/dhcp" element={<DhcpServer />} />
+        <Route path="/academy/stage-3/modul-4/dns" element={<DnsResolution />} />
+        <Route path="/academy/stage-3/modul-4/kesimpulan" element={<KesimpulanIpDns />} />
+
+        {/* Stage 3 - Modul 5: NAS & SAN Basics Routes */}
+        <Route path="/academy/stage-3/modul-5/intro-storage" element={<IntroStorage />} />
+        <Route path="/academy/stage-3/modul-5/nas-deep-dive" element={<DeepDiveNas />} />
+        <Route path="/academy/stage-3/modul-5/san-deep-dive" element={<DeepDiveSan />} />
+        <Route path="/academy/stage-3/modul-5/kesimpulan-storage" element={<KesimpulanNasSan />} />
+
+        {/* Stage 4 - Security Skills Routes */}
+        <Route path="/academy/stage-4/modul-1/intro" element={<IntroAuth />} />
+        <Route path="/academy/stage-4/modul-1/tiga-pilar" element={<TigaPilarMfa />} />
+        <Route path="/academy/stage-4/modul-1/sso" element={<SingleSignOn />} />
+        <Route path="/academy/stage-4/modul-1/kesimpulan" element={<KesimpulanAuth />} />
 
         {/* Stage 4 - Modul 2: Cryptography & Hashing Routes */}
         <Route path="/academy/stage-4/modul-2/intro" element={<IntroCrypto />} />
@@ -378,7 +406,7 @@ function AnimatedRoutes() {
 
         {/* Roadmap Eksplorasi */}
         <Route path="/academy/roadmap" element={<RoadmapEksplorasi />} />
-        </Routes>
+      </Routes>
     </AnimatePresence>
   );
 }

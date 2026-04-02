@@ -14,125 +14,125 @@ import {
   Activity 
 } from 'lucide-react';
 
-const WebExploitHub = () => {
+const CryptographyHub = () => {
   const navigate = useNavigate();
 
   // Load persistent stats for WEB categoria
   const [levelStats] = useState(() => {
-    const saved = localStorage.getItem('ctf_web_exploit_stats');
+    const saved = localStorage.getItem('ctf_cryptography_stats');
     return saved ? JSON.parse(saved) : { 1: { stars: 0, bestTime: null } };
   });
 
   const missions = [
     {
       id: 1,
-      title: "Operation: Hidden Source",
-      desc: "Menyelinap ke dalam kode sumber aplikasi untuk menemukan informasi rahasia.",
+      title: "Operation: Imperial Shift",
+      desc: "Pecahkan pergeseran pesan peninggalan bangsa Romawi kuno.",
       timeLimit: 120, // 2 minutes
-      type: "CLIENT-SIDE",
+      type: "CAESAR-CIPHER",
       active: true,
       stars: levelStats[1]?.stars || 0,
       bestTime: levelStats[1]?.bestTime || null,
-      path: "/ctf-arena/web-exploit/level/1"
+      path: "/ctf-arena/cryptography/level/1"
     },
     {
       id: 2,
-      title: "Operation: Cookie Monster",
-      desc: "Manipulasi data session untuk mendapatkan hak akses administratif.",
+      title: "Operation: Numeric Base",
+      desc: "Terjemahkan susunan karakter standar format teks 64 bit yang menutup jejak.",
       timeLimit: 180, // 3 minutes
-      type: "BROWSER-EXPLOIT",
+      type: "BASE-64",
       active: levelStats[1]?.stars > 0,
       stars: levelStats[2]?.stars || 0,
       bestTime: levelStats[2]?.bestTime || null,
-      path: "/ctf-arena/web-exploit/level/2"
+      path: "/ctf-arena/cryptography/level/2"
     },
     {
       id: 3,
-      title: "Operation: Form Injection",
-      desc: "Bypass validasi input pada form pendaftaran untuk menyuntikkan perintah.",
-      timeLimit: 300, // 5 minutes
-      type: "INJECTION",
+      title: "Operation: Dot and Dash",
+      desc: "Tafsirkan sandi telegram kuno yang dicegat dari aliran komunikasi musuh.",
+      timeLimit: 180, // 3 minutes
+      type: "MORSE-CODE",
       active: levelStats[2]?.stars > 0,
       stars: levelStats[3]?.stars || 0,
       bestTime: levelStats[3]?.bestTime || null,
-      path: "/ctf-arena/web-exploit/level/3"
+      path: "/ctf-arena/cryptography/level/3"
     },
     {
       id: 4,
-      title: "Operation: File Access",
-      desc: "Manfaatkan path traversal untuk keluar dari direktori publik dan membaca file server.",
+      title: "Operation: Machine Code",
+      desc: "Konversikan sekuens bilangan nol dan satu menjadi teks ASCII biasa.",
       timeLimit: 240, // 4 minutes
-      type: "TRAVERSAL",
+      type: "BINARY",
       active: levelStats[3]?.stars > 0,
       stars: levelStats[4]?.stars || 0,
       bestTime: levelStats[4]?.bestTime || null,
-      path: "/ctf-arena/web-exploit/level/4"
+      path: "/ctf-arena/cryptography/level/4"
     },
     {
       id: 5,
-      title: "Operation: Network Util",
-      desc: "Lakukan injeksi perintah OS (Command Injection) melalui alat ping jaringan.",
-      timeLimit: 300, // 5 minutes
-      type: "RCE",
+      title: "Operation: Base Hexa",
+      desc: "Bongkar data dump berformat heksadesimal yang dicuri dari jaringan.",
+      timeLimit: 240, // 4 minutes
+      type: "HEXADECIMAL",
       active: levelStats[4]?.stars > 0,
       stars: levelStats[5]?.stars || 0,
       bestTime: levelStats[5]?.bestTime || null,
-      path: "/ctf-arena/web-exploit/level/5"
+      path: "/ctf-arena/cryptography/level/5"
     },
     {
       id: 6,
-      title: "Operation: Support Portal",
-      desc: "Sisipkan payload XSS yang terefleksi kembali ke browser pada form feedback.",
+      title: "Operation: Wheel of Thirteen",
+      desc: "Putar kembali alfabet ke arah berlawanan dari pergeseran rotasi tiga belas standar.",
       timeLimit: 300, // 5 minutes
-      type: "CLIENT-SIDE",
+      type: "ROT-13",
       active: levelStats[5]?.stars > 0,
       stars: levelStats[6]?.stars || 0,
       bestTime: levelStats[6]?.bestTime || null,
-      path: "/ctf-arena/web-exploit/level/6"
+      path: "/ctf-arena/cryptography/level/6"
     },
     {
       id: 7,
-      title: "Operation: HR Portal",
-      desc: "Manipulasi parameter user ID untuk mengakses profil administratif tak terotorisasi.",
-      timeLimit: 360, // 6 minutes
-      type: "ACCESS-CTRL",
+      title: "Operation: Mirror Image",
+      desc: "Pecahkan susunan kriptografi pantulan di mana alfabet dicerminkan terbalik secara simetris.",
+      timeLimit: 300, // 5 minutes
+      type: "ATBASH",
       active: levelStats[6]?.stars > 0,
       stars: levelStats[7]?.stars || 0,
       bestTime: levelStats[7]?.bestTime || null,
-      path: "/ctf-arena/web-exploit/level/7"
+      path: "/ctf-arena/cryptography/level/7"
     },
     {
       id: 8,
-      title: "Operation: Web Proxy",
-      desc: "Eksploitasi alat fetch internal untuk melakukan SSRF dan membaca cloud metadata.",
+      title: "Operation: Nested Encrypt",
+      desc: "Dekode format pembungkusan berlapis ganda dari satu sistem ke sistem lain secara beruntun.",
       timeLimit: 360, // 6 minutes
-      type: "SSRF",
+      type: "NESTED-DECODE",
       active: levelStats[7]?.stars > 0,
       stars: levelStats[8]?.stars || 0,
       bestTime: levelStats[8]?.bestTime || null,
-      path: "/ctf-arena/web-exploit/level/8"
+      path: "/ctf-arena/cryptography/level/8"
     },
     {
       id: 9,
-      title: "Operation: B2B API",
-      desc: "Suntikkan entitas XML mematikan pada parser B2B (XXE) untuk mencuri file pasword.",
+      title: "Operation: Vigenere Key",
+      desc: "Gunakan kata pas kunci rahasia diplomatik untuk menerjemahkan sandi substitusi matriks.",
       timeLimit: 420, // 7 minutes
-      type: "XXE",
+      type: "VIGENERE",
       active: levelStats[8]?.stars > 0,
       stars: levelStats[9]?.stars || 0,
       bestTime: levelStats[9]?.bestTime || null,
-      path: "/ctf-arena/web-exploit/level/9"
+      path: "/ctf-arena/cryptography/level/9"
     },
     {
       id: 10,
-      title: "Operation: Token Forgery",
-      desc: "Palsukan JWT menggunakan kelemahan validasi algoritma untuk mendapatkan hak Root.",
+      title: "Operation: Reversed Helix",
+      desc: "Bongkar data heksadesimal mentah yang urutannya dibalik oleh lapisan enkriptor khusus.",
       timeLimit: 600, // 10 minutes
-      type: "CRYPTANALYSIS",
+      type: "BOSS-CIPHER",
       active: levelStats[9]?.stars > 0,
       stars: levelStats[10]?.stars || 0,
       bestTime: levelStats[10]?.bestTime || null,
-      path: "/ctf-arena/web-exploit/level/10"
+      path: "/ctf-arena/cryptography/level/10"
     }
   ];
 
@@ -145,11 +145,11 @@ const WebExploitHub = () => {
 
   const getTierColors = (id) => {
     return {
-      bgMain: 'bg-cyan-500/5', borderMain: 'border-cyan-500/50', shadowMain: 'shadow-[0_0_15px_rgba(6,182,212,0.3)]',
-      bgActive: 'bg-cyan-500', borderActive: 'border-cyan-400', textActive: 'text-cyan-400', textDim: 'text-cyan-500/60',
-      shadowSmall: 'shadow-[0_0_10px_rgba(6,182,212,0.4)]', bgHover: 'hover:bg-cyan-400',
-      textSolid: 'text-cyan-500', borderSolid: 'border-cyan-500', bgHeader: 'bg-cyan-500/10', borderHeader: 'border-cyan-500/20',
-      gradient: 'from-cyan-500/50', textBlack: 'text-black', rgb: '6, 182, 212'
+      bgMain: 'bg-yellow-500/5', borderMain: 'border-yellow-500/50', shadowMain: 'shadow-[0_0_15px_rgba(6,182,212,0.3)]',
+      bgActive: 'bg-yellow-500', borderActive: 'border-yellow-400', textActive: 'text-yellow-400', textDim: 'text-yellow-500/60',
+      shadowSmall: 'shadow-[0_0_10px_rgba(6,182,212,0.4)]', bgHover: 'hover:bg-yellow-400',
+      textSolid: 'text-yellow-500', borderSolid: 'border-yellow-500', bgHeader: 'bg-yellow-500/10', borderHeader: 'border-yellow-500/20',
+      gradient: 'from-yellow-500/50', textBlack: 'text-black', rgb: '6, 182, 212'
     };
   };
 
@@ -169,11 +169,11 @@ const WebExploitHub = () => {
   const selT = getTierColors(selectedMission.id);
 
   return (
-    <div className="relative min-h-screen bg-[#020617] text-white font-mono overflow-hidden flex flex-col">
+    <div className="relative min-h-screen bg-[#020617] text-white font-mono overflow-hidden flex flex-col crypto-page-theme">
       {/* Background Decoration */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-cyan-500/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-cyan-500/5 blur-[120px] rounded-full" />
+        <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-yellow-500/5 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-yellow-500/5 blur-[120px] rounded-full" />
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]" />
       </div>
 
@@ -182,19 +182,19 @@ const WebExploitHub = () => {
         <header className="flex justify-between items-end mb-10 pb-6 border-b border-white/5">
           <div className="flex items-center gap-5">
             <button 
-              onClick={() => navigate('/ctf-arena/web-exploit')}
-              className="p-2.5 bg-white/5 hover:bg-cyan-500/10 rounded-xl transition-all border border-white/10 hover:border-cyan-500/30 group"
+              onClick={() => navigate('/ctf-arena/cryptography')}
+              className="p-2.5 bg-white/5 hover:bg-yellow-500/10 rounded-xl transition-all border border-white/10 hover:border-yellow-500/30 group"
             >
-              <ChevronLeft className="w-5 h-5 text-gray-400 group-hover:text-cyan-400" />
+              <ChevronLeft className="w-5 h-5 text-gray-400 group-hover:text-yellow-400" />
             </button>
             <div className="h-10 w-px bg-white/10" />
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-pulse" />
-                <span className="text-[9px] uppercase font-black tracking-[0.3em] text-cyan-500/60">NODE: WEB_EXPLOIT</span>
+                <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse" />
+                <span className="text-[9px] uppercase font-black tracking-[0.3em] text-yellow-500/60">NODE: CRYPTOGRAPHY</span>
               </div>
               <h1 className="text-2xl font-black italic tracking-tighter uppercase text-white leading-none">
-                MISSION_<span className="text-cyan-400">HUB</span>
+                MISSION_<span className="text-yellow-400">HUB</span>
               </h1>
             </div>
           </div>
@@ -202,10 +202,10 @@ const WebExploitHub = () => {
           <div className="hidden md:flex items-center gap-4">
              <div className="flex flex-col items-end">
                 <span className="text-[8px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">Status</span>
-                <span className="text-[10px] font-black text-cyan-500 uppercase tracking-tighter italic leading-none">INFILTRATION_ACTIVE</span>
+                <span className="text-[10px] font-black text-yellow-500 uppercase tracking-tighter italic leading-none">INFILTRATION_ACTIVE</span>
              </div>
-             <div className="p-2.5 bg-cyan-500/10 border border-cyan-500/20 rounded-xl">
-                <Globe className="w-4 h-4 text-cyan-400" />
+             <div className="p-2.5 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
+                <Globe className="w-4 h-4 text-yellow-400" />
              </div>
           </div>
         </header>
@@ -214,7 +214,7 @@ const WebExploitHub = () => {
           {/* Left Side: Mission List */}
           <div className="col-span-12 lg:col-span-8 flex flex-col">
             <div className="flex items-center gap-4 mb-8">
-               <div className="h-px flex-1 bg-gradient-to-r from-cyan-500/50 to-transparent" />
+               <div className="h-px flex-1 bg-gradient-to-r from-yellow-500/50 to-transparent" />
                <h2 className="text-[11px] font-black text-white/40 tracking-[0.4em] uppercase whitespace-nowrap italic">Daftar_Misi_Tersedia</h2>
             </div>
 
@@ -368,19 +368,19 @@ const WebExploitHub = () => {
         <footer className="mt-12 flex justify-between items-center text-[10px] text-gray-800 font-black border-t border-white/5 pt-8">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
-              <Activity className="w-3 h-3 text-cyan-500" />
+              <Activity className="w-3 h-3 text-yellow-500" />
               <span className="tracking-[0.2em] uppercase italic">Node_Status: OPERATIONAL</span>
             </div>
             <div className="flex items-center gap-2">
-              <Cpu className="w-3 h-3 text-cyan-500" />
-              <span className="tracking-[0.2em] uppercase italic">Grid: X-772_W_EXPLOIT</span>
+              <Cpu className="w-3 h-3 text-yellow-500" />
+              <span className="tracking-[0.2em] uppercase italic">Grid: X-772_CRYPTO</span>
             </div>
           </div>
           <div className="tracking-[0.2em] uppercase italic flex items-center gap-4">
              <span className="text-white/20 italic">CyberCamp_V1.4</span>
-             <div className="flex items-center gap-1.5 p-1 px-3 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
-                <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-ping" />
-                <span className="text-cyan-500">SECURE_LINK_STABLE</span>
+             <div className="flex items-center gap-1.5 p-1 px-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-ping" />
+                <span className="text-yellow-500">SECURE_LINK_STABLE</span>
              </div>
           </div>
         </footer>
@@ -389,4 +389,4 @@ const WebExploitHub = () => {
   );
 };
 
-export default WebExploitHub;
+export default CryptographyHub;

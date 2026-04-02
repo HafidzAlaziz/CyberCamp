@@ -67,3 +67,29 @@
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-700;
 }
+
+/* Crypto Scrollbar Theme */
+/* Crypto Global Scrollbar Theme */
+.crypto-page-theme ::-webkit-scrollbar,
+html:has(.crypto-page-theme) ::-webkit-scrollbar,
+body:has(.crypto-page-theme) ::-webkit-scrollbar {
+  width: 8px;
+}
+.crypto-page-theme ::-webkit-scrollbar-track,
+html:has(.crypto-page-theme) ::-webkit-scrollbar-track,
+body:has(.crypto-page-theme) ::-webkit-scrollbar-track {
+  background: rgba(234, 179, 8, 0.02) !important;
+  border-radius: 10px;
+}
+.crypto-page-theme ::-webkit-scrollbar-thumb,
+html:has(.crypto-page-theme) ::-webkit-scrollbar-thumb,
+body:has(.crypto-page-theme) ::-webkit-scrollbar-thumb {
+  background: #eab308 !important;
+  border-radius: 10px;
+  border: none !important;
+}
+.crypto-page-theme ::-webkit-scrollbar-thumb:hover,
+html:has(.crypto-page-theme) ::-webkit-scrollbar-thumb:hover,
+body:has(.crypto-page-theme) ::-webkit-scrollbar-thumb:hover {
+  background: #facc15 !important;
+}

@@ -38,6 +38,7 @@ const MudahLevel2 = () => {
   const [flag, setFlag] = useState('');
   const [status, setStatus] = useState('active'); // 'active', 'wrong', 'decoy', 'complete'
   const [attempts, setAttempts] = useState([]);
+  const [showHint, setShowHint] = useState(false);
   const [completionTime, setCompletionTime] = useState(null);
   const [showExitModal, setShowExitModal] = useState(false);
   
@@ -163,10 +164,7 @@ const MudahLevel2 = () => {
     setInputValue('');
   };
 
-  const handleHintClick = () => {
-    setHasUsedHint(true);
-    localStorage.setItem('ctf_mudah_level2_hint_used', 'true');
-  };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -290,7 +288,7 @@ const MudahLevel2 = () => {
           
           {/* LEFT SIDE: BRIEFING */}
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
-            <div className="bg-gray-950/50 border border-cyan-500/30 rounded-2xl p-6 flex-1 flex flex-col relative overflow-hidden group shadow-[inset_0_0_20px_rgba(6,182,212,0.05)]">
+            <div className="bg-[#0a0a0a] border border-cyan-500/30 rounded-lg p-6 flex-1 flex flex-col relative overflow-hidden group shadow-[inset_0_0_20px_rgba(6,182,212,0.05)]">
               <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500 shadow-[0_0_15px_#22d3ee]" />
               <div className="flex items-center gap-3 mb-6">
                 <Terminal className="w-5 h-5 text-cyan-400" />
@@ -311,20 +309,27 @@ const MudahLevel2 = () => {
 
             <div className="mt-auto space-y-3">
                <button 
-                  onClick={handleHintClick} 
+                  onClick={() => { 
+                     if (!hasUsedHint) { 
+                        setHasUsedHint(true); 
+                        localStorage.setItem('ctf_mudah_level2_hint_used', 'true'); 
+                     }
+                     setShowHint(!showHint); 
+                  }} 
                   className={`w-full border rounded-xl p-4 flex items-center justify-center gap-3 group transition-all shadow-[0_0_20px_rgba(6,182,212,0.1)] ${hasUsedHint ? 'border-cyan-400 bg-cyan-950/40 text-cyan-400' : 'border-cyan-500/40 bg-cyan-950/20 hover:bg-cyan-950/30 text-cyan-200'}`}
                >
                   <Zap className={`w-4 h-4 transition-colors ${hasUsedHint ? 'fill-cyan-400' : ''}`} />
-                  <span className="text-xs font-black uppercase tracking-widest">{hasUsedHint ? 'HINT ACTIVE' : '💡 MINTA JAWABAN (-1 BINTANG)'}</span>
+                  <span className="text-xs font-black uppercase tracking-widest">{hasUsedHint ? 'HINT ACTIVE (-1 BINTANG)' : '💡 MINTA KLU (-1 BINTANG)'}</span>
                </button>
                <AnimatePresence>
-                  {hasUsedHint && (
-                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="bg-gray-900/50 border border-white/5 rounded-xl p-4 text-[10px] text-gray-400 italic leading-tight uppercase font-black tracking-widest text-center mt-2 overflow-hidden">
-                        <span className="text-cyan-400">ANSWER:</span> {realFlag}
+                  {showHint && (
+                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="bg-gray-900/50 border border-white/5 rounded-xl p-4 text-[10px] text-gray-500 italic uppercase leading-tight mt-3 overflow-hidden">
+                        <span className="text-cyan-400 font-black block mb-2 normal-case not-italic">💡 CLUE ANALISIS:</span>
+                        <span className="text-gray-400 block normal-case not-italic">Ada file yang disembunyikan di direktori home. Di Linux, file tersembunyi diawali dengan titik <span className="text-cyan-300 font-mono text-[9px]">(misalnya: .folder_rahasia)</span>. Gunakan perintah <span className="text-cyan-300 font-mono text-[9px]">ls -a</span> untuk melihatnya, lalu masuk dengan <span className="text-cyan-300 font-mono text-[9px]">cd</span> dan baca file di dalamnya.</span>
                      </motion.div>
-                  )}
-               </AnimatePresence>
-            </div>
+                   )}
+                </AnimatePresence>
+             </div>
           </div>
 
           {/* CENTER: WORKSPACE (TERMINAL EMULATOR) */}
@@ -369,22 +374,32 @@ const MudahLevel2 = () => {
                 </div>
              </div>
 
-             {/* SUBMISSION */}
-             <div className="bg-gray-900/40 border border-cyan-500/30 rounded-2xl p-6 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-10"><Terminal className="w-12 h-12 text-cyan-500" /></div>
+             {/* SUBMISSION AREA */}
+             <div className="bg-[#0a0a0a] border border-cyan-500/10 rounded-2xl p-6 backdrop-blur-xl relative group">
                 <form onSubmit={handleSubmit} className="relative z-10 flex flex-col md:flex-row gap-4">
                    <div className="flex-1 relative">
-                     <input type="text" value={flag} onChange={(e) => setFlag(e.target.value)} placeholder="Masukkan flag di sini (CTF_{...})" className={`w-full bg-black/60 border-2 rounded-xl py-4 px-6 text-sm tracking-widest text-white placeholder:text-gray-700 focus:outline-none transition-all ${status === 'wrong' || status === 'decoy' ? 'border-cyan-500 shadow-[0_0_15px_#06b6d4]' : 'border-cyan-500/40 focus:border-cyan-500 focus:shadow-[0_0_20px_rgba(6,182,212,0.2)]'}`} />
+                     <input 
+                        type="text" 
+                        value={flag} 
+                        onChange={(e) => setFlag(e.target.value)} 
+                        placeholder="Masukkan flag di sini (CTF_{...})" 
+                        className={`w-full bg-black/60 border border-cyan-500/30 text-cyan-100 rounded-xl py-4 px-6 text-xs font-mono focus:outline-none focus:border-cyan-500 transition-all tracking-widest placeholder:text-gray-700 shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]`} 
+                     />
                      <AnimatePresence>
-                       {status === 'wrong' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-cyan-600 text-[8px] font-black italic px-3 py-1 rounded-full text-white shadow-lg uppercase">ACCESS DENIED</motion.div>}
-                       {status === 'decoy' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-cyan-600 text-[8px] font-black italic px-3 py-1 rounded-full text-black shadow-lg uppercase animate-bounce">DECOY DETECTED: Itu file pancingan!</motion.div>}
+                       {status === 'wrong' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-red-600 text-[8px] font-black italic px-3 py-1 rounded-full text-white shadow-lg uppercase">WRONG FLAG</motion.div>}
+                       {status === 'decoy' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-yellow-600 text-[8px] font-black italic px-3 py-1 rounded-full text-black shadow-lg uppercase">DECOY FLAG</motion.div>}
                      </AnimatePresence>
                    </div>
-                   <button type="submit" className="bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase text-xs tracking-[0.2em] px-10 py-4 rounded-xl transition-all active:scale-95 shadow-[0_10px_30px_rgba(6,182,212,0.3)]">[ SUBMIT FLAG ]</button>
+                   <button 
+                      type="submit" 
+                      className="bg-cyan-500 hover:bg-cyan-400 text-black font-black px-12 py-4 rounded-xl text-xs tracking-widest uppercase transition-all shadow-[0_10px_30px_rgba(6,182,212,0.3)] active:scale-95 flex items-center justify-center font-bold"
+                   >
+                      [ SUBMIT FLAG ]
+                   </button>
                 </form>
-                <div className="mt-6 flex flex-wrap gap-2">
+                <div className="mt-4 flex gap-2 overflow-x-auto pb-2 h-8">
                    {attempts.map((att, idx) => (
-                     <span key={idx} className="text-[9px] font-bold text-gray-700 italic border border-gray-800 px-2 py-1 rounded line-through decoration-cyan-500/50">{att}</span>
+                     <div key={idx} className="px-2 py-1 bg-cyan-950/30 border border-cyan-500/20 rounded text-[8px] text-cyan-500/50 italic line-through whitespace-nowrap">{att}</div>
                    ))}
                 </div>
              </div>
@@ -405,18 +420,18 @@ const MudahLevel2 = () => {
       </div>
       <AnimatePresence>
          {showExitModal && (
-            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
-               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowExitModal(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-               <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ opacity: 0 }} className="relative bg-gray-900 border border-cyan-500/30 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
-                  <ShieldAlert className="w-12 h-12 text-cyan-600 mx-auto mb-4" />
-                  <h3 className="text-xl font-black text-white italic tracking-tighter uppercase mb-2">ABORT MISSION?</h3>
-                  <p className="text-xs text-gray-500 uppercase italic mb-8 leading-relaxed">INTERSEPSI YANG SEDANG BERJALAN AKAN DIPUTUSKAN DAN PROGRESS LOG AKAN DI-RESET.</p>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex justify-center items-center p-4">
+               <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-gray-900 border border-cyan-500/30 rounded-2xl p-8 max-w-md w-full text-center relative overflow-hidden shadow-[0_0_40px_rgba(6,182,212,0.1)]">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-cyan-500" />
+                  <ShieldAlert className="w-12 h-12 text-cyan-500 mx-auto mb-4" />
+                  <h3 className="text-xl font-black text-white tracking-widest uppercase mb-2">ABORT MISSION?</h3>
+                  <p className="text-sm text-gray-400 mb-8 font-sans">Anda yakin ingin keluar? Waktu akan terus berjalan dan progress sesi Terminal ini akan di-reset.</p>
                   <div className="flex gap-4">
-                     <button onClick={handleExit} className="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white font-black py-4 rounded-xl text-xs tracking-widest uppercase transition-all">YES, ABORT</button>
-                     <button onClick={() => setShowExitModal(false)} className="flex-1 bg-white/5 hover:bg-white/10 text-white font-black py-4 rounded-xl border border-white/5 text-xs tracking-widest uppercase transition-all">CANCEL</button>
+                    <button onClick={() => setShowExitModal(false)} className="flex-1 py-3 bg-gray-800 text-white font-bold rounded-xl border border-white/5 hover:bg-gray-700 transition-colors">BATAL</button>
+                    <button onClick={handleExit} className="flex-1 py-3 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl hover:bg-red-400 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)]">KELUAR</button>
                   </div>
                </motion.div>
-            </div>
+            </motion.div>
          )}
       </AnimatePresence>
 

@@ -1,50 +1,46 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
-  ShieldAlert,
-  Clock,
-  Zap,
+  HardDrive,
   ChevronLeft,
   X,
-  Play,
+  Zap,
   Terminal,
-  Cpu,
+  ShieldAlert,
   Search,
-  HardDrive,
+  Cpu,
   Activity,
-  Database,
-  Lock,
-  Check
+  Database
 } from 'lucide-react';
 
 const MudahLevel4 = () => {
   const navigate = useNavigate();
   
-  // Timer: Count-up
+  // Timer Persistence Logic
   const [elapsed, setElapsed] = useState(0);
 
-  const [hasUsedHint, setHasUsedHint] = useState(() => localStorage.getItem('ctf_mudah_level4_hint_used') === 'true');
-  
+  const [hasUsedHint, setHasUsedHint] = useState(() => {
+    return localStorage.getItem('ctf_mudah_level4_hint_used') === 'true';
+  });
+
   // Calculate dynamic stars
-  const timeLimit = 600; // 10 minutes
+  const timeLimit = 900; // 15 minutes
   const isTimeFailed = elapsed > timeLimit;
-  const timePenalty = isTimeFailed ? 1 : 0;
   const hintPenalty = hasUsedHint ? 1 : 0;
+  const timePenalty = isTimeFailed ? 1 : 0;
   const stars = Math.max(1, 3 - hintPenalty - timePenalty);
-  
 
   const [flag, setFlag] = useState('');
   const [status, setStatus] = useState('active'); // 'active', 'wrong', 'decoy', 'complete'
   const [attempts, setAttempts] = useState([]);
   const [showHint, setShowHint] = useState(false);
-  const [showHintModal, setShowHintModal] = useState(false);
   const [completionTime, setCompletionTime] = useState(null);
   const [showExitModal, setShowExitModal] = useState(false);
 
-  // SECURITY: Obfuscation & Decoys
+  // SECURITY: Obfuscation & Decoys (Original from b26f15b)
   const [_0x_f_val] = useState(() => atob("Q1RGe0gxZGQzbl8xbl9QbDRxbl9TMWdodH0=")); // CTF{H1dd3n_1n_Pl41n_S1ght}
-  const [decoys] = useState(["CTF{F4K3_FL4G_D0_N0T_SUBM1T}", "CTF{M3M0RY_C0RRUPT3D}"]);
+  const [decoys] = useState(["CTF{F4K3_FL4G_D0_N0T_SUBM1T}", "CTF{M3MORY_C0RRUPT3D}"]);
 
   // Generate Hex Dump Data
   const hexRows = useMemo(() => {
@@ -88,18 +84,6 @@ const MudahLevel4 = () => {
     }
   }, [status]);
 
-  const handleHintClick = () => {
-    if (!showHint) {
-      setShowHint(true);
-      if (!hintStage > 0) {
-        
-        localStorage.setItem('ctf_mudah_level4_hint_used', 'true');
-      }
-    } else {
-      setShowHint(false);
-    }
-  };
-
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -118,21 +102,11 @@ const MudahLevel4 = () => {
       const savedStats = localStorage.getItem('ctf_mode_acak_stats');
       const stats = savedStats ? JSON.parse(savedStats) : {};
       const currentBestStars = stats['mudah-4']?.stars || 0;
-      const currentBestTimeSec = (() => { 
-        const t = stats['mudah-4']?.bestTime; 
-        if (!t) return 999999;
-        const parts = String(t).split(':').map(Number);
-        return parts.length === 2 ? parts[0] * 60 + parts[1] : (Number(parts[0]) || 999999);
-      })();
-      const isBetter = stars > currentBestStars || (stars === currentBestStars && elapsed < currentBestTimeSec);
-      if (isBetter) {
+      if (stars >= currentBestStars) {
          stats['mudah-4'] = { stars: stars, bestTime: timeTakenStr, conditions: [true, !hasUsedHint, !isTimeFailed] };
          localStorage.setItem('ctf_mode_acak_stats', JSON.stringify(stats));
       }
-      localStorage.removeItem('ctf_mudah_level4_time');
-      localStorage.removeItem('ctf_mudah_level4_stars');
       localStorage.removeItem('ctf_mudah_level4_hint_used');
-      localStorage.removeItem('ctf_mudah_level4_overtime');
     } else if (decoys.includes(inputFlag)) {
       setStatus('decoy');
       setAttempts(prev => [...prev, inputFlag]);
@@ -145,14 +119,8 @@ const MudahLevel4 = () => {
     setFlag('');
   };
 
-  
-  
-
   const handleExit = () => {
-    localStorage.removeItem('ctf_mudah_level4_time');
-    localStorage.removeItem('ctf_mudah_level4_stars');
     localStorage.removeItem('ctf_mudah_level4_hint_used');
-    localStorage.removeItem('ctf_mudah_level4_overtime');
     navigate('/ctf-arena/mode-acak', { state: { returnToLevel: 'mudah-4' } });
   };
 
@@ -165,7 +133,7 @@ const MudahLevel4 = () => {
             <Zap className="w-12 h-12 text-cyan-400 fill-cyan-400 drop-shadow-[0_0_10px_#06b6d4]" />
           </motion.div>
           <h1 className="text-5xl font-black italic tracking-tighter mb-2 text-white uppercase leading-none">MISSION COMPLETE</h1>
-          <p className="text-cyan-500 font-bold tracking-[0.3em] mb-4 text-[10px]">SECTOR: MEMORY_CORE // DATA_EXTRACTED</p>
+          <p className="text-cyan-500 font-bold tracking-[0.3em] mb-4 text-[10px]">SECTOR: FORENSIC_CORE // DATA_EXTRACTED</p>
           <div className="bg-cyan-500/5 border border-cyan-500/10 rounded-2xl py-6 px-10 mb-8 inline-block">
              <div className="text-[10px] font-black text-gray-500 tracking-[0.4em] uppercase mb-4">Misi terselesaikan dalam</div>
              <div className="text-4xl font-black text-white italic tracking-tighter mb-6">{completionTime}</div>
@@ -183,7 +151,7 @@ const MudahLevel4 = () => {
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-300 font-mono p-4 md:p-8 flex flex-col overflow-hidden relative">
-      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #06b6d410 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
+      <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #164e63 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
       <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col relative z-10">
         
         {/* HEADER AREA */}
@@ -199,7 +167,7 @@ const MudahLevel4 = () => {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse shadow-[0_0_8px_#06b6d4]" />
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400/80">TARGET: SECTOR_MEMORY</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400/80">TARGET: SECTOR_FORENSIC</span>
               </div>
               <h1 className="text-3xl font-black text-white italic tracking-tighter uppercase leading-none shadow-cyan-500/20">
                 LEVEL 4: <span className="text-cyan-500 drop-shadow-[0_0_10px_#06b6d4]">DIGITAL FORENSICS</span>
@@ -217,8 +185,8 @@ const MudahLevel4 = () => {
           </div>
 
           <div className="text-right">
-            <div className="text-[10px] font-black text-cyan-500/30 tracking-[0.3em] uppercase mb-1">ELAPSED_TIME</div>
-            <div className={`text-4xl font-black italic tracking-tighter transition-colors duration-500 text-cyan-600`}>
+            <div className="text-[10px] font-black text-cyan-500/50 tracking-[0.3em] uppercase mb-1">ELAPSED_TIME</div>
+            <div className="text-4xl font-black italic tracking-tighter transition-colors duration-500 text-cyan-600">
               {formatTime(elapsed)}
             </div>
           </div>
@@ -248,22 +216,30 @@ const MudahLevel4 = () => {
               </div>
             </div>
 
-            <div className="mt-auto space-y-3">
-                   <button onClick={() => setShowHintModal(true)} className={`bg-cyan-900/20 border rounded-xl p-4 flex items-center justify-center gap-3 group transition-all shadow-[0_0_20px_rgba(6,182,212,0.1)] ${hasUsedHint ? 'border-cyan-400 bg-cyan-900/40' : 'border-cyan-500/40 hover:bg-cyan-900/30'}`}>
-              <Zap className={`w-4 h-4 transition-colors ${hasUsedHint ? 'text-cyan-400 fill-cyan-400' : 'text-cyan-400'}`} />
-              <span className="text-xs font-black text-cyan-200 uppercase tracking-widest">{hasUsedHint ? "HINT ACTIVE (1/1)" : "💡 MINTA HINT BOS"}</span>
+            <button 
+                onClick={() => {
+                  if (!hasUsedHint) {
+                    setHasUsedHint(true);
+                    localStorage.setItem('ctf_mudah_level4_hint_used', 'true');
+                  }
+                  setShowHint(!showHint);
+                }} 
+                className={`border rounded-xl p-4 flex items-center justify-center gap-3 group transition-all shadow-[0_0_20px_rgba(6,182,212,0.1)] ${hasUsedHint ? 'border-cyan-400 bg-cyan-950/40 text-cyan-400' : 'border-cyan-500/40 bg-cyan-950/20 hover:bg-cyan-950/30 text-cyan-200'}`}
+            >
+              <Zap className={`w-4 h-4 transition-colors ${hasUsedHint ? 'fill-cyan-400' : ''}`} />
+              <span className="text-xs font-black uppercase tracking-widest">{hasUsedHint ? 'HINT ACTIVE (-1 BINTANG)' : '💡 MINTA KLU (-1 BINTANG)'}</span>
             </button>
-                 </div>
             
             <AnimatePresence>
               {showHint && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="bg-gray-900/50 border border-white/5 rounded-xl p-4 text-[10px] text-gray-500 italic uppercase leading-tight">
-                  <span dangerouslySetInnerHTML={{ __html: `<span className="text-cyan-300 font-black block mb-2">💡 Apa itu Hex Dump?</span><span className="text-gray-400 block normal-case not-italic">File raw memory menyimpan data dalam format biner yang kita lihat sebagai Hexadecimal. Fokus pada kolom ASCII (teks di sebelah kanan) — teliti baris demi baris, Flag seringkali terlihat jelas di sana jika tidak dienkripsi. Cari pola <span className="text-cyan-300 font-mono">CTF{...}</span>.</span>` }} /></motion.div>
+                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="bg-gray-900/50 border border-white/5 rounded-xl p-4 text-[10px] text-gray-500 italic uppercase leading-tight overflow-hidden">
+                  Gunakan fitur pencarian browser (Ctrl+F) dan ketik 'CTF' untuk mencari teks yang dapat dibaca di kolom ASCII sebelah kanan.
+                </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          {/* CENTER: WORKSPACE (HEX EDITOR) */}
+          {/* CENTER: WORKSPACE */}
           <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
             <div className="flex-1 bg-black border border-cyan-500/20 rounded-2xl flex flex-col overflow-hidden relative group shadow-2xl">
               
@@ -279,8 +255,8 @@ const MudahLevel4 = () => {
                  </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto custom-scrollbar p-0 bg-gray-950 font-mono text-[10px] md:text-xs">
-                 <div className="sticky top-0 bg-gray-900 border-b border-cyan-500/20 flex px-4 py-2 font-black text-cyan-500/60 tracking-widest uppercase z-20">
+              <div className="flex-1 overflow-y-auto custom-scrollbar p-0 bg-gray-950 font-mono text-[10px] md:text-xs selection:bg-cyan-500/30">
+                 <div className="sticky top-0 bg-gray-900 border-b border-cyan-500/20 flex px-4 font-black text-cyan-500/60 tracking-widest uppercase z-20 py-2">
                     <div className="w-24">OFFSET</div>
                     <div className="flex-1 text-center">HEX CODES</div>
                     <div className="w-32 md:w-48 text-right">ASCII</div>
@@ -308,9 +284,6 @@ const MudahLevel4 = () => {
                  <div className="flex items-center gap-2 text-[8px] font-black text-gray-600 uppercase tracking-widest">
                     <Database className="w-2.5 h-2.5 text-cyan-500" /> FILE: MEMORY_DUMP_ALPHA_91.RAW
                  </div>
-                 <div className="ml-auto text-[8px] font-black text-cyan-500/40 uppercase tracking-widest">
-                    OFFSET_RANGE: 0x00 - 0x270
-                 </div>
               </div>
             </div>
 
@@ -319,9 +292,15 @@ const MudahLevel4 = () => {
                <div className="absolute top-0 right-0 p-4 opacity-10"><Terminal className="w-12 h-12 text-cyan-400" /></div>
                <form onSubmit={handleSubmit} className="relative z-10 flex flex-col md:flex-row gap-4">
                   <div className="flex-1 relative">
-                    <input type="text" value={flag} onChange={(e) => setFlag(e.target.value)} placeholder="Masukkan flag di sini (CTF_{...})" className={`w-full bg-black/60 border-2 rounded-xl py-4 px-6 text-sm tracking-widest text-white placeholder:text-gray-700 focus:outline-none transition-all ${status === 'wrong' || status === 'decoy' ? 'border-cyan-500 shadow-[0_0_15px_#06b6d4]' : 'border-cyan-500/40 focus:border-cyan-500 focus:shadow-[0_0_20px_rgba(6,182,212,0.2)]'}`} />
+                    <input 
+                      type="text" 
+                      value={flag} 
+                      onChange={(e) => setFlag(e.target.value)} 
+                      placeholder="Masukkan flag di sini (CTF_{...})" 
+                      className={`w-full bg-black/60 border-2 rounded-xl py-4 px-6 text-sm tracking-widest text-white placeholder:text-gray-700 focus:outline-none transition-all ${status === 'wrong' || status === 'decoy' ? 'border-red-500 shadow-[0_0_15px_#ef4444]' : 'border-cyan-500/40 focus:border-cyan-500 focus:shadow-[0_0_20px_rgba(6,182,212,0.2)]'}`} 
+                    />
                     <AnimatePresence>
-                      {status === 'wrong' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-cyan-600 text-[8px] font-black italic px-3 py-1 rounded-full text-white shadow-lg uppercase">ACCESS DENIED</motion.div>}
+                      {status === 'wrong' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-red-600 text-[8px] font-black italic px-3 py-1 rounded-full text-white shadow-lg uppercase">ACCESS DENIED</motion.div>}
                       {status === 'decoy' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-cyan-600 text-[8px] font-black italic px-3 py-1 rounded-full text-white shadow-lg uppercase">DECOY DETECTED</motion.div>}
                     </AnimatePresence>
                   </div>
@@ -329,7 +308,7 @@ const MudahLevel4 = () => {
                </form>
                <div className="mt-6 flex flex-wrap gap-2">
                   {attempts.map((att, idx) => (
-                    <span key={idx} className="text-[9px] font-bold text-gray-700 italic border border-gray-800 px-2 py-1 rounded line-through decoration-cyan-500/50">{att}</span>
+                    <span key={idx} className="text-[9px] font-bold text-gray-700 italic border border-gray-800 px-2 py-1 rounded line-through decoration-red-500/50">{att}</span>
                   ))}
                </div>
             </div>
@@ -342,7 +321,7 @@ const MudahLevel4 = () => {
               <span className="text-gray-800">//</span>
               <span>MODE: ACAK</span>
               <span className="text-gray-800">//</span>
-              <span>LEVEL: 6</span>
+              <span>LEVEL: 4</span>
            </div>
            <div className="text-[8px] font-bold uppercase tracking-tighter italic opacity-50">-- CORE_GRID_ESTABLISHED // MEMORY_DUMP_LOADED --</div>
         </div>
@@ -350,41 +329,21 @@ const MudahLevel4 = () => {
       </div>
       <AnimatePresence>
          {showExitModal && (
-            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
-               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowExitModal(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-               <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ opacity: 0 }} className="relative bg-gray-900 border border-cyan-500/30 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
-                  <ShieldAlert className="w-12 h-12 text-cyan-600 mx-auto mb-4" />
-                  <h3 className="text-xl font-black text-white italic tracking-tighter uppercase mb-2">ABORT MISSION?</h3>
-                  <p className="text-xs text-gray-500 uppercase italic mb-8 leading-relaxed">INTERSEPSI YANG SEDANG BERJALAN AKAN DIPUTUSKAN DAN PROGRESS LOG AKAN DI-RESET.</p>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex justify-center items-center p-4">
+               <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="bg-gray-900 border border-cyan-500/30 rounded-2xl p-8 max-w-md w-full text-center relative overflow-hidden shadow-[0_0_40px_rgba(6,182,212,0.1)]">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-cyan-500" />
+                  <ShieldAlert className="w-12 h-12 text-cyan-500 mx-auto mb-4" />
+                  <h3 className="text-xl font-black text-white tracking-widest uppercase mb-2">ABORT MISSION?</h3>
+                  <p className="text-sm text-gray-400 mb-8 font-sans">Anda yakin ingin keluar? Waktu akan terus berjalan dan progress misi Anda saat ini akan di-reset.</p>
                   <div className="flex gap-4">
-                     <button onClick={handleExit} className="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white font-black py-4 rounded-xl text-xs tracking-widest uppercase transition-all">YES, ABORT</button>
-                     <button onClick={() => setShowExitModal(false)} className="flex-1 bg-white/5 hover:bg-white/10 text-white font-black py-4 rounded-xl border border-white/5 text-xs tracking-widest uppercase transition-all">CANCEL</button>
+                    <button onClick={() => setShowExitModal(false)} className="flex-1 py-3 bg-gray-800 text-white font-bold rounded-xl border border-white/5 hover:bg-gray-700 transition-colors">BATAL</button>
+                    <button onClick={handleExit} className="flex-1 py-3 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl hover:bg-red-400 transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)]">KELUAR</button>
                   </div>
                </motion.div>
-            </div>
+            </motion.div>
          )}
-      {showHintModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-           <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="bg-gray-900 border border-cyan-500/30 p-8 rounded-2xl max-w-md w-full shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-3 opacity-10"><Zap className="w-20 h-20 text-cyan-500" /></div>
-              <h3 className="text-xl font-black text-cyan-400 italic tracking-tighter mb-2 uppercase">System_Hint // Override</h3>
-              <div className="p-4 bg-cyan-950/30 border border-cyan-500/20 rounded-xl mb-6">
-                 <p className="text-cyan-200 text-sm leading-relaxed text-left">
-                   {hasUsedHint ? "HINT ACTIVE: Perhatikan file yang bisa kamu enumerasi. Direktori tersembunyi biasanya bisa diakses dengan tools seperti Gobuster atau Dirb. Akses /robots.txt atau /backup/ untuk menemukan flag." : "Meminta petunjuk akan mengurangi skor efisiensi (-1 Bintang). Lanjutkan?"}
-                 </p>
-              </div>
-              {!hasUsedHint ? (
-                 <div className="flex gap-4">
-                    <button onClick={() => { setHasUsedHint(true); localStorage.setItem('ctf_mudah_level4_hint_used', 'true'); setShowHintModal(false); }} className="flex-1 bg-cyan-500 hover:bg-cyan-400 text-black font-black py-4 rounded-xl text-xs tracking-widest uppercase transition-all shadow-[0_0_20px_rgba(6,182,212,0.2)]">AKSES HINT (-1 ⚡)</button>
-                    <button onClick={() => setShowHintModal(false)} className="flex-1 bg-transparent hover:bg-white/5 text-gray-400 hover:text-white font-black py-4 rounded-xl border border-white/10 text-xs tracking-widest uppercase transition-all">BATAL</button>
-                 </div>
-              ) : (
-                 <button onClick={() => setShowHintModal(false)} className="w-full bg-gray-800 hover:bg-gray-700 text-white font-black py-4 rounded-xl text-xs tracking-widest uppercase transition-all">TUTUP</button>
-              )}
-           </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
+      </AnimatePresence>
+
     </div>
   );
 };

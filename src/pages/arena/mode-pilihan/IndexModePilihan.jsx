@@ -19,8 +19,11 @@ const categories = [
     icon: <Globe className="w-5 h-5" />,
     desc: 'Cari celah XSS, SQLi, dan bypass otentikasi pada aplikasi web.',
     colorClass: 'text-cyan-400',
-    borderColor: 'border-cyan-500/50',
-    shadowColor: 'shadow-cyan-500/10',
+    borderColor: 'border-cyan-500/30',
+    hoverBorder: 'hover:border-cyan-400',
+    shadowColor: 'shadow-[0_0_15px_rgba(6,182,212,0.05)]',
+    hoverShadow: 'hover:shadow-[0_0_30px_rgba(6,182,212,0.2)]',
+    hoverTextColor: 'group-hover:text-cyan-400',
     path: '/ctf-arena/web-exploit'
   },
   {
@@ -29,9 +32,12 @@ const categories = [
     icon: <Key className="w-5 h-5" />,
     desc: 'Pecahkan kode rahasia, enkripsi klasik, dan modern cipher.',
     colorClass: 'text-yellow-400',
-    borderColor: 'border-yellow-500/50',
-    shadowColor: 'shadow-yellow-500/10',
-    path: '#'
+    borderColor: 'border-yellow-500/30',
+    hoverBorder: 'hover:border-yellow-400',
+    shadowColor: 'shadow-[0_0_15px_rgba(234,179,8,0.05)]',
+    hoverShadow: 'hover:shadow-[0_0_30px_rgba(234,179,8,0.2)]',
+    hoverTextColor: 'group-hover:text-yellow-400',
+    path: '/ctf-arena/cryptography'
   },
   {
     id: 'forensics',
@@ -39,8 +45,11 @@ const categories = [
     icon: <Search className="w-5 h-5" />,
     desc: 'Analisis steganografi, file network capture, dan metadata.',
     colorClass: 'text-orange-400',
-    borderColor: 'border-orange-500/50',
-    shadowColor: 'shadow-orange-500/10',
+    borderColor: 'border-orange-500/30',
+    hoverBorder: 'hover:border-orange-400',
+    shadowColor: 'shadow-[0_0_15px_rgba(249,115,22,0.05)]',
+    hoverShadow: 'hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]',
+    hoverTextColor: 'group-hover:text-orange-400',
     path: '#'
   },
   {
@@ -49,8 +58,11 @@ const categories = [
     icon: <Settings className="w-5 h-5" />,
     desc: 'Bongkar malware dan pahami struktur assembly x86.',
     colorClass: 'text-purple-400',
-    borderColor: 'border-purple-500/50',
-    shadowColor: 'shadow-purple-500/10',
+    borderColor: 'border-purple-500/30',
+    hoverBorder: 'hover:border-purple-400',
+    shadowColor: 'shadow-[0_0_15px_rgba(168,85,247,0.05)]',
+    hoverShadow: 'hover:shadow-[0_0_30px_rgba(168,85,247,0.2)]',
+    hoverTextColor: 'group-hover:text-purple-400',
     path: '#'
   },
   {
@@ -59,8 +71,11 @@ const categories = [
     icon: <LinkIcon className="w-5 h-5" />,
     desc: 'Eksploitasi smart contract dan kerentanan Web3.',
     colorClass: 'text-teal-400',
-    borderColor: 'border-teal-500/50',
-    shadowColor: 'shadow-teal-500/10',
+    borderColor: 'border-teal-500/30',
+    hoverBorder: 'hover:border-teal-400',
+    shadowColor: 'shadow-[0_0_15px_rgba(20,184,166,0.05)]',
+    hoverShadow: 'hover:shadow-[0_0_30px_rgba(20,184,166,0.2)]',
+    hoverTextColor: 'group-hover:text-teal-400',
     path: '#'
   }
 ];
@@ -109,7 +124,7 @@ const IndexModePilihan = () => {
         {/* HEADER (Standardized) */}
         <header className="flex justify-between items-center mb-12">
           <div className="flex items-center gap-6">
-            <button 
+            <button
               onClick={() => navigate('/ctf-arena')}
               className="p-2 hover:bg-white/5 rounded-xl transition-all border border-transparent hover:border-white/10 group"
             >
@@ -125,7 +140,7 @@ const IndexModePilihan = () => {
               </h1>
             </div>
           </div>
-          
+
           <div className="hidden md:flex items-center gap-2 text-[10px] font-black text-gray-600 tracking-[0.2em] uppercase">
             <span>TACTICAL_OVERLAY_V2.0</span>
           </div>
@@ -138,20 +153,6 @@ const IndexModePilihan = () => {
           exit="exit"
           className="flex-1 flex flex-col"
         >
-          <div className="mb-12 flex flex-col items-center">
-            <div className="text-[10px] font-black tracking-[0.6em] text-white/20 uppercase mb-4 italic">Tactical_Grid: Category_Matrix</div>
-            <motion.div 
-               initial={{ width: 0 }}
-               animate={{ width: 400 }}
-               className="h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent relative"
-            >
-               <motion.div 
-                  animate={{ left: ['0%', '100%', '0%'] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                  className="absolute top-1/2 -translate-y-1/2 w-8 h-[2px] bg-cyan-400 blur-[2px]" 
-               />
-            </motion.div>
-          </div>
 
           <motion.div variants={itemVariants} className="text-center mb-16">
             <h2 className="text-[10px] items-center gap-2 mb-4 font-black tracking-[0.6em] text-white/20 uppercase italic flex justify-center">Tactical_Grid: Mission_Categorization</h2>
@@ -165,10 +166,13 @@ const IndexModePilihan = () => {
               <motion.div
                 key={cat.id}
                 variants={itemVariants}
-                whileHover={{ y: -5, scale: 1.01 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => cat.path !== '#' && navigate(cat.path)}
-                className={`relative p-8 rounded-2xl border-2 bg-[#0A0F1D]/80 backdrop-blur-3xl transition-all cursor-pointer overflow-hidden group shadow-2xl ${cat.borderColor} ${cat.shadowColor} hover:border-white/20`}
+                className={`relative p-8 rounded-2xl border-2 bg-gradient-to-b from-[#0A0F1D]/80 to-[#0A0F1D]/90 backdrop-blur-3xl transition-all duration-300 cursor-pointer overflow-hidden group ${cat.borderColor} ${cat.hoverBorder} ${cat.shadowColor} ${cat.hoverShadow}`}
               >
+                {/* Glow Background Inject */}
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-current ${cat.colorClass}`} />
                 {/* Header Card: Icon & Title */}
                 <div className="flex items-center gap-5 mb-8">
                   <div className={`p-3 rounded-xl bg-white/5 border border-white/10 ${cat.colorClass} shadow-inner`}>
@@ -193,18 +197,18 @@ const IndexModePilihan = () => {
                 {/* Footer Row */}
                 <div className="flex justify-between items-end">
                   <div className="flex flex-col gap-1.5">
-                     <span className="text-[8px] uppercase font-black tracking-[0.2em] text-white/20 italic leading-none whitespace-nowrap">Status Protokol</span>
-                     <span className="text-[10px] font-black text-white/50 uppercase italic tracking-tighter leading-none whitespace-nowrap">IDENTIFIKASI TERSEDIA</span>
+                    <span className="text-[8px] uppercase font-black tracking-[0.2em] text-white/20 italic leading-none whitespace-nowrap">Status Protokol</span>
+                    <span className="text-[10px] font-black text-white/50 uppercase italic tracking-tighter leading-none whitespace-nowrap">IDENTIFIKASI TERSEDIA</span>
                   </div>
-                  
+
                   {cat.path !== '#' ? (
-                    <div className="flex items-center gap-3 text-[10px] font-black italic tracking-widest uppercase text-white group-hover:text-cyan-400 transition-colors">
+                    <div className={`flex items-center gap-3 text-[10px] font-black italic tracking-widest uppercase text-white ${cat.hoverTextColor} transition-colors`}>
                       <span>MASUK</span>
                       <ChevronLeft className="w-4 h-4 rotate-180" />
                     </div>
                   ) : (
                     <div className="px-5 py-2.5 bg-white/5 rounded-xl border border-white/10">
-                       <span className="text-[8px] font-black italic text-white/10 uppercase tracking-[0.3em] whitespace-nowrap">Segera Datang</span>
+                      <span className="text-[8px] font-black italic text-white/10 uppercase tracking-[0.3em] whitespace-nowrap">Segera Datang</span>
                     </div>
                   )}
                 </div>
@@ -226,8 +230,8 @@ const IndexModePilihan = () => {
             <div className="hidden sm:block text-gray-700 tracking-tighter italic">-- CYBERCAMP CATEGORY_MATRIX v1.0.4 --</div>
           </div>
           <div className="tracking-tighter uppercase italic flex items-center gap-2">
-             <div className="w-1.5 h-1.5 bg-cyan-500/20 rounded-full animate-ping" />
-             <span>SEC_NODE_V3</span>
+            <div className="w-1.5 h-1.5 bg-cyan-500/20 rounded-full animate-ping" />
+            <span>SEC_NODE_V3</span>
           </div>
         </footer>
       </div>

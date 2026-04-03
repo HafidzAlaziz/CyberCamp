@@ -44,6 +44,21 @@ import CryptoLevel8 from './pages/arena/mode-pilihan/cryptography/Level8';
 import CryptoLevel9 from './pages/arena/mode-pilihan/cryptography/Level9';
 import CryptoLevel10 from './pages/arena/mode-pilihan/cryptography/Level10';
 
+// Mode Pilihan Forensics
+import IndexForensics from './pages/arena/mode-pilihan/forensics/IndexForensics';
+import ForensicsHub from './pages/arena/mode-pilihan/forensics/Forensics';
+import ForensicsLevel1 from './pages/arena/mode-pilihan/forensics/Level1';
+import ForensicsLevel2 from './pages/arena/mode-pilihan/forensics/Level2';
+import ForensicsLevel3 from './pages/arena/mode-pilihan/forensics/Level3';
+import ForensicsLevel4 from './pages/arena/mode-pilihan/forensics/Level4';
+import ForensicsLevel5 from './pages/arena/mode-pilihan/forensics/Level5';
+import ForensicsLevel6 from './pages/arena/mode-pilihan/forensics/Level6';
+import ForensicsLevel7 from './pages/arena/mode-pilihan/forensics/Level7';
+import ForensicsLevel8 from './pages/arena/mode-pilihan/forensics/Level8';
+import ForensicsLevel9 from './pages/arena/mode-pilihan/forensics/Level9';
+import ForensicsLevel10 from './pages/arena/mode-pilihan/forensics/Level10';
+
+
 // Academy Modul 1 Hardware Imports
 import IntroHardware from './pages/academy/stage1-fundamental/modul1-hardware/IntroHardware';
 import CpuDanRam from './pages/academy/stage1-fundamental/modul1-hardware/CpuDanRam';
@@ -253,6 +268,21 @@ function AnimatedRoutes() {
         <Route path="/ctf-arena/cryptography/level/8" element={<CryptoLevel8 />} />
         <Route path="/ctf-arena/cryptography/level/9" element={<CryptoLevel9 />} />
         <Route path="/ctf-arena/cryptography/level/10" element={<CryptoLevel10 />} />
+
+        {/* Mode Pilihan Forensics */}
+        <Route path="/ctf-arena/forensics" element={<IndexForensics />} />
+        <Route path="/ctf-arena/forensics/mudah" element={<ForensicsHub />} />
+        <Route path="/ctf-arena/forensics/level/1" element={<ForensicsLevel1 />} />
+        <Route path="/ctf-arena/forensics/level/2" element={<ForensicsLevel2 />} />
+        <Route path="/ctf-arena/forensics/level/3" element={<ForensicsLevel3 />} />
+        <Route path="/ctf-arena/forensics/level/4" element={<ForensicsLevel4 />} />
+        <Route path="/ctf-arena/forensics/level/5" element={<ForensicsLevel5 />} />
+        <Route path="/ctf-arena/forensics/level/6" element={<ForensicsLevel6 />} />
+        <Route path="/ctf-arena/forensics/level/7" element={<ForensicsLevel7 />} />
+        <Route path="/ctf-arena/forensics/level/8" element={<ForensicsLevel8 />} />
+        <Route path="/ctf-arena/forensics/level/9" element={<ForensicsLevel9 />} />
+        <Route path="/ctf-arena/forensics/level/10" element={<ForensicsLevel10 />} />
+
 
         {/* Academy Modul 1 Hardware Routes */}
         <Route path="/academy/stage-1/modul-1/intro" element={<IntroHardware />} />

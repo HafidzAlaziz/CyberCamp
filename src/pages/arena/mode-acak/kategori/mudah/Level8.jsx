@@ -17,6 +17,10 @@ import {
 } from 'lucide-react';
 
 const MudahLevel8 = () => {
+  /* 
+     TRAP_FLAG: <!-- CTF{DB_SQL_HTML_TRAP_8080} -->
+  */
+
   const navigate = useNavigate();
   
   // Timer Logic
@@ -103,7 +107,8 @@ const MudahLevel8 = () => {
     } else if (cleanFlag === decoyFlag) {
       setStatus('decoy');
       setAttempts(prev => [...prev, cleanFlag]);
-      setTimeout(() => setStatus('active'), 2000);
+      setTimeout(() => setStatus('active'), 3000);
+
     } else if (cleanFlag !== "") {
       setStatus('wrong');
       setAttempts(prev => [...prev, cleanFlag]);
@@ -121,6 +126,19 @@ const MudahLevel8 = () => {
     return (
       <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6 font-mono text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.1)_0%,transparent_70%)]" />
+        {/* ✨ Cyan particles rising in background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={`cp-${i}`}
+              style={{ left: `${(i * 5 + 2) % 94}%`, position: 'absolute', bottom: '-4px' }}
+              className="w-2 h-2 bg-cyan-400 rounded-full shadow-[0_0_10px_#06b6d4]"
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: [0, 1, 0], y: '-100vh' }}
+              transition={{ duration: 4 + (i % 6) * 0.7, delay: i * 0.25, repeat: Infinity, ease: 'linear' }}
+            />
+          ))}
+        </div>
         <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="z-10 bg-gray-900 border-4 border-cyan-500 p-12 rounded-3xl text-center max-w-xl shadow-[0_0_50px_rgba(6,182,212,0.3)]">
           <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="w-24 h-24 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-cyan-500/30">
             <Database className="w-12 h-12 text-cyan-400 drop-shadow-[0_0_10px_#06b6d4]" />
@@ -334,9 +352,11 @@ const MudahLevel8 = () => {
                                    FROM administrators <br/>
                                    WHERE username = <span className="bg-red-500/20 border border-red-500/50 text-red-300 px-1 py-0.5 rounded break-all">'{loginForm.username}'</span> <br/>
                                    AND password = <span className="bg-red-500/20 border border-red-500/50 text-red-300 px-1 py-0.5 rounded break-all">'{loginForm.password}'</span> <br/>
-                                   AND bypass_token = <span className="text-green-400 font-bold">'{decoyFlag}'</span> <br/>
-                                   AND security_flag = <span className="text-cyan-400 font-bold">'{realFlag}'</span> <br/>
+                                   AND bypass_token = <span className="text-green-400 font-bold select-all cursor-crosshair px-1 bg-cyan-500/5 rounded hover:bg-cyan-500/10 transition-colors">'{decoyFlag}'</span> <br/>
+                                   AND security_flag = <span className="text-cyan-400 font-bold select-all cursor-crosshair px-1 bg-cyan-500/5 rounded hover:bg-cyan-500/10 transition-colors">'{realFlag}'</span> <br/>
                                    AND is_active = 1
+                                   {/* Hidden stub trap */}
+                                   <div className="absolute top-0 right-0 opacity-0 select-all text-[1px] pointer-events-none">{"CTF{DB_STUB_DECOY_008}"}</div>
                                </div>
                            </div>
                        </motion.div>

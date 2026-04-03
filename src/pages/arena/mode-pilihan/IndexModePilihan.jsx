@@ -50,7 +50,7 @@ const categories = [
     shadowColor: 'shadow-[0_0_15px_rgba(249,115,22,0.05)]',
     hoverShadow: 'hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]',
     hoverTextColor: 'group-hover:text-orange-400',
-    path: '#'
+    path: '/ctf-arena/forensics'
   },
   {
     id: 'reveng',

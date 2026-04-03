@@ -15,6 +15,10 @@ import {
 } from 'lucide-react';
 
 const MudahLevel5 = () => {
+  /* 
+     TRAP_FLAG: <!-- CTF{WEB_HTML_TRAP_5050} -->
+  */
+
     const navigate = useNavigate();
 
     // Timer Persistence Logic
@@ -76,7 +80,8 @@ const MudahLevel5 = () => {
         } else if (cleanFlag === decoyFlag) {
             setStatus('decoy');
             setAttempts(prev => [...prev, cleanFlag]);
-            setTimeout(() => setStatus('active'), 2000);
+            setTimeout(() => setStatus('active'), 3000);
+
         } else if (cleanFlag !== "") {
             setStatus('wrong');
             setAttempts(prev => [...prev, cleanFlag]);
@@ -94,6 +99,19 @@ const MudahLevel5 = () => {
         return (
             <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6 font-mono text-white relative overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.1)_0%,transparent_70%)]" />
+        {/* ✨ Cyan particles rising in background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={`cp-${i}`}
+              style={{ left: `${(i * 5 + 2) % 94}%`, position: 'absolute', bottom: '-4px' }}
+              className="w-2 h-2 bg-cyan-400 rounded-full shadow-[0_0_10px_#06b6d4]"
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: [0, 1, 0], y: '-100vh' }}
+              transition={{ duration: 4 + (i % 6) * 0.7, delay: i * 0.25, repeat: Infinity, ease: 'linear' }}
+            />
+          ))}
+        </div>
                 <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="z-10 bg-gray-900 border-4 border-cyan-500 p-12 rounded-3xl text-center max-w-xl shadow-[0_0_50px_rgba(6,182,212,0.3)]">
                     <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="w-24 h-24 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-cyan-500/30">
                         <Zap className="w-12 h-12 text-cyan-400 fill-cyan-400 drop-shadow-[0_0_10px_#06b6d4]" />
@@ -275,15 +293,17 @@ const MudahLevel5 = () => {
                     <div className="pl-16"><span className="text-blue-400">&lt;</span><span className="text-blue-500">input</span> <span className="text-cyan-300">type</span>=<span className="text-green-400">"password"</span> <span className="text-cyan-300">placeholder</span>=<span className="text-green-400">"Password"</span><span className="text-blue-400">&gt;</span></div>
                     <div className="pl-16"><span className="text-blue-400">&lt;</span><span className="text-blue-500">button</span> <span className="text-cyan-300">type</span>=<span className="text-green-400">"submit"</span><span className="text-blue-400">&gt;</span>SECURE LOGIN<span className="text-blue-400">&lt;/</span><span className="text-blue-500">button</span><span className="text-blue-400">&gt;</span></div>
                     <div className="pl-12"><span className="text-blue-400">&lt;/</span><span className="text-blue-500">form</span><span className="text-blue-400">&gt;</span></div>
-                    <div className="pl-12 text-[#6a9955] italic mt-4 mb-4 leading-relaxed border-l-2 border-gray-700 pl-4 py-2 bg-gray-800/10 rounded-r shadow-inner selection:bg-cyan-900/50">
-                       &lt;!-- TODO: NOTE FOR FE DEVS --&gt;
-                       <br />
-                       &lt;!-- Make sure to remove temporary bypass tokens before deploying! --&gt;
-                       <br />
-                       &lt;!-- Decoy bypass test: {decoyFlag} --&gt;
-                       <br />
-                       &lt;!-- Real authenticated flag: {realFlag} --&gt;
-                    </div>
+                     <div className="pl-12 text-[#6a9955] italic mt-4 mb-4 leading-relaxed border-l-2 border-gray-700 pl-4 py-2 bg-gray-800/10 rounded-r shadow-inner selection:bg-cyan-900/50 relative">
+                        &lt;!-- TODO: NOTE FOR FE DEVS --&gt;
+                        <br />
+                        &lt;!-- Make sure to remove temporary bypass tokens before deploying! --&gt;
+                        <br />
+                        &lt;!-- Decoy bypass test: <span className="select-all cursor-crosshair px-1 bg-cyan-500/5 rounded hover:bg-cyan-500/10 transition-colors">{decoyFlag}</span> --&gt;
+                        <br />
+                        &lt;!-- Real authenticated flag: <span className="select-all cursor-crosshair px-1 bg-cyan-500/5 rounded hover:bg-cyan-500/10 transition-colors">{realFlag}</span> --&gt;
+                        {/* Hidden stub trap */}
+                        <div className="absolute top-0 right-0 opacity-0 select-all text-[1px] pointer-events-none">{"CTF{WEB_STUB_DECOY_005}"}</div>
+                     </div>
                     <div className="pl-8"><span className="text-blue-400">&lt;/</span><span className="text-blue-500">div</span><span className="text-blue-400">&gt;</span></div>
                     <div className="pl-4"><span className="text-blue-400">&lt;/</span><span className="text-blue-500">body</span><span className="text-blue-400">&gt;</span></div>
                     <div><span className="text-blue-400">&lt;/</span><span className="text-blue-500">html</span><span className="text-blue-400">&gt;</span></div>

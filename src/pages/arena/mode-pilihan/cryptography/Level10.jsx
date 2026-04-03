@@ -15,6 +15,10 @@ import {
 } from 'lucide-react';
 
 const CryptoLevel10 = () => {
+   /* 
+      TRAP_FLAG: <!-- CTF{BOSS_HTML_TRAP_0100} -->
+   */
+
    const navigate = useNavigate();
    const [flag, setFlag] = useState('');
    const [status, setStatus] = useState('idle'); // idle, wrong, success
@@ -45,22 +49,23 @@ const CryptoLevel10 = () => {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      const correctFlag = 'CTF{BOSS_REVERSED_HEX_MASTER}';
+      const correctFlag = atob('Q1RGe0JPU1NfUkVWRVJTRURfSEVYX01BU1RFUn0=');
+      const decoyFlags = [atob('Q1RGe0JPU1NfVFJQNFBfMDEwMH0=')];
 
-      if (flag.trim() === correctFlag) {
+      const cleanFlag = flag.trim();
+      if (cleanFlag === correctFlag) {
          setStatus('success');
          setIsPaused(true);
-
-         let finalStars = 1;
-         if (time <= TARGET_TIME) finalStars += 1;
-         if (!hintUsed) finalStars += 1;
-
-         saveProgress(finalStars);
+         saveProgress(1 + (time <= TARGET_TIME ? 1 : 0) + (!hintUsed ? 1 : 0));
+      } else if (decoyFlags.includes(cleanFlag)) {
+         setStatus('decoy');
+         setTimeout(() => setStatus('idle'), 3000);
       } else {
          setStatus('wrong');
          setTimeout(() => setStatus('idle'), 2000);
       }
    };
+
 
    const saveProgress = (stars) => {
       const saved = localStorage.getItem('ctf_cryptography_stats');
@@ -221,8 +226,10 @@ const CryptoLevel10 = () => {
                                  </div>
                                  <span className="text-[9px] font-black text-yellow-500/60 uppercase tracking-widest">Final Boss Ciphertext — Triple Obfuscated</span>
                               </div>
-                              <div className="p-5 bg-black/70 rounded-xl border border-yellow-500/10 font-mono text-xs md:text-sm font-bold tracking-[0.08em] text-yellow-400 break-all select-all shadow-inner leading-relaxed shadow-[inset_0_0_20px_rgba(234,179,8,0.03)]">
+                              <div className="p-5 bg-black/70 rounded-xl border border-yellow-500/10 font-mono text-xs md:text-sm font-bold tracking-[0.08em] text-yellow-400 break-all select-all shadow-inner leading-relaxed shadow-[inset_0_0_20px_rgba(234,179,8,0.03)] hover:bg-yellow-500/5 transition-colors cursor-crosshair relative group">
                                  43 54 46 7B 42 4F 53 53 5F 52 45 56 45 52 53 45 44 5F 48 45 58 5F 4D 41 53 54 45 52 7D
+                                 {/* Hidden stub trap */}
+                                 <div className="absolute top-0 right-0 opacity-0 select-all text-[1px] pointer-events-none">{"CTF{BOSS_STUB_DECOY_110}"}</div>
                               </div>
                               <div className="mt-3 flex items-center gap-2">
                                  <div className="flex-1 h-px bg-yellow-500/10" />
@@ -258,9 +265,21 @@ const CryptoLevel10 = () => {
                               value={flag}
                               onChange={(e) => setFlag(e.target.value)}
                               placeholder="Masukkan token rahasia (CTF{...})"
-                              className={`w-full bg-black/40 border-2 rounded-xl py-3.5 px-6 text-xs tracking-widest text-white placeholder:text-gray-700 focus:outline-none transition-all ${status === 'wrong' ? 'border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.1)]' : 'border-yellow-500/25 focus:border-yellow-500/60 focus:shadow-[0_0_20px_rgba(234,179,8,0.1)]'
+                              className={`w-full bg-black/40 border-2 rounded-xl py-3.5 px-6 text-xs tracking-widest text-white placeholder:text-gray-700 focus:outline-none transition-all ${status === 'wrong' ? 'border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.1)]' : status === 'decoy' ? 'border-yellow-500/50 shadow-[0_0_15px_rgba(234,179,8,0.1)]' : 'border-yellow-500/25 focus:border-yellow-500/60 focus:shadow-[0_0_20px_rgba(234,179,8,0.1)]'
                                  }`}
                            />
+                           <AnimatePresence>
+                              {status === 'decoy' && (
+                                 <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-yellow-500 text-[8px] font-black italic px-3 py-1 rounded-full text-black shadow-lg uppercase whitespace-nowrap">
+                                    DECOY DETECTED
+                                 </motion.div>
+                              )}
+                              {status === 'wrong' && (
+                                 <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-red-500 text-[8px] font-black italic px-3 py-1 rounded-full text-white shadow-lg uppercase whitespace-nowrap">
+                                    WRONG FLAG
+                                 </motion.div>
+                              )}
+                           </AnimatePresence>
                         </div>
                         <button
                            type="submit"

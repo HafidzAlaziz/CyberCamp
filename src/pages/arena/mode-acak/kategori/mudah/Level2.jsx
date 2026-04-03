@@ -19,6 +19,10 @@ import {
 } from 'lucide-react';
 
 const MudahLevel2 = () => {
+  /* 
+     TRAP_FLAG: <!-- CTF{TERMINAL_HTML_TRAP_2020} -->
+  */
+
   const navigate = useNavigate();
   const terminalEndRef = useRef(null);
   
@@ -196,7 +200,7 @@ const MudahLevel2 = () => {
     } else if (inputFlag === decoyFlag) {
       setStatus('decoy');
       setAttempts(prev => [...prev, inputFlag]);
-      setTimeout(() => setStatus('active'), 2000);
+      setTimeout(() => setStatus('active'), 3000);
     } else if (inputFlag !== "") {
       setStatus('wrong');
       setAttempts(prev => [...prev, inputFlag]);
@@ -219,6 +223,19 @@ const MudahLevel2 = () => {
     return (
       <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6 font-mono text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.1)_0%,transparent_70%)]" />
+        {/* ✨ Cyan particles rising in background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={`cp-${i}`}
+              style={{ left: `${(i * 5 + 2) % 94}%`, position: 'absolute', bottom: '-4px' }}
+              className="w-2 h-2 bg-cyan-400 rounded-full shadow-[0_0_10px_#06b6d4]"
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: [0, 1, 0], y: '-100vh' }}
+              transition={{ duration: 4 + (i % 6) * 0.7, delay: i * 0.25, repeat: Infinity, ease: 'linear' }}
+            />
+          ))}
+        </div>
         <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="z-10 bg-gray-900 border-4 border-cyan-500 p-12 rounded-3xl text-center max-w-xl shadow-[0_0_50px_rgba(6,182,212,0.3)]">
           <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="w-24 h-24 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-cyan-500/30">
             <Zap className="w-12 h-12 text-cyan-400 fill-cyan-400 drop-shadow-[0_0_10px_#22d3ee]" />
@@ -350,8 +367,16 @@ const MudahLevel2 = () => {
                 <div className="flex-1 overflow-y-auto custom-scrollbar p-6 font-mono text-sm md:text-base selection:bg-cyan-500/30">
                    <div className="space-y-1">
                       {history.map((line, i) => (
-                        <div key={i} className={line.type === 'input' ? 'text-white font-bold' : 'text-gray-400'}>
-                          {line.content}
+                        <div key={i} className={`relative ${line.type === 'input' ? 'text-white font-bold' : 'text-gray-400'}`}>
+                          {line.type === 'output' && line.content.includes('CTF{') ? (
+                            <span className="select-all cursor-crosshair px-1 bg-cyan-500/5 rounded hover:bg-cyan-500/10 transition-colors">
+                              {line.content}
+                            </span>
+                          ) : (
+                            line.content
+                          )}
+                          {/* Hidden stub trap in terminal */}
+                          {i === 0 && <div className="absolute top-0 right-0 opacity-0 select-all text-[1px] pointer-events-none">{"CTF{TERMINAL_STUB_DECOY_002}"}</div>}
                         </div>
                       ))}
                       <form onSubmit={handleCommand} className="flex items-center gap-2 pt-2">
@@ -369,7 +394,7 @@ const MudahLevel2 = () => {
                 </div>
                 
                 <div className="h-6 bg-gray-900/30 border-t border-white/5 flex items-center px-4 justify-between">
-                   <div className="text-[7px] font-black text-gray-700 tracking-[0.2em]">TTY: pts/0 // TERM: xterm-256color</div>
+                   <div className="text-[7px] font-black text-gray-700 tracking-[0.2em] ">TTY: pts/0 // TERM: xterm-256color</div>
                    <div className="text-[7px] font-black text-cyan-500/30 tracking-[0.2em]">CONNECTED_VIA_SSH_LEVEL_5</div>
                 </div>
              </div>
@@ -387,7 +412,7 @@ const MudahLevel2 = () => {
                      />
                      <AnimatePresence>
                        {status === 'wrong' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-red-600 text-[8px] font-black italic px-3 py-1 rounded-full text-white shadow-lg uppercase">WRONG FLAG</motion.div>}
-                       {status === 'decoy' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-yellow-600 text-[8px] font-black italic px-3 py-1 rounded-full text-black shadow-lg uppercase">DECOY FLAG</motion.div>}
+                       {status === 'decoy' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-yellow-600 text-[8px] font-black italic px-3 py-1 rounded-full text-black shadow-lg uppercase">DECOY DETECTED</motion.div>}
                      </AnimatePresence>
                    </div>
                    <button 

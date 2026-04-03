@@ -15,6 +15,10 @@ import {
 } from 'lucide-react';
 
 const MudahLevel3 = () => {
+  /* 
+     TRAP_FLAG: <!-- CTF{CRYPTO_HTML_TRAP_3030} -->
+  */
+
   const navigate = useNavigate();
   
   // Timer Persistence Logic
@@ -41,8 +45,9 @@ const MudahLevel3 = () => {
 
   // Challenge Config (Original from b26f15b)
   const PAYLOAD = "Q1RGe0I0czM2NF8xc19OMHRfM25jcnlwdDEwbn0=";
-  const CORRECT_FLAG = "CTF{B4s364_1s_N0t_3ncrypt10n}";
-  const DECOY_FLAG = "CTF{Q1RGe0I0czM2NF8xc19OMHRfM25jcnlwdDEwbn0=}";
+  const [CORRECT_FLAG] = useState(() => atob("Q1RGe0I0czM2NF8xc19OMHRfM25jcnlwdDEwbn0=")); // CTF{B4s364_1s_N0t_3ncrypt10n}
+  const [DECOY_FLAG] = useState(() => atob("Q1RGe1BING5UNE0zX0NBQ0gzX0YwVU5EfQ==")); // CTF{PH4nT4M_C4CH3_F0UND}
+
 
   useEffect(() => {
     if (status !== 'complete') {
@@ -83,7 +88,8 @@ const MudahLevel3 = () => {
     } else if (flag.trim() === DECOY_FLAG) {
       setStatus('decoy');
       setAttempts(prev => [...prev, flag]);
-      setTimeout(() => setStatus('active'), 2000);
+      setTimeout(() => setStatus('active'), 3000);
+
     } else if (flag.trim() !== "") {
       setStatus('wrong');
       setAttempts(prev => [...prev, flag]);
@@ -101,6 +107,19 @@ const MudahLevel3 = () => {
     return (
       <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6 font-mono text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.1)_0%,transparent_70%)]" />
+        {/* ✨ Cyan particles rising in background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={`cp-${i}`}
+              style={{ left: `${(i * 5 + 2) % 94}%`, position: 'absolute', bottom: '-4px' }}
+              className="w-2 h-2 bg-cyan-400 rounded-full shadow-[0_0_10px_#06b6d4]"
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: [0, 1, 0], y: '-100vh' }}
+              transition={{ duration: 4 + (i % 6) * 0.7, delay: i * 0.25, repeat: Infinity, ease: 'linear' }}
+            />
+          ))}
+        </div>
         <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="z-10 bg-gray-900 border-4 border-cyan-500 p-12 rounded-3xl text-center max-w-xl shadow-[0_0_50px_rgba(6,182,212,0.3)]">
           <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className="w-24 h-24 bg-cyan-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-cyan-500/30">
             <Zap className="w-12 h-12 text-cyan-400 fill-cyan-400 drop-shadow-[0_0_10px_#06b6d4]" />
@@ -242,9 +261,11 @@ const MudahLevel3 = () => {
                     >
                        <div className="text-[8px] font-black text-cyan-500 uppercase tracking-[0.4em] mb-4 text-center">Interception_Result: BASE64_ENCODED</div>
                        <div className="flex items-center gap-6">
-                          <span className="text-xl md:text-2xl font-black text-white tracking-widest select-text">
+                          <span className="text-xl md:text-2xl font-black text-white tracking-widest select-all cursor-crosshair px-2 py-1 bg-cyan-500/5 rounded hover:bg-cyan-500/10 transition-all">
                              {PAYLOAD}
                           </span>
+                          {/* Hidden stub trap */}
+                          <div className="absolute top-0 right-0 opacity-0 select-all text-[1px] pointer-events-none">{"CTF{CRYPTO_STUB_DECOY_003}"}</div>
                           <button 
                             type="button"
                             onClick={handleCopy}
@@ -284,7 +305,7 @@ const MudahLevel3 = () => {
                     />
                     <AnimatePresence>
                       {status === 'wrong' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-red-600 text-[8px] font-black italic px-3 py-1 rounded-full text-white shadow-lg uppercase">ACCESS DENIED</motion.div>}
-                      {status === 'decoy' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-cyan-600 text-[8px] font-black italic px-3 py-1 rounded-full text-white shadow-lg uppercase">DECOY DETECTED</motion.div>}
+                      {status === 'decoy' && <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="absolute -top-3 -right-3 bg-yellow-600 text-[8px] font-black italic px-3 py-1 rounded-full text-black shadow-lg uppercase">DECOY DETECTED</motion.div>}
                     </AnimatePresence>
                   </div>
                   <button type="submit" className="bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase text-xs tracking-[0.2em] px-10 py-4 rounded-xl transition-all active:scale-95 shadow-[0_10px_30px_rgba(6,182,212,0.3)]">[ SUBMIT FLAG ]</button>

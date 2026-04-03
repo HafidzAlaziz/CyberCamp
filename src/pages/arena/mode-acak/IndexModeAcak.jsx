@@ -226,6 +226,37 @@ const IndexModeAcak = () => {
         <div className={`absolute top-[-10%] left-[-10%] w-[40%] h-[40%] ${selectedDifficulty ? currentCategory.bgGlow : 'bg-cyan-500/5'} blur-[120px] rounded-full transition-all duration-1000`} />
         <div className={`absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] ${selectedDifficulty ? (selectedDifficulty === 'MENENGAH' ? 'bg-orange-500/5' : 'bg-red-950/10') : 'bg-purple-500/5'} blur-[120px] rounded-full transition-all duration-1000`} />
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]" />
+        
+        {/* Dynamic Particles Background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden h-full w-full">
+          {[...Array(15)].map((_, i) => (
+            <motion.div
+              key={`ap-${i}`}
+              style={{ 
+                left: `${(i * 7 + 3) % 96}%`, 
+                position: 'absolute', 
+                bottom: '-10px' 
+              }}
+              className={`w-1 h-3 rounded-full blur-[1px] transition-all duration-1000 ${
+                selectedDifficulty 
+                  ? `${currentCategory.ping.split(' ')[0]} opacity-30` 
+                  : 'bg-cyan-500/20'
+              }`}
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ 
+                opacity: [0, 0.4, 0], 
+                y: '-100vh',
+                scale: [1, 1.5, 1] 
+              }}
+              transition={{ 
+                duration: 6 + (i % 5) * 1.2, 
+                delay: i * 0.4, 
+                repeat: Infinity, 
+                ease: 'linear' 
+              }}
+            />
+          ))}
+        </div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-8 flex flex-col h-screen">

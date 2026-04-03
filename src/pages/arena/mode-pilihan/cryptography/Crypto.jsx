@@ -147,9 +147,9 @@ const CryptographyHub = () => {
     return {
       bgMain: 'bg-yellow-500/5', borderMain: 'border-yellow-500/50', shadowMain: 'shadow-[0_0_15px_rgba(6,182,212,0.3)]',
       bgActive: 'bg-yellow-500', borderActive: 'border-yellow-400', textActive: 'text-yellow-400', textDim: 'text-yellow-500/60',
-      shadowSmall: 'shadow-[0_0_10px_rgba(6,182,212,0.4)]', bgHover: 'hover:bg-yellow-400',
+      shadowSmall: 'shadow-[0_0_10px_rgba(234,179,8,0.4)]', bgHover: 'hover:bg-yellow-400',
       textSolid: 'text-yellow-500', borderSolid: 'border-yellow-500', bgHeader: 'bg-yellow-500/10', borderHeader: 'border-yellow-500/20',
-      gradient: 'from-yellow-500/50', textBlack: 'text-black', rgb: '6, 182, 212'
+      gradient: 'from-yellow-500/50', textBlack: 'text-black', rgb: '234, 179, 8'
     };
   };
 
@@ -278,8 +278,42 @@ const CryptographyHub = () => {
                     </div>
                   </div>
                 </motion.div>
-                );
+              );
               })}
+
+              {/* MISSION COMING SOON */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="relative p-5 rounded-xl border-2 border-dashed border-white/10 bg-black/20 opacity-50 cursor-not-allowed overflow-hidden shadow-inner"
+              >
+                <div className="flex items-center justify-between relative z-10">
+                  <div className="flex items-center gap-5">
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center border border-dashed border-white/20 bg-white/5 text-white/20 font-black text-base italic">
+                      11
+                    </div>
+                    <div>
+                      <h3 className="text-base font-black italic tracking-tighter uppercase text-white/20">
+                        MISSION_REDACTED
+                      </h3>
+                      <div className="flex items-center gap-2.5 mt-0.5">
+                        <span className="text-[9px] font-black text-yellow-500/20 uppercase tracking-[0.3em] italic">SEGERA_HADIR</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-white/5">
+                      <div className="w-1 h-1 rounded-full bg-yellow-500/20 animate-pulse" />
+                      <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">UNDER_DEVELOPMENT</span>
+                    </div>
+                    <Lock className="w-4 h-4 text-white/10" />
+                  </div>
+                </div>
+                
+                {/* Visual scanline effect for coming soon card */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-yellow-500/5 to-transparent h-2 w-full -translate-y-full animate-[scan_3s_linear_infinite] opacity-10" />
+              </motion.div>
+
             </div>
           </div>
 
